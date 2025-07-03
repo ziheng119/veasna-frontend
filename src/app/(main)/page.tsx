@@ -3,7 +3,7 @@ export default function Home() {
     <div>
       <h1 className="text-[30px] font-bold mb-4">Welcome XXX</h1>
 
-      <div className="flex justify-between h-full items-stretch min-h-[75vh]">
+      <div className="flex justify-between h-full items-stretch min-h-[70vh]">
         <div className="w-[55%] px-[30px] py-[30px] bg-beige-default border-[1px] rounded-md">
           <h2 className="text-[20px] font-bold">Details</h2>
           <div className="flex mt-[30px]">
