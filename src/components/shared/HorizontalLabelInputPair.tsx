@@ -10,7 +10,7 @@ export default function HorizontalLabelInputPair({ label }: Props) {
       </div>
       <div className="w-full h-full">
         <textarea 
-          className="bg-white-default border-[1px] rounded-sm w-full h-full p-2 items-stretch"
+          className="bg-white-default border-[1px] rounded-sm w-full h-full p-2"
         />
       </div>
     </div>
