@@ -6,7 +6,7 @@ export default function VerticalLabelInputPair({ label }: Props) {
   return (
     <div className="flex flex-col gap-2">
       <div>
-        <p className="font-semibold">{label}</p>
+        <p className="font-semibold text-black">{label}</p>
       </div>
       <div className="flex-1 flex items-center">
         <textarea 

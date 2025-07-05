@@ -3,7 +3,7 @@ import LabelDescriptionPair from "./LabelDescPair";
 export default function PatientDetails() {
   return (
     <div>
-      <h1 className="font-semibold text-[20px] mb-2">Patient Details</h1>
+      <h1 className="font-semibold text-[20px] mb-2" style={{color: 'black'}}>Patient Details</h1>
       <div className="flex flex-col gap-2 justify-between">
         <LabelDescriptionPair 
           label="English Name"
