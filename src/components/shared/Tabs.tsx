@@ -2,9 +2,9 @@
 
 import { HISTORY, PRESENTING_COMPLAINTS, SNELLENS_TEST, TriageTab } from "@/models/triage/triage_tab"
 import Tab from "./Tab"
-import SnellensTest from "./SnellensTest"
-import PresentingComplaints from "./PresentingComplaints"
-import History from "./History"
+import SnellensTest from "../triage/SnellensTest"
+import PresentingComplaints from "../triage/PresentingComplaints"
+import History from "../triage/History"
 import { useEffect, useState } from "react"
 
 export default function TraigeTabs() {

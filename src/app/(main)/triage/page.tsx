@@ -1,5 +1,5 @@
 import SearchBar from "@/components/shared/SearchBar";
-import TraigeTabs from "../../../components/triage/Tabs";
+import TraigeTabs from "../../../components/shared/Tabs";
 import PatientDetails from "@/components/shared/PatientDetails";
 
 export default function Traige() {

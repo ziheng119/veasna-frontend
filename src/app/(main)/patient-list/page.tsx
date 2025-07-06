@@ -28,15 +28,15 @@ const mockPatients = [
     };
   
     const handleAddPatient = () => {
-      console.log('Add new patient');
+      console.log('Add new patient Clicked');
     };
   
     const handleEditPatient = (patientId: number) => {
-      console.log('Edit patient:', patientId);
+      console.log('Edit patient Clicked:', patientId);
     };
   
     const handleDeletePatient = (patientId: number) => {
-      console.log('Delete patient:', patientId);
+      console.log('Delete patient Clicked:', patientId);
     };
   
     return (
