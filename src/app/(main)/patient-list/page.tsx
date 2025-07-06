@@ -1,10 +1,9 @@
 "use client";
-import TopNav from  '@/components/TopNav';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PatientSearch } from '@/components/patient-list/PatientSearchBar';
 import { PatientTable } from '@/components/patient-list/PatientTable';
 
-/***************MOCK DATA ********************/
+/*************** MOCK DATA ********************/
 const mockPatients = [
     {
       id: 1,
@@ -22,7 +21,7 @@ const mockPatients = [
   export default function PatientListPage() {
     const [patients, setPatients] = useState(mockPatients);
     const [searchQuery, setSearchQuery] = useState('');
-  
+
     const handleSearch = (query: string) => {
       setSearchQuery(query);
       console.log('Searching for:', query);
@@ -37,7 +36,7 @@ const mockPatients = [
     };
   
     const handleDeletePatient = (patientId: number) => {
-      console.log('Add to patient:', patientId);
+      console.log('Delete patient:', patientId);
     };
   
     return (
