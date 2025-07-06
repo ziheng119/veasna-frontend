@@ -25,7 +25,6 @@ const mockPatients = [
   
     const handleSearch = (query: string) => {
       setSearchQuery(query);
-      // TODO: Implement search logic when backend is ready
       console.log('Searching for:', query);
     };
   

@@ -21,7 +21,7 @@ export const PatientSearch: React.FC<PatientSearchProps> = ({ onSearch, onAddPat
             <button
                 onClick={onAddPatient}
                 className='bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition-colors'
-            >
+            > 
                 <PlusIcon className='w-5 h-5'/>
             </button>
         </div>

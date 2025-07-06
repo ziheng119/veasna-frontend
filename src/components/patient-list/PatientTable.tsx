@@ -68,6 +68,7 @@ export const PatientTable: React.FC<PatientTableProps> = ({
               </tr>
             ))}
           </tbody>
+          
         </table>
       </div>
     );
