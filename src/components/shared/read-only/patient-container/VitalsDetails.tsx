@@ -1,32 +1,32 @@
-import LabelDescriptionPair from "./LabelDescPair";
+import LabelDescriptionPair from "../../LabelDescPair";
 
-export default function PatientDetails() {
+export default function VitalsDetails() {
   return (
     <div>
-      <h1 className="font-semibold text-[20px] mb-2" style={{color: 'black'}}>Patient Details</h1>
+      <h2 className="text-[20px] font-semibold">Vitals</h2>
       <div className="flex flex-col gap-2 justify-between">
         <LabelDescriptionPair 
-          label="English Name"
+          label="Height"
           description="XXX"
         />
         <LabelDescriptionPair 
-          label="Khmer Name"
+          label="Weight"
           description="XXX"
         />
         <LabelDescriptionPair 
-          label="Date of Birth"
+          label="BMI"
           description="XXX"
         />
         <LabelDescriptionPair 
-          label="Age"
+          label="Child is below 3rd Precentile"
           description="XXX"
         />
         <LabelDescriptionPair 
-          label="Sex"
+          label="Blood Pressure"
           description="XXX"
         />
         <LabelDescriptionPair 
-          label="Phone Number"
+          label="Temperature"
           description="XXX"
         />
       </div>

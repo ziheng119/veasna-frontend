@@ -18,7 +18,7 @@ export default function TopNav() {
           <LocationIcon 
             width={24}
             height={24}
-            color="black"  
+            color="#000000"  
           />
           <p className="ml-2">Location</p>
         </div>

@@ -5,7 +5,7 @@ import VerticalLabelInputPair from "../shared/VerticalLabelInputPair";
 export default function SnellensTest() {
   return (
     <div>
-        <div className="min-h-[70vh] flex flex-col">
+      <div className="min-h-[70vh] flex flex-col">
         <div className="grid grid-cols-3 gap-x-4 gap-y-2 mb-[30px] items-center">
           {/* Header Row */}
           <p className="font-semibold text-start text-black">Visual Acuity</p>

@@ -5,7 +5,7 @@ interface Props {
 
 export default function LabelDescriptionPair({ label, description }: Props) {
   return (
-    <div className="flex flex-col lg:flex-row justify-between" style={{color: 'black'}}>
+    <div className="flex flex-col lg:flex-row lg:gap-4 justify-between" style={{color: 'black'}}>
       <div>
         <p>{label}</p>
       </div>
