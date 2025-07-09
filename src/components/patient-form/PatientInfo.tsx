@@ -1,0 +1,126 @@
+import React from 'react';
+
+interface PatientData {
+    englishName: string;
+    khmerName: string;
+    dateOfBirth: string;
+    age: string;
+    sex: string;
+    phoneNumber: string;
+    faceId: string;
+}
+
+interface Props {
+    patient: PatientData;
+    onUpdatePatient: (updates: Partial<PatientData>) => void;
+}
+
+export default function PatientInfo({ patient, onUpdatePatient}: Props) {
+    const handleChange = (field: keyof PatientData, value: string) => {
+        onUpdatePatient({ [field]: value });
+    };
+
+    {/* pretty sure there is a more efficient way of this */}
+    return (
+        <div className='space-y-6'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                        English Name
+                    </label>
+                    <input
+                        type='text'
+                        value={patient.englishName}
+                        onChange={(e) => handleChange('englishName', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                        Khmer Name
+                    </label>
+                    <input
+                        type='text'
+                        value={patient.khmerName}
+                        onChange={(e) => handleChange('khmerName', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                        English Name
+                    </label>
+                    <input
+                        type='text'
+                        value={patient.englishName}
+                        onChange={(e) => handleChange('englishName', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                        Date of Birth
+                    </label>
+                    <input
+                        type='text'
+                        value={patient.dateOfBirth}
+                        onChange={(e) => handleChange('dateOfBirth', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                        Age
+                    </label>
+                    <input
+                        type='text'
+                        value={patient.age}
+                        onChange={(e) => handleChange('age', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                        Sex
+                    </label>
+                    <input
+                        type='text'
+                        value={patient.sex}
+                        onChange={(e) => handleChange('sex', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                        Phone Number
+                    </label>
+                    <input
+                        type='text'
+                        value={patient.phoneNumber}
+                        onChange={(e) => handleChange('phoneNumber', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                        Face ID
+                    </label>
+                    <input
+                        type='text'
+                        value={patient.faceId}
+                        onChange={(e) => handleChange('faceId', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+            </div>
+        </div>
+    );
+}
