@@ -1,8 +1,10 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 import { PatientSearch } from '@/components/patient-list/PatientSearchBar';
 import { PatientTable } from '@/components/patient-list/PatientTable';
 import { useRouter } from 'next/navigation';
+
 
 /*************** MOCK DATA ********************/
 const mockPatients = [
@@ -31,16 +33,17 @@ const mockPatients = [
   
     const handleAddPatient = () => {
       console.log('Add new patient Clicked');
-      router.push('/addPatient');
+      console.log('[DEBUG] Routing to /patient-list/patient-form');
+      router.push('/patient-list/patient-form');
     };
   
     const handleEditPatient = (patientId: number) => {
       console.log('Edit patient Clicked:', patientId);
-      router.push('/patient-add-edit?id=${patientId}');
+      router.push(`/patient-list/patient-form?id=${patientId}`);
     };
   
     const handleDeletePatient = (patientId: number) => {
-      console.log('Delete patient Clicked:', patientId);
+      console.log('Delete patient Clicked:', patientId);      
     };
   
     return (

@@ -81,6 +81,21 @@ export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel
             <div className='bg-beige-default p-7'>
                 {applyTab(activeTab)}
             </div>
+
+            <div className='flex justify-end space-x-3 mt-6'>
+                <button
+                    onClick={onCancel}
+                    className='px-4 py-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300'
+                >
+                    Cancel
+                </button>
+                <button
+                    onClick={onSave}
+                    className='px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700'
+                >
+                    Save
+                </button>
+            </div>
         </div>
     )
 }
