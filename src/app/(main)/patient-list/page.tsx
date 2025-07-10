@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { PatientSearch } from '@/components/patient-list/PatientSearchBar';
 import { PatientTable } from '@/components/patient-list/PatientTable';
+import { useRouter } from 'next/navigation';
 
 /*************** MOCK DATA ********************/
 const mockPatients = [
@@ -19,6 +20,7 @@ const mockPatients = [
 ];
   
   export default function PatientListPage() {
+    const router = useRouter();
     const [patients, setPatients] = useState(mockPatients);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -29,10 +31,12 @@ const mockPatients = [
   
     const handleAddPatient = () => {
       console.log('Add new patient Clicked');
+      router.push('/addPatient');
     };
   
     const handleEditPatient = (patientId: number) => {
       console.log('Edit patient Clicked:', patientId);
+      router.push('/patient-add-edit?id=${patientId}');
     };
   
     const handleDeletePatient = (patientId: number) => {

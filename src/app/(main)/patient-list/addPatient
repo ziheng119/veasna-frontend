@@ -1,1 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import PatientTabs from '@/components/patient-form/patientTabs';
+
+export default function PatientAddEditPage()
