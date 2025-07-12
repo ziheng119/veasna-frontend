@@ -6,7 +6,8 @@ interface PatientData {
     bmi: string;
     category: string;
     isBelow3rdPercentile: boolean;
-    bloodPressure: string;
+    bloodPressureSystolic: string;
+    bloodPressureDiastolic: string;
     temperature: string;
     additionalNotes: string;
 }
@@ -23,8 +24,8 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
 
     return (
         <div className='space-y-6'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                <div>
+            <div className='space-y-4 w-full max-w-md'>
+                <div className='flex items-center justify-between mb-2'>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
                         Height (cm)
                     </label>
@@ -33,11 +34,11 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         step='0.1'
                         value={patient.height}
                         onChange={(e) => handleChange('height', e.target.value)}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                <div>
+                <div className='flex items-center justify-between mb-2'>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
                         Weight (kg)
                     </label>
@@ -46,11 +47,11 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         step='0.1'
                         value={patient.weight}
                         onChange={(e) => handleChange('weight', e.target.value)}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                <div>
+                <div className='flex items-center justify-between mb-2'>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
                         BMI
                     </label>
@@ -59,11 +60,11 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         step='0.1'
                         value={patient.bmi}
                         onChange={(e) => handleChange('bmi', e.target.value)}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className=' text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                <div>
+                <div className='flex items-center justify-between mb-2'>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
                         Category
                     </label>
@@ -71,24 +72,36 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         type='text'
                         value={patient.category}
                         onChange={(e) => handleChange('category', e.target.value)}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
                 {/* TODO: put 2 inputs */}
-                <div>
-                    <label className='block text-sm font-medium text-gray-700 mb-2'>
-                        Blood Pressure
+                <div className='flex items-center justify-between mb-2'>
+                    <label className='text-sm font-medium text-gray-700 w-1/3'>
+                        Blood Pressure (Systolic / Diastolic)
                     </label>
+                    <div className='flex gap-2'>
                     <input
-                        type='text'
-                        value={patient.bloodPressure}
-                        onChange={(e) => handleChange('height', e.target.value)}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        type='number'
+                        value={patient.bloodPressureSystolic}
+                        onChange={(e) => handleChange('bloodPressureSystolic', e.target.value)}
+                        className='text-black w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        placeholder='S'
                     />
+                    <text className='text-black'> / </text>
+                    <input
+                        type='number'
+                        value={patient.bloodPressureDiastolic}
+                        onChange={(e) => handleChange('bloodPressureDiastolic', e.target.value)}
+                        className='text-black w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        placeholder='D'
+                    />
+                    </div>
+                    
                 </div>
 
-                <div>
+                <div className='flex items-center justify-between mb-2'>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
                         Temperature
                     </label>
@@ -97,7 +110,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         step='0.1'
                         value={patient.temperature}
                         onChange={(e) => handleChange('temperature', e.target.value)}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
@@ -108,7 +121,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                             id='below3rdPercentile'
                             checked={patient.isBelow3rdPercentile}
                             onChange={(e) => handleChange('isBelow3rdPercentile', e.target.checked)}
-                            className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
+                            className='text-black h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
                         />
 
                         <label htmlFor='below3rdPercentile' className='ml-2 text-sm font-medium text-gray-700'>
@@ -117,7 +130,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                     </div>
                 </div>
 
-                <div>
+                <div className='flex items-center justify-between mb-2'>
                     <label className='block text-sm font-medium text-gray-700 mb-2'>
                         Additional Notes
                     </label>
@@ -125,7 +138,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         value={patient.additionalNotes}
                         onChange={(e) => handleChange('additionalNotes', e.target.value)}
                         rows={4}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                         placeholder='Enter any additional notes...'
                     />
                 </div>

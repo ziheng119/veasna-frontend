@@ -32,7 +32,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         type='text'
                         value={patient.englishName}
                         onChange={(e) => handleChange('englishName', e.target.value)}
-                        className="w-64 px-3 py-2  border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-black w-64 px-3 py-2  border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -44,7 +44,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         type='text'
                         value={patient.khmerName}
                         onChange={(e) => handleChange('khmerName', e.target.value)}
-                        className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -57,7 +57,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         value={patient.dateOfBirth}
                         onChange={(e) => handleChange('dateOfBirth', e.target.value)}
                         placeholder='Format: DD/MM/YYYY'
-                        className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -69,7 +69,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         type='text'
                         value={patient.age}
                         onChange={(e) => handleChange('age', e.target.value)}
-                        className="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -81,7 +81,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         type='text'
                         value={patient.sex}
                         onChange={(e) => handleChange('sex', e.target.value)}
-                        className="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -93,7 +93,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         type='text'
                         value={patient.phoneNumber}
                         onChange={(e) => handleChange('phoneNumber', e.target.value)}
-                        className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -105,7 +105,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         type='text'
                         value={patient.faceId}
                         onChange={(e) => handleChange('faceId', e.target.value)}
-                        className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
