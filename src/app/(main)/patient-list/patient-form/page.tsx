@@ -26,7 +26,8 @@ export default function PatientForm() {
         bmi: '',
         category: '',
         isBelow3rdPercentile: false,
-        bloodPressure: '',
+        bloodPressureSystolic: '',
+        bloodPressureDiastolic: '',
         temperature: '',
         additionalNotes: '',
         // HEF

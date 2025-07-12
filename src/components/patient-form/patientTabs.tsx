@@ -22,7 +22,8 @@ interface PatientData {
     bmi: string;
     category: string;
     isBelow3rdPercentile: boolean;
-    bloodPressure: string;
+    bloodPressureSystolic: string;
+    bloodPressureDiastolic: string;
     temperature: string;
     additionalNotes: string;
     // HEF
