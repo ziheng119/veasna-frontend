@@ -37,6 +37,39 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
         };
     }
 
+    const calculateAge = (dateOfBirth: string) => {
+        if (!dateOfBirth) return;
+
+        const parts = dateOfBirth.split('/');
+        if (parts.length === 3) {
+            const day = parseInt(parts[0]);
+            const month = parseInt(parts[1]);
+            const year = parseInt(parts[2]);
+
+            if (day && month && year && year > 1900) {
+                // javascript months are 0 index (ie January = 0)
+                const birthDate = new Date(year, month - 1, day);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                // handle age if birthday yet to pass
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                if (age >= 0 && age < 150) {
+                    onUpdatePatient({age: age.toString() });
+                }
+            }
+        }
+    }
+
+    const handleDateChange = (value: string) => {
+        handleChange('dateOfBirth', value);
+        calculateAge(value);
+    };
+
     return (
         <div>
         <div className='space-y-4 w-full max-w-md'>
@@ -69,10 +102,18 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         Date of Birth
                     </label>
                     <input
-                        type='text'
-                        value={patient.dateOfBirth}
-                        onChange={(e) => handleChange('dateOfBirth', e.target.value)}
-                        placeholder='Format: DD/MM/YYYY'
+                        type='date'
+                        value={patient.dateOfBirth ?
+                            patient.dateOfBirth.split('/').reverse().join('-') : ''
+                        }
+                        onChange={(e) => {
+                            if (e.target.value) {
+                                const formatted = e.target.value.split('-').reverse().join('/');
+                                handleDateChange(formatted)
+                            } else {
+                                handleDateChange('');
+                            }
+                        }}
                         className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
