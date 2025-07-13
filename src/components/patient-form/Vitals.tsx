@@ -19,69 +19,93 @@ interface Props {
 
 export default function Vitals({patient, onUpdatePatient }: Props) {
     const handleChange = (field: keyof PatientData, value: string | boolean) => {
-        onUpdatePatient({ [field]: value });
+        if (typeof value === 'string' && (field === 'height' || field === 'weight')) {
+            const regex = /^\d*\.?\d{0,2}$/;
+            if (value === '' || regex.test(value)) {
+                onUpdatePatient({ [field]: value });
+            }
+        } else {
+            onUpdatePatient({ [field]: value});
+        }
     };
 
     return (
         <div className='space-y-6'>
-            <div className='space-y-4 w-full max-w-md'>
-                <div className='flex items-center justify-between mb-2'>
-                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+            <div className='space-y-5 w-full max-w-lg'>
+
+                <div className='grid grid-cols-2 gap-4 items-center'>
+                    <label className='text-sm font-medium text-gray-700'>
                         Height (cm)
                     </label>
                     <input
-                        type='number'
-                        step='0.1'
+                        type='text'
+                        inputMode='decimal'
+                        placeholder='0.00'
                         value={patient.height}
                         onChange={(e) => handleChange('height', e.target.value)}
-                        className='text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-36 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                <div className='flex items-center justify-between mb-2'>
-                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <div className='grid grid-cols-2 gap-4 items-center'>
+                    <label className='text-sm font-medium text-gray-700'>
                         Weight (kg)
                     </label>
                     <input
-                        type='number'
-                        step='0.1'
+                        type='text'
+                        inputMode='decimal'
+                        placeholder='0.00'
                         value={patient.weight}
                         onChange={(e) => handleChange('weight', e.target.value)}
-                        className='text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-36 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                <div className='flex items-center justify-between mb-2'>
-                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <div className='grid grid-cols-2 gap-4 items-center'>
+                    <label className='text-sm font-medium text-gray-700'>
                         BMI
                     </label>
                     <input
                         type='number'
-                        step='0.1'
+                        step='0.01'
                         value={patient.bmi}
                         onChange={(e) => handleChange('bmi', e.target.value)}
-                        className=' text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className=' text-black w-36 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                <div className='flex items-center justify-between mb-2'>
-                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <div>
+                    <div className='grid grid-cols-2 gap-4 items-center'>
+                        <label htmlFor='below3rdPercentile' className='text-sm font-medium text-gray-700 w-2/3'>
+                            Child is below 3rd percentile (BMI by age)
+                        </label>
+                        <input
+                            type='checkbox'
+                            id='below3rdPercentile'
+                            checked={patient.isBelow3rdPercentile}
+                            onChange={(e) => handleChange('isBelow3rdPercentile', e.target.checked)}
+                            className='justify-self-start h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
+                        />
+                    </div>
+                </div>
+
+                <div className='grid grid-cols-2 gap-4 items-center'>
+                    <label className='text-sm font-medium text-gray-700'>
                         Category
                     </label>
                     <input
                         type='text'
                         value={patient.category}
                         onChange={(e) => handleChange('category', e.target.value)}
-                        className='text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-36 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                {/* TODO: put 2 inputs */}
-                <div className='flex items-center justify-between mb-2'>
-                    <label className='text-sm font-medium text-gray-700 w-1/3'>
+                <div className='grid grid-cols-2 gap-4 items-center'>
+                    <label className='text-sm font-medium text-gray-700'>
                         Blood Pressure (Systolic / Diastolic)
                     </label>
-                    <div className='flex gap-2'>
+                    <div className='flex gap-2 items-center'>
                     <input
                         type='number'
                         value={patient.bloodPressureSystolic}
@@ -89,49 +113,33 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         className='text-black w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                         placeholder='S'
                     />
-                    <text className='text-black'> / </text>
+                    <span className='text-black'>/</span>
                     <input
                         type='number'
                         value={patient.bloodPressureDiastolic}
                         onChange={(e) => handleChange('bloodPressureDiastolic', e.target.value)}
-                        className='text-black w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-20 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                         placeholder='D'
                     />
-                    </div>
-                    
+                    </div>                 
                 </div>
 
-                <div className='flex items-center justify-between mb-2'>
-                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <div className='grid grid-cols-2 gap-4 items-center'>
+                    <label className='text-sm font-medium text-gray-700 mb-2'>
                         Temperature
                     </label>
                     <input
                         type='number'
                         step='0.1'
+                        placeholder='°C'
                         value={patient.temperature}
                         onChange={(e) => handleChange('temperature', e.target.value)}
-                        className='text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-36 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                <div className='mt-6'>
-                    <div className='flex items-center mb-4'>
-                        <input
-                            type='checkbox'
-                            id='below3rdPercentile'
-                            checked={patient.isBelow3rdPercentile}
-                            onChange={(e) => handleChange('isBelow3rdPercentile', e.target.checked)}
-                            className='text-black h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
-                        />
-
-                        <label htmlFor='below3rdPercentile' className='ml-2 text-sm font-medium text-gray-700'>
-                            Child is below 3rd percentile BMI by age?
-                        </label>
-                    </div>
-                </div>
-
-                <div className='flex items-center justify-between mb-2'>
-                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <div className='grid grid-cols-2 gap-4 items-center'>
+                    <label className='text-sm font-medium text-gray-700'>
                         Additional Notes
                     </label>
                     <textarea

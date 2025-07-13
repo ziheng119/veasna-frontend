@@ -32,7 +32,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         type='text'
                         value={patient.englishName}
                         onChange={(e) => handleChange('englishName', e.target.value)}
-                        className="text-black w-64 px-3 py-2  border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-black w-64 px-3 py-2 border border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
