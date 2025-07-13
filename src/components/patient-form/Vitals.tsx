@@ -148,20 +148,20 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
                     <label className='text-sm font-medium text-gray-700 mb-2'>
-                        Temperature
+                        Temperature (°C)
                     </label>
                     <input
                         type='text'
                         inputMode='decimal'
                         pattern='[0-9]*\.?[0-9]{0,1}'
-                        placeholder='0.0°C'
+                        placeholder='0.0'
                         value={patient.temperature}
                         onChange={(e) => handleChange('temperature', e.target.value)}
                         className='text-black w-36 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
-                <div className='grid grid-cols-2 gap-4 items-center'>
+                <div className='grid grid-cols-2 gap-4'>
                     <label className='text-sm font-medium text-gray-700'>
                         Additional Notes
                     </label>

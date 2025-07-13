@@ -16,7 +16,7 @@ export const PatientTable: React.FC<PatientTableProps> = ({
     return (
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <table className="w-full">
-          <thead className="bg-gray-100">
+          <thead className="bg-green-default">
             <tr>
               <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">S/N</th>
               <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">English Name</th>
