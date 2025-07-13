@@ -6,6 +6,8 @@ import PatientInfo from './PatientInfo';
 import Vitals from './Vitals';
 import HEF from './HEF';
 import { useState, useEffect } from 'react';
+import SaveButton from '@/components/shared/SaveButton';
+
 
 interface PatientData {
     // Patient Info
@@ -83,19 +85,16 @@ export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel
                 {applyTab(activeTab)}
             </div>
 
-            <div className='flex justify-end space-x-3 mt-6 px-6 pb-4'>
+            <div className='flex bg-beige-default justify-end space-x-3 py-6 px-6 pb-4'>
                 <button
                     onClick={onCancel}
                     className='px-4 py-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300'
                 >
                     Cancel
                 </button>
-                <button
+                <SaveButton
                     onClick={onSave}
-                    className='px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700'
-                >
-                    Save
-                </button>
+                />
             </div>
         </div>
     )
