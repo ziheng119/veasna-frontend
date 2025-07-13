@@ -28,11 +28,6 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
             if (value === '' || regex.test(value)) {
                 onUpdatePatient({ [field]: value });
             }
-        } else if (field === 'sex') {
-            const upperValue = value.toUpperCase();
-            if (value === '' || upperValue === 'M' || upperValue === 'F') {
-                onUpdatePatient({ [field]: upperValue });
-            }
         } else {
             onUpdatePatient({ [field]: value });
         };
@@ -145,13 +140,31 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                     <label className='min-w-[120px] text-sm font-medium text-gray-700'>
                         Sex
                     </label>
-                    <input
-                        type='text'
-                        value={patient.sex}
-                        onChange={(e) => handleChange('sex', e.target.value)}
-                        placeholder='M/F'
-                        className="text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                    <div className='flex items-center gap-4'>
+                        <label className='flex items-center gap-2'>
+                            <input
+                                type='radio'
+                                name='sex'
+                                value='M'
+                                checked={patient.sex === 'M'}
+                                onChange={(e) => onUpdatePatient({ sex: e.target.value })}
+                                className='w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300'
+                            />
+                            <span className='text-sm text-gray-700'>M</span>
+                        </label>
+                        <label className='flex items-center gap-2'>
+                            <input
+                                type='radio'
+                                name='sex'
+                                value='F'
+                                checked={patient.sex === 'F'}
+                                onChange={(e) => onUpdatePatient({ sex: e.target.value })}
+                                className='w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300'
+                            />
+                            <span className='text-sm text-gray-700'>F</span>
+                        </label>
+                    </div>
+                    
                 </div>
 
                 <div className='flex items-center gap-4'>
