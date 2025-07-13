@@ -17,10 +17,26 @@ interface Props {
 
 export default function PatientInfo({ patient, onUpdatePatient}: Props) {
     const handleChange = (field: keyof PatientData, value: string) => {
-        onUpdatePatient({ [field]: value });
-    };
+        if (field === 'age' || field === 'phoneNumber') {
+            const regex = /^\d*$/; // only Integers
+            if (value === '' || regex.test(value)) {
+                onUpdatePatient({ [field]: value });
+            }
+        } else if (field === 'dateOfBirth') {
+            const regex = /^(\d{0,2})(\/?)(\d{0,2})(\/?)(\d{0,4})$/; // Allow DD/MM/YYYY format with slashes
+            if (value === '' || regex.test(value)) {
+                onUpdatePatient({ [field]: value });
+            }
+        } else if (field === 'sex') {
+            const upperValue = value.toUpperCase();
+            if (value === '' || upperValue === 'M' || upperValue === 'F') {
+                onUpdatePatient({ [field]: upperValue });
+            }
+        } else {
+            onUpdatePatient({ [field]: value });
+        };
+    }
 
-    {/* pretty sure there is a more efficient way of this */}
     return (
         <div>
         <div className='space-y-4 w-full max-w-md'>
@@ -67,6 +83,8 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                     </label>
                     <input
                         type='text'
+                        inputMode='numeric'
+                        pattern='[0-9]*'
                         value={patient.age}
                         onChange={(e) => handleChange('age', e.target.value)}
                         className="text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -81,6 +99,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         type='text'
                         value={patient.sex}
                         onChange={(e) => handleChange('sex', e.target.value)}
+                        placeholder='M/F'
                         className="text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
@@ -91,6 +110,8 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                     </label>
                     <input
                         type='text'
+                        inputMode='numeric'
+                        pattern='[0-9]*'
                         value={patient.phoneNumber}
                         onChange={(e) => handleChange('phoneNumber', e.target.value)}
                         className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

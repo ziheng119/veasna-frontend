@@ -19,14 +19,30 @@ interface Props {
 
 export default function Vitals({patient, onUpdatePatient }: Props) {
     const handleChange = (field: keyof PatientData, value: string | boolean) => {
-        if (typeof value === 'string' && (field === 'height' || field === 'weight')) {
-            const regex = /^\d*\.?\d{0,2}$/;
-            if (value === '' || regex.test(value)) {
-                onUpdatePatient({ [field]: value });
+        if (typeof value === 'string') {
+
+            const regex0dp = /^\d*$/;
+            const regex1dp = /^\d*\.?\d{0,1}$/;
+            const regex2dp = /^\d*\.?\d{0,2}$/;
+
+            if (field === 'height' || field === 'weight' || field === 'bmi') {
+                if (value === '' || regex2dp.test(value)) {
+                    onUpdatePatient({ [field] : value });
+                }
+            } else if (field === 'bloodPressureDiastolic' || field === 'bloodPressureSystolic') {
+                if (value === '' || regex0dp.test(value)) {
+                    onUpdatePatient({ [field] : value });
+                }
+            } else if (field === 'temperature') {
+                if (value === '' || regex1dp.test(value)) {
+                    onUpdatePatient({ [field] : value });
+                }
+            } else {
+                onUpdatePatient({ [field] : value });
             }
         } else {
-            onUpdatePatient({ [field]: value});
-        }
+            onUpdatePatient({ [field] : value });
+        };
     };
 
     return (
@@ -35,7 +51,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
                     <label className='text-sm font-medium text-gray-700'>
-                        Height (cm)
+                        Height (m)
                     </label>
                     <input
                         type='text'
@@ -66,8 +82,10 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         BMI
                     </label>
                     <input
-                        type='number'
-                        step='0.01'
+                        type='text'
+                        inputMode='decimal'
+                        pattern='[0-9]*\.?[0-9]{0,2}'
+                        placeholder='0.00'
                         value={patient.bmi}
                         onChange={(e) => handleChange('bmi', e.target.value)}
                         className=' text-black w-36 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -103,11 +121,13 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
                     <label className='text-sm font-medium text-gray-700'>
-                        Blood Pressure (Systolic / Diastolic)
+                        Blood Pressure [Systolic / Diastolic] (mm Hg)
                     </label>
                     <div className='flex gap-2 items-center'>
                     <input
-                        type='number'
+                        type='text'
+                        inputMode='numeric'
+                        pattern='[0-9]*'
                         value={patient.bloodPressureSystolic}
                         onChange={(e) => handleChange('bloodPressureSystolic', e.target.value)}
                         className='text-black w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -115,7 +135,9 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                     />
                     <span className='text-black'>/</span>
                     <input
-                        type='number'
+                        type='text'
+                        inputMode='numeric'
+                        pattern='[0-9]*'
                         value={patient.bloodPressureDiastolic}
                         onChange={(e) => handleChange('bloodPressureDiastolic', e.target.value)}
                         className='text-black w-20 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -129,9 +151,10 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         Temperature
                     </label>
                     <input
-                        type='number'
-                        step='0.1'
-                        placeholder='°C'
+                        type='text'
+                        inputMode='decimal'
+                        pattern='[0-9]*\.?[0-9]{0,1}'
+                        placeholder='0.0°C'
                         value={patient.temperature}
                         onChange={(e) => handleChange('temperature', e.target.value)}
                         className='text-black w-36 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -146,7 +169,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         value={patient.additionalNotes}
                         onChange={(e) => handleChange('additionalNotes', e.target.value)}
                         rows={4}
-                        className='text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='text-black w-96 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                         placeholder='Enter any additional notes...'
                     />
                 </div>
