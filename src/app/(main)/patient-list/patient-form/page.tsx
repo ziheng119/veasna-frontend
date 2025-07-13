@@ -19,6 +19,7 @@ export default function PatientForm() {
         age: '',
         sex: '',
         phoneNumber: '',
+        address: '',
         faceId: '',
         // Vitals
         height: '',

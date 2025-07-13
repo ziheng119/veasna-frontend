@@ -38,10 +38,10 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
         };
     }
 
-    const calculateAge = (dateOfBirth: string) => {
-        if (!dateOfBirth) return;
+    const calculateAge = () => {
+        if (!patient.dateOfBirth) return;
 
-        const parts = dateOfBirth.split('/');
+        const parts = patient.dateOfBirth.split('/');
         if (parts.length === 3) {
             const day = parseInt(parts[0]);
             const month = parseInt(parts[1]);
@@ -68,7 +68,6 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
 
     const handleDateChange = (value: string) => {
         handleChange('dateOfBirth', value);
-        calculateAge(value);
     };
 
     return (
@@ -102,21 +101,30 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                     <label className='min-w-[120px] text-sm font-medium text-gray-700'>
                         Date of Birth
                     </label>
-                    <input
-                        type='date'
-                        value={patient.dateOfBirth ?
-                            patient.dateOfBirth.split('/').reverse().join('-') : ''
-                        }
-                        onChange={(e) => {
-                            if (e.target.value) {
-                                const formatted = e.target.value.split('-').reverse().join('/');
-                                handleDateChange(formatted)
-                            } else {
-                                handleDateChange('');
+                    <div className='flex items-center gap-2'>
+                        <input
+                            type='date'
+                            value={patient.dateOfBirth ?
+                                patient.dateOfBirth.split('/').reverse().join('-') : ''
                             }
-                        }}
-                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                            onChange={(e) => {
+                                if (e.target.value) {
+                                    const formatted = e.target.value.split('-').reverse().join('/');
+                                    handleDateChange(formatted)
+                                } else {
+                                    handleDateChange('');
+                                }
+                            }}
+                            className="text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <button 
+                            type='button'
+                            onClick={calculateAge}
+                            className='px-3 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        >
+                            Calculate Age
+                        </button>
+                    </div>
                 </div>
 
                 <div className='flex items-center gap-4'>
