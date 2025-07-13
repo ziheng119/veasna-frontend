@@ -18,6 +18,7 @@ const mockPatients = [
       phoneNumber: '+855 XX XXX XXXX',
       address: '',
       faceId: 1,
+      lastUpdated: '13-07-2025' // Requires implementation of last-updates
     },
 ];
   

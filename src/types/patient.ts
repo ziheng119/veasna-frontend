@@ -8,4 +8,5 @@ export interface Patient {
     phoneNumber: string;
     address: string;
     faceId: number;
+    lastUpdated: string;
 }

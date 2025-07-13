@@ -17,6 +17,7 @@ interface PatientData {
     age: string;
     sex: string;
     phoneNumber: string;
+    address: string;
     faceId: string;
     // Vitals
     height: string;

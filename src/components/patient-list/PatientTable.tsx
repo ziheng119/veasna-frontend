@@ -27,6 +27,7 @@ export const PatientTable: React.FC<PatientTableProps> = ({
               <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Phone Number</th>
               <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Address</th>
               <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Face ID</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Last Updated</th>
               <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Actions</th>
             </tr>
           </thead>
@@ -42,9 +43,9 @@ export const PatientTable: React.FC<PatientTableProps> = ({
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.phoneNumber}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.address}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.faceId}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{patient.lastUpdated.toLocaleString()}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">
                 <div className="flex items-center gap-2">
-            
 
                     {/* Edit patient */}
                     <button
@@ -64,6 +65,7 @@ export const PatientTable: React.FC<PatientTableProps> = ({
                     <TrashIcon className="w-4 h-4" />
                     </button>
                 </div>
+
                 </td>
               </tr>
             ))}

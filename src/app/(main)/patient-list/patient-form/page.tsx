@@ -1,6 +1,6 @@
 "use client";
 
-import PatientTabs from "@/components/patient-form/PatientTabs";
+import PatientTabs from "@/components/patient-form/patientTabs";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
