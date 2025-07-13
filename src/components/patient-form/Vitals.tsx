@@ -88,7 +88,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
             case 'Severely Obese':
                 return 'bg-red-600';
             default:
-                return 'bg-gray-600';
+                return 'bg-gray-200';
         }
     };
 
