@@ -17,11 +17,11 @@ export default function DoctorsNotesContainer() {
       <div className="flex gap-4">
         <h2 className="text-[20px] font-semibold">Referral Needed</h2>
         <div className="flex gap-2">
-          <input type="radio"/>
+          <input type="radio" name="referralNeeded" value="yes"/>
           <p>Yes</p>
         </div>
         <div className="flex gap-2">
-          <input type="radio"/>
+          <input type="radio" name="referralNeeded" value="no"/>
           <p>No</p>
         </div>
       </div>
