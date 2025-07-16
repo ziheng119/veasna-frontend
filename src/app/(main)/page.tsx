@@ -1,7 +1,13 @@
+"use client"
+
+import { useUserStore } from "@/stores/useUserStore";
+
 export default function Home() {
+  const user = useUserStore((state) => state.user)
+
   return (
     <div>
-      <h1 className="text-[30px] font-bold mb-4">Welcome XXX</h1>
+      <h1 className="text-[30px] font-bold mb-4">Welcome {user?.username}!</h1>
 
       <div className="flex justify-between h-full items-stretch min-h-[70vh]">
         <div className="w-[55%] px-[30px] py-[30px] bg-beige-default border-[1px] rounded-md">

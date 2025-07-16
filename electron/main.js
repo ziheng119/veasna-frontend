@@ -10,8 +10,7 @@ function createWindow() {
     }
   });
 
-  // Use this during development
-  win.loadURL('http://localhost:3000');
+  win.loadURL('http://localhost:3001');
 
   // For production, use this instead:
   // win.loadFile(path.join(__dirname, '../out/index.html'));
