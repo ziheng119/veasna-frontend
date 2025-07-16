@@ -18,7 +18,6 @@ export default function Login() {
   const [options, setOptions] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<User>({ username: "" })
 
-  console.log("user:", useUserStore((state) => state.user))
 
   useEffect(() => {
     async function fetchUsers() {
