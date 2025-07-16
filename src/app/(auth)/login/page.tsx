@@ -16,7 +16,7 @@ export default function Login() {
       </div>
 
       <button 
-        className="bg-green-default px-[10px] py-[5px] rounded-md border-[1px] block hover:cursor-pointer items-center mx-auto block"
+        className="bg-green-default px-[10px] py-[5px] rounded-md border-[1px] hover:cursor-pointer items-center mx-auto block"
       >
         Login
       </button>
