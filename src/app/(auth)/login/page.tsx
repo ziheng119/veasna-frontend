@@ -1,9 +1,9 @@
 "use client"
 
-import { useUser } from "@/context/UserContext"
 import { addUser } from "@/lib/api/user/addUser"
 import { getUsers } from "@/lib/api/user/getUsers"
 import { User } from "@/lib/types/user"
+import { useUserStore } from "@/stores/useUserStore"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -11,12 +11,14 @@ import CreatableSelect from 'react-select/creatable'
 
 export default function Login() {
 
-  const { setUser } = useUser()
+  const setUser = useUserStore((state) => state.setUser)
   const router = useRouter();
 
   const [users, setUsers] = useState<User[]>([])
   const [options, setOptions] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<User>({ username: "" })
+
+  console.log("user:", useUserStore((state) => state.user))
 
   useEffect(() => {
     async function fetchUsers() {

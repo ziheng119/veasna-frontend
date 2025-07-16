@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import { UserProvider } from "@/context/UserContext";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
@@ -34,10 +33,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       > 
-        <UserProvider>
           {children}
           <Toaster position="top-center" />
-        </UserProvider>
       </body>
     </html>
   );

@@ -1,27 +1,9 @@
 "use client"
 
-import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function Home() {
-  const { user } = useUser();
-  const router = useRouter()
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted && !user) {
-      router.push("/login");
-    }
-  }, [mounted, user, router]);
-
-  if (!mounted || !user) {
-    return null; // or a loading spinner
-  }
+  const user = useUserStore((state) => state.user)
 
   return (
     <div>
