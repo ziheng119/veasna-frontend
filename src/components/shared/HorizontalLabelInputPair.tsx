@@ -1,16 +1,22 @@
 interface Props {
   label: string
+  bolded?: boolean
+  value?: string
+  readOnly?: boolean
 }
 
-export default function HorizontalLabelInputPair({ label }: Props) {
+export default function HorizontalLabelInputPair({ label, bolded=true, value="", readOnly=false }: Props) {
   return (
-    <div className="flex flex-1 flex-col lg:flex-row w-full">
+    <div className="flex flex-1 flex-col lg:flex-row w-full h-full">
       <div className="w-fit lg:w-[250px]">
-        <p className="font-semibold text-black">{label}</p>
+        <p className={`${bolded ? "font-semibold" : ""} text-black`}>{label}</p>
       </div>
       <div className="w-full h-full">
         <textarea 
-          className="bg-white-default border-[1px] rounded-sm w-full h-full p-2"
+          className={`bg-white-default border-[1px] rounded-sm w-full h-full item p-2}`}
+          {...(readOnly
+            ? { value, readOnly: true }
+            : { defaultValue: value })}
         />
       </div>
     </div>
