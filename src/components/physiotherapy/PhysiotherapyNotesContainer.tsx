@@ -15,7 +15,7 @@ export default function PhysiotherapyNotesContainer() {
 
       <div className="flex flex-col gap-4">
         <h2 className="text-[20px] font-semibold">Body Chart Indication</h2>
-        <div className="flex flex-row w-full gap-2">
+        <div className="flex flex-row w-full">
           <Image
             src="/bodychart_front.jpg"
             alt="Body Chart Front"
@@ -26,9 +26,9 @@ export default function PhysiotherapyNotesContainer() {
           <Image
             src="/bodychart_back.jpg"
             alt="Body Chart Back"
+            className="w-1/2 h-auto object-contain"
             width={300}
             height={500}
-            className="w-1/2 h-auto object-contain"
           />
         </div>
       </div>
