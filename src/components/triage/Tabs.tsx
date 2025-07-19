@@ -1,7 +1,7 @@
 "use client"
 
 import { HISTORY, PRESENTING_COMPLAINTS, SNELLENS_TEST, TriageTab } from "@/models/triage/triage_tab"
-import Tab from "./Tab"
+import Tab from "../shared/Tab"
 import SnellensTest from "./SnellensTest"
 import PresentingComplaints from "./PresentingComplaints"
 import History from "./History"
