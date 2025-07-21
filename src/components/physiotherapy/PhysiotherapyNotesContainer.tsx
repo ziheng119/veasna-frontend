@@ -13,14 +13,13 @@ export default function PhysiotherapyNotesContainer() {
         <VerticalLabelInputPair />
       </div>
 
-      <h2 className="text-[20px] font-semibold">Body Chart Indication</h2>
-      <div className="flex flex-row w-full">
-        <DottedImage 
-          imageUrl="/bodychart_front.jpg"
-        />
-        <DottedImage 
-          imageUrl="/bodychart_back.jpg"
-        />
+      <div>
+        <h2 className="text-[20px] font-semibold">Body Chart Indication</h2>
+        <div className="flex flex-row w-full">
+          <DottedImage 
+            imageUrl="/bodychart.jpg"
+          />
+        </div>
       </div>
 
       <div className="flex items-center justify-end">
