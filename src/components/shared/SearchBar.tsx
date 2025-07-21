@@ -19,7 +19,7 @@ export default function SearchBar() {
 
   const filteredPatients = sample_patients.filter(
     (name) => name.toLowerCase().includes(query.toLowerCase())
-  ).slice(0, 3)
+  )
 
   const handleClearQuery = () => {
     setQuery("")
@@ -77,7 +77,7 @@ export default function SearchBar() {
         />
       </div>
 
-      {showSuggestions && query.trim() !== "" && (
+      {showSuggestions && query.trim() !== "" && filteredPatients.length !== 0 && (
         <ul className="absolute z-10 bg-white border border-gray-300 rounded-md w-full mt-1 max-h-48 overflow-y-auto">
           {filteredPatients.map((name, idx) => (
             <li
