@@ -4,11 +4,7 @@ import { useState } from "react"
 import { SearchIcon } from "@/assets/icons/SearchIcon"
 import { CrossIcon } from "@/assets/icons/CrossIcon"
 
-interface Props {
-  placeholder?: string
-}
-
-export default function SearchBar({ placeholder }: Props) {
+export default function SearchBar() {
   const [query, setQuery] = useState<string>("")
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1)
@@ -60,7 +56,7 @@ export default function SearchBar({ placeholder }: Props) {
 
         <input
           type="text"
-          placeholder={placeholder}
+          placeholder="Select Patient"
           value={query}
           className="flex-1 min-w-[100px] outline-none ml-1"
           onChange={e => {
