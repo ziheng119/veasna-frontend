@@ -7,10 +7,7 @@ export default function Traige() {
   return (
     <div className="flex justify-between">
       <div className="flex-1 mr-[30px] w-[30%]">
-        <SearchBar
-          placeholder="Select Patient"
-          classname="w-full"
-        />
+        <SearchBar/>
         <div className="bg-beige-default p-7 mt-[30px]">
           <PatientDetails />
         </div>
