@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditIcon, PlusIcon, TrashIcon } from '../../assets/icons';
+import { EditIcon, TrashIcon } from '../../assets/icons';
 import { Patient } from '@/types/patient';
 
 interface PatientTableProps {
