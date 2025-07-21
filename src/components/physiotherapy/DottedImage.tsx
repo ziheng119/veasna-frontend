@@ -43,7 +43,7 @@ export default function DottedImage({ imageUrl, initialPositions }: Props) {
   };
 
   return (
-    <div style={{ maxWidth: 600, width: "100%" }}>
+    <div className="max-w-[600px] w-full">
       <div className="flex items-end justify-end">
         <button
           onClick={handleClearAll}
@@ -54,12 +54,7 @@ export default function DottedImage({ imageUrl, initialPositions }: Props) {
       </div>
       <div
         onClick={handleClick}
-        style={{
-          position: "relative",
-          display: "inline-block",
-          cursor: "crosshair",
-          width: "100%",
-        }}
+        className="relative inline cursor-crosshair w-full"
       >
         <img
           src={imageUrl}
@@ -75,19 +70,12 @@ export default function DottedImage({ imageUrl, initialPositions }: Props) {
               e.stopPropagation(); // prevent triggering image click
               handleRemoveDot(index);
             }}
+            className="absolute w-2.5 h-2.5 bg-red-500 rounded-full -translate-x-1/2 -translate-y-1/2 cursor-pointer border-2 border-white box-border"
             style={{
-              position: "absolute",
               left: `${pos.x}%`,
               top: `${pos.y}%`,
-              width: 10,
-              height: 10,
-              backgroundColor: "red",
-              borderRadius: "50%",
-              transform: "translate(-50%, -50%)",
-              cursor: "pointer",
-              border: "2px solid white",
-              boxSizing: "border-box",
             }}
+
             title="Click to remove this dot"
           />
         ))}
