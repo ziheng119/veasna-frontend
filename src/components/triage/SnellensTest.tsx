@@ -8,17 +8,17 @@ export default function SnellensTest() {
       <div className="min-h-[70vh] flex flex-col">
         <div className="grid grid-cols-3 gap-x-4 gap-y-2 mb-[30px] items-center">
           {/* Header Row */}
-          <p className="font-semibold text-start text-black">Visual Acuity</p>
-          <p className="text-center text-black">Left (OS)</p>
-          <p className="text-center text-black">Right (OD)</p>
+          <p className="font-semibold text-start ">Visual Acuity</p>
+          <p className="text-center ">Left (OS)</p>
+          <p className="text-center ">Right (OD)</p>
 
           {/* With Pinhole Row */}
-          <p className="text-start text-black">With Pinhole</p>
+          <p className="text-start ">With Pinhole</p>
           <Input />
           <Input />
 
           {/* Without Pinhole Row */}
-          <p className="text-start text-black">Without Pinhole</p>
+          <p className="text-start ">Without Pinhole</p>
           <Input />
           <Input />
         </div>

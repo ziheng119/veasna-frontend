@@ -10,7 +10,7 @@ export default function VerticalLabelInputPair({ label, bolded=true, value="", r
     <div className="flex flex-col gap-2 w-full">
       { label && 
       <div>
-        <p className={`${bolded ? "font-semibold" : ""} text-black`}>{label}</p>
+        <p className={`${bolded ? "font-semibold" : ""}`}>{label}</p>
       </div> }
       
       <div className="flex-1 flex items-center">
