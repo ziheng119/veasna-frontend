@@ -3,10 +3,22 @@ import TriageContainer from "@/components/shared/read-only/triage-container/Tria
 import DoctorsNotesContainer from "@/components/doctors-consultation/DoctorsNotesContainer";
 import SearchBar from "@/components/shared/SearchBar";
 
+const sample_patients = [
+  "Alice Lee",
+  "Amy Teo",
+  "Amy Wee",
+  "Bella",
+  "Charmaine"
+]
+
+
 export default function DoctorsConsultation() {
   return (
     <div className="flex flex-col gap-2 lg:min-h-[70vh]">
-      <SearchBar />
+      <SearchBar
+        label="Search Patient ..."
+        options={sample_patients}
+      />
       <div className="flex flex-col gap-2 mt-3 lg:w-full lg:flex-row lg:gap-4 lg:justify-evenly">
         <PatientContainer />
         <TriageContainer />
