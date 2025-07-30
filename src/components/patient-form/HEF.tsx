@@ -20,7 +20,7 @@ export default function HEF({patient, onUpdatePatient }: Props) {
     return (
         <div className='space-y-6'>
             <div>
-                <label className='block text-sm font-medium text-gray-700 mb-3'>
+                <label className='block text-sm font-medium mb-3'>
                     Does patient know about HEF?
                 </label>
                 <div className='flex space-x-6'>
@@ -34,7 +34,7 @@ export default function HEF({patient, onUpdatePatient }: Props) {
                             onChange={(e) => handleChange('knowsAboutHEF', e.target.value)}
                             className='h-4 w-4 text-blue-600 focus: ring-blue-500 border-gray-300'
                         />
-                        <label htmlFor='knowsHEF-yes' className='ml-2 text-sm text-gray-700'>
+                        <label htmlFor='knowsHEF-yes' className='ml-2 text-sm'>
                             Yes
                         </label>
                     </div>
@@ -49,7 +49,7 @@ export default function HEF({patient, onUpdatePatient }: Props) {
                             onChange={(e) => handleChange('knowsAboutHEF', e.target.value)}
                             className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300'
                         />
-                        <label htmlFor='knowsHEF-no' className='ml-2 text-sm text-gray-700'>
+                        <label htmlFor='knowsHEF-no' className='ml-2 text-sm'>
                             No
                         </label>
                     </div>
@@ -57,7 +57,7 @@ export default function HEF({patient, onUpdatePatient }: Props) {
             </div>
 
             <div>
-                <label className='block text-sm font-medium text-gray-700 mb-3'>
+                <label className='block text-sm font-medium mb-3'>
                     Does patient have HEF?
                 </label>
                 <div className='flex space-x-6'>
@@ -71,7 +71,7 @@ export default function HEF({patient, onUpdatePatient }: Props) {
                             onChange={(e) => handleChange('hasHEF', e.target.value)}
                             className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300'
                         />
-                        <label htmlFor='hasHEF-yes' className='ml-2 text-sm text-gray-700'>
+                        <label htmlFor='hasHEF-yes' className='ml-2 text-sm'>
                             Yes
                         </label>
                     </div>
@@ -85,7 +85,7 @@ export default function HEF({patient, onUpdatePatient }: Props) {
                             onChange={(e) => handleChange('hasHEF', e.target.value)}
                             className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300'
                         />
-                        <label htmlFor='hasHEF-no' className='ml-2 text-sm text-gray-700'>
+                        <label htmlFor='hasHEF-no' className='ml-2 text-sm'>
                             No
                         </label> 
                     </div>
@@ -93,14 +93,14 @@ export default function HEF({patient, onUpdatePatient }: Props) {
             </div>
 
             <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                <label className='block text-sm font-medium mb-2'>
                     Does patient use HEF? why or why not?
                 </label>
                 <textarea
                     value={patient.useHEFReason}
                     onChange={(e) => handleChange('useHEFReason', e.target.value)}
                     rows= {6}
-                    className='text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outine-none focus:ring-2 focus:ring-blue-500'
+                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outine-none focus:ring-2 focus:ring-blue-500'
                     placeholder='Insert Text'
                 />
             </div>

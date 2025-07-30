@@ -102,15 +102,15 @@ export default async function PatientForm() {
 
 
     return (
-        <div className='min-h-screen bg-gray-100'>
+        <div className='min-h-screen'>
             <div className='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:pxuct-8'>
                 <div className='mb-6'>
-                    <h1 className='text-2xl font-bold text-gray-900'>
+                    <h1 className='text-2xl font-bold'>
                         {isEdit ? 'Edit Patient' : 'Add Patient'}
                     </h1>
                 </div>
 
-                <div className='bg-white rounded-lg shadow'>
+                <div className='rounded-lg shadow'>
                     <PatientTabs
                         patient={localPatient}
                         onUpdatePatient={updateLocalPatient}

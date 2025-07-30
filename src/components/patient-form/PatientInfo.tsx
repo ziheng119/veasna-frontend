@@ -69,31 +69,31 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
         <div>
         <div className='space-y-4 w-full max-w-md'>
                 <div className='flex items-center gap-4'>
-                    <label className='min-w-[120px] text-sm font-medium text-gray-700'>
+                    <label className='min-w-[120px] text-sm font-medium'>
                         English Name
                     </label>
                     <input
                         type='text'
                         value={patient.englishName}
                         onChange={(e) => handleChange('englishName', e.target.value)}
-                        className="text-black w-64 px-3 py-2 border border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-64 px-3 py-2 border border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
                 <div className='flex items-center gap-4'>
-                <label className='min-w-[120px] text-sm font-medium text-gray-700'>
+                <label className='min-w-[120px] text-sm font-medium'>
                         Khmer Name
                     </label>
                     <input
                         type='text'
                         value={patient.khmerName}
                         onChange={(e) => handleChange('khmerName', e.target.value)}
-                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
                 <div className='flex items-center gap-4'>
-                    <label className='min-w-[120px] text-sm font-medium text-gray-700'>
+                    <label className='min-w-[120px] text-sm font-medium'>
                         Date of Birth
                     </label>
                     <div className='flex items-center gap-2'>
@@ -110,12 +110,12 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                                     handleDateChange('');
                                 }
                             }}
-                            className="text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <button 
                             type='button'
                             onClick={calculateAge}
-                            className='px-3 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            className='px-3 py-2 bg-blue-500 text-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white'
                         >
                             Calculate Age
                         </button>
@@ -123,7 +123,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                 </div>
 
                 <div className='flex items-center gap-4'>
-                    <label className='min-w-[120px] text-sm font-medium text-gray-700'>
+                    <label className='min-w-[120px] text-sm font-medium'>
                         Age
                     </label>
                     <input
@@ -132,12 +132,12 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         pattern='[0-9]*'
                         value={patient.age}
                         onChange={(e) => handleChange('age', e.target.value)}
-                        className="text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
                 <div className='flex items-center gap-4'>
-                    <label className='min-w-[120px] text-sm font-medium text-gray-700'>
+                    <label className='min-w-[120px] text-sm font-medium'>
                         Sex
                     </label>
                     <div className='flex items-center gap-4'>
@@ -150,7 +150,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                                 onChange={(e) => onUpdatePatient({ sex: e.target.value })}
                                 className='w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300'
                             />
-                            <span className='text-sm text-gray-700'>M</span>
+                            <span className='text-sm'>M</span>
                         </label>
                         <label className='flex items-center gap-2'>
                             <input
@@ -161,14 +161,14 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                                 onChange={(e) => onUpdatePatient({ sex: e.target.value })}
                                 className='w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300'
                             />
-                            <span className='text-sm text-gray-700'>F</span>
+                            <span className='text-sm'>F</span>
                         </label>
                     </div>
                     
                 </div>
 
                 <div className='flex items-center gap-4'>
-                  <label className='min-w-[120px] text-sm font-medium text-gray-700'>
+                  <label className='min-w-[120px] text-sm font-medium'>
                         Phone Number
                     </label>
                     <input
@@ -177,31 +177,31 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                         pattern='[0-9]*'
                         value={patient.phoneNumber}
                         onChange={(e) => handleChange('phoneNumber', e.target.value)}
-                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
                 <div className='flex items-center gap-4'>
-                  <label className='min-w-[120px] text-sm font-medium text-gray-700'>
+                  <label className='min-w-[120px] text-sm font-medium'>
                         Address
                     </label>
                     <input
                         type='text'
                         value={patient.address}
                         onChange={(e) => handleChange('address', e.target.value)}
-                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
                 <div className='flex items-center gap-4'>
-                  <label className='min-w-[120px] text-sm font-medium text-gray-700'>
+                  <label className='min-w-[120px] text-sm font-medium'>
                         Face ID
                     </label>
                     <input
                         type='text'
                         value={patient.faceId}
                         onChange={(e) => handleChange('faceId', e.target.value)}
-                        className="text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 

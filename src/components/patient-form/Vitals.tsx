@@ -97,7 +97,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
             <div className='space-y-5 w-full max-w-lg'>
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
-                    <label className='text-sm font-medium text-gray-700'>
+                    <label className='text-sm font-medium'>
                         Height (cm)
                     </label>
                     <input
@@ -106,12 +106,12 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         pattern='[0-9]*'
                         value={patient.height}
                         onChange={(e) => handleChange('height', e.target.value)}
-                        className='text-black w-64 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-64 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
-                    <label className='text-sm font-medium text-gray-700'>
+                    <label className='text-sm font-medium'>
                         Weight (kg)
                     </label>
                     <input
@@ -120,12 +120,12 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         placeholder='0.00'
                         value={patient.weight}
                         onChange={(e) => handleChange('weight', e.target.value)}
-                        className='text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
-                    <label className='text-sm font-medium text-gray-700'>
+                    <label className='text-sm font-medium'>
                         BMI
                     </label>
                     <div className='flex items-center gap-2'>
@@ -136,7 +136,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                             placeholder='0.00'
                             value={patient.bmi}
                             onChange={(e) => handleChange('bmi', e.target.value)}
-                            className=' text-black w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            className='w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                             readOnly
                         />
                         <button
@@ -151,7 +151,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
 
                 <div>
                     <div className='grid grid-cols-2 gap-4 items-center'>
-                        <label htmlFor='below3rdPercentile' className='text-sm font-medium text-gray-700 w-2/3'>
+                        <label htmlFor='below3rdPercentile' className='text-sm font-medium w-2/3'>
                             Child is below 3rd percentile (BMI by age)
                         </label>
                         <input
@@ -165,20 +165,20 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                 </div>
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
-                    <label className='text-sm font-medium text-gray-700'>
+                    <label className='text-sm font-medium'>
                         Category
                     </label>
                     <input
                         type='text'
                         value={patient.category}
                         onChange={(e) => handleChange('category', e.target.value)}
-                        className={`text-black text-center w-36 px-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium ${getCategoryColor(patient.category)}`}   
+                        className={`text-center w-36 px-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium ${getCategoryColor(patient.category)}`}   
                         readOnly
                     />
                 </div>
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
-                    <label className='text-sm font-medium text-gray-700'>
+                    <label className='text-sm font-medium'>
                         Blood Pressure [Systolic / Diastolic] (mm Hg)
                     </label>
                     <div className='flex gap-2 items-center'>
@@ -188,24 +188,24 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         pattern='[0-9]*'
                         value={patient.bloodPressureSystolic}
                         onChange={(e) => handleChange('bloodPressureSystolic', e.target.value)}
-                        className='text-black w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                         placeholder='Systolic'
                     />
-                    <span className='text-black'>/</span>
+                    <span>/</span>
                     <input
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
                         value={patient.bloodPressureDiastolic}
                         onChange={(e) => handleChange('bloodPressureDiastolic', e.target.value)}
-                        className='text-black w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
                         placeholder='Diastolic'
                     />
                     </div>                 
                 </div>
 
                 <div className='grid grid-cols-2 gap-4 items-center'>
-                    <label className='text-sm font-medium text-gray-700 mb-2'>
+                    <label className='text-sm font-medium mb-2'>
                         Temperature (°C)
                     </label>
                     <input
@@ -215,19 +215,19 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         placeholder='0.0'
                         value={patient.temperature}
                         onChange={(e) => handleChange('temperature', e.target.value)}
-                        className='text-black w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
 
                 <div className='grid grid-cols-2 gap-4'>
-                    <label className='text-sm font-medium text-gray-700'>
+                    <label className='text-sm font-medium'>
                         Additional Notes
                     </label>
                     <textarea
                         value={patient.additionalNotes}
                         onChange={(e) => handleChange('additionalNotes', e.target.value)}
                         rows={4}
-                        className='text-black w-96 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-96 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                         placeholder='Enter any additional notes...'
                     />
                 </div>
