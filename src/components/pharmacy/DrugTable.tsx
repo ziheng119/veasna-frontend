@@ -1,62 +1,90 @@
-import { PackageIcon } from "@/assets/icons"
+import { CrossFaceIcon, PackageIcon } from "@/assets/icons"
 import { Drug } from "@/lib/types/drug"
 import { DrugTableRow } from "./DrugTableRow"
+import { useMemo } from "react"
 
 interface DrugTableProps {
     drugs: Drug[]
     onStockLevelChange: (drugId: string, newLevel: "low" | "medium" | "high") => void
+    onDeleteDrug: (drugId: string) => void
 }
 
 
-// Drug Table Component
-export function DrugTable({ drugs, onStockLevelChange }: DrugTableProps) {
+export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableProps) {
+
+    const stockCounts = useMemo(() => {
+        return drugs.reduce((acc, drug) => {
+          acc[drug.drug_stockLevel] = (acc[drug.drug_stockLevel] || 0) + 1
+          return acc
+        }, {} as Record<string, number>)
+      }, [drugs])
+
     return (
-      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200 bg-green-default">
-          <h2 className="text-lg font-semibold text-white">
-            Drug Inventory ({drugs.length} items)
-          </h2>
-        </div>
-        
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Drug ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Drug Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Stock Level
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {drugs.map((drug: Drug) => (
-                <DrugTableRow 
-                  key={drug.drug_id}
-                  drug={drug}
-                  onStockLevelChange={onStockLevelChange}
-                />
-              ))}
-            </tbody>
-          </table>
-          
-          {drugs.length === 0 && (
-            <div className="text-center py-8">
-              <PackageIcon className="mx-auto h-12 w-12 text-gray-400" />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No drugs found</h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Try adjusting your search criteria.
-              </p>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900">
+                Drug Inventory
+              </h2>
+
+              {/* Overal Inventory Statistics */}
+              <div className="flex items-center space-x-4 text-sm">
+                <span className="text-gray-600">
+                  Total: <span className="font-semibold text-gray-900">{drugs.length}</span>
+                </span>
+                <span className="text-red-500">
+                  Low: <span className="font-semibold">{stockCounts.low || 0}</span>
+                </span>
+                <span className="text-yellow-500">
+                  Medium: <span className="font-semibold">{stockCounts.medium || 0}</span>
+                </span>
+                <span className="text-green-500">
+                  High: <span className="font-semibold">{stockCounts.high || 0}</span>
+                </span>
+              </div>
             </div>
-          )}
+          </div>
+          
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                    Drug ID
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                    Drug Name
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                    Stock Level
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {drugs.map((drug) => (
+                  <DrugTableRow 
+                    key={drug.drug_id}
+                    drug={drug}
+                    onStockLevelChange={onStockLevelChange}
+                    onDeleteDrug={onDeleteDrug}
+                  />
+                ))}
+              </tbody>
+            </table>
+            
+            {drugs.length === 0 && (
+              <div className="text-center py-12">
+                <CrossFaceIcon className="mx-auto h-16 w-16 text-gray-300" />
+                <h3 className="mt-4 text-lg font-medium text-gray-900">No drugs found</h3>
+                <p className="mt-2 text-gray-500">
+                  Try adjusting your search criteria or check your spelling.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    )
+      )
   }

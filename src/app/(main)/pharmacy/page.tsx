@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
-import SearchBar from "@/components/shared/SearchBar"
+import React, { useMemo, useState } from "react"
 import { DrugTable } from "@/components/pharmacy/DrugTable"
 import { Drug } from "@/lib/types/drug"
 import { PageHeader } from "@/components/pharmacy/PageHeader"
+import { DrugSearchBar } from "@/components/pharmacy/DrugSearchBar"
 
 const SAMPLE_DRUGS: Drug[] = [
     { drug_id: "D001", drug_name: "Aspirin", drug_stockLevel: "high" },
@@ -28,41 +28,38 @@ const SAMPLE_DRUGS: Drug[] = [
 
 export default function Pharmacy(): React.ReactElement {
     const [drugs, setDrugs] = useState<Drug[]>(SAMPLE_DRUGS)
-  
-    const [searchQuery, setSearchQuery] = useState<string>("")
-    const [filteredDrugs, setFilteredDrugs] = useState<Drug[]>(drugs)
-  
-    const drugNames: string[] = drugs.map((drug: Drug) => drug.drug_name)
-  
-    const handleSearch = (query: string): void => {
-      setSearchQuery(query)
-      if (query.trim() === "") {
-        setFilteredDrugs(drugs)
-      } else {
-        const filtered = drugs.filter((drug: Drug) =>
-          drug.drug_name.toLowerCase().includes(query.toLowerCase()) ||
-          drug.drug_id.toLowerCase().includes(query.toLowerCase())
+    const [searchTerm, setSearchTerm] = useState<string>("")
+
+    // if there is a change in the searchTerm or drug, filteredDrugs is recalculated
+    const filteredDrugs = useMemo(() => {
+        if (!searchTerm.trim()) {
+            return drugs
+        }
+
+        const searchLower = searchTerm.toLowerCase()
+        return drugs.filter((drug) =>
+        drug.drug_name.toLowerCase().includes(searchLower) ||
+        drug.drug_id.toLowerCase().includes(searchLower) ||
+        drug.drug_stockLevel.toLowerCase().includes(searchLower)
         )
-        setFilteredDrugs(filtered)
-      }
+    }, [drugs, searchTerm])
+
+    const handleSearchChange = (term: string) => {
+        setSearchTerm(term)
     }
-  
-    const handleStockLevelChange = (drugId: string, newLevel: "low" | "medium" | "high"): void => {
-      const updatedDrugs = drugs.map((drug: Drug) =>
-        drug.drug_id === drugId ? { ...drug, drug_stockLevel: newLevel } : drug
-      )
-      setDrugs(updatedDrugs)
-      
-      // Update filtered drugs as well
-      if (searchQuery.trim() === "") {
-        setFilteredDrugs(updatedDrugs)
-      } else {
-        const filtered = updatedDrugs.filter((drug: Drug) =>
-          drug.drug_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          drug.drug_id.toLowerCase().includes(searchQuery.toLowerCase())
+
+    const handleStockLevelChange = (drugId: string, newLevel: "low" | "medium" | "high") => {
+        setDrugs(prevDrugs =>
+            prevDrugs.map((drug) => 
+                drug.drug_id === drugId ? { ...drug, drug_stockLevel: newLevel} : drug
+            )
         )
-        setFilteredDrugs(filtered)
-      }
+    }
+    
+    const handleDeleteDrug = (drugId: string) => {
+        if (window.confirm('Are you sure you want to delete this drug?')) {
+            setDrugs(prevDrugs => prevDrugs.filter(drug => drug.drug_id !== drugId))
+        }
     }
   
     return (
@@ -72,10 +69,8 @@ export default function Pharmacy(): React.ReactElement {
             <PageHeader />
           
             <div className="max-w-md">
-              <SearchBar
-                label="Search drugs by name or ID..."
-                options={drugNames}
-                // onSearch={handleSearch}
+              <DrugSearchBar
+                onSearchChange={handleSearchChange}
               />
             </div>
           </div>
@@ -83,6 +78,7 @@ export default function Pharmacy(): React.ReactElement {
           <DrugTable 
             drugs={filteredDrugs}
             onStockLevelChange={handleStockLevelChange}
+            onDeleteDrug={handleDeleteDrug}
           />
         </div>
       </div>
