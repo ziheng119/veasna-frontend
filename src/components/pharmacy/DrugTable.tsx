@@ -22,7 +22,9 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
     return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
+            
+              {/* Table Header */}
               <h2 className="text-xl font-bold text-gray-900">
                 Drug Inventory
               </h2>
@@ -46,19 +48,19 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
           </div>
           
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full table-fixed">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                  <th className="w-1/4 px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                     Drug ID
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                  <th className="w-1/4 px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                     Drug Name
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                  <th className="w-1/4 px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                     Stock Level
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                  <th className="w-1/4 px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>

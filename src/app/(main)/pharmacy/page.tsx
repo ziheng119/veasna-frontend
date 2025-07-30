@@ -5,6 +5,7 @@ import { DrugTable } from "@/components/pharmacy/DrugTable"
 import { Drug } from "@/lib/types/drug"
 import { PageHeader } from "@/components/pharmacy/PageHeader"
 import { DrugSearchBar } from "@/components/pharmacy/DrugSearchBar"
+import { PlusIcon } from "@/assets/icons"
 
 const SAMPLE_DRUGS: Drug[] = [
     { drug_id: "D001", drug_name: "Aspirin", drug_stockLevel: "high" },
@@ -61,6 +62,10 @@ export default function Pharmacy(): React.ReactElement {
             setDrugs(prevDrugs => prevDrugs.filter(drug => drug.drug_id !== drugId))
         }
     }
+
+    const onAddDrug = () => {
+        console.log('Adding Drug, navigate to add drug page')
+    }
   
     return (
       <div className="min-h-screen p-6">
@@ -68,10 +73,17 @@ export default function Pharmacy(): React.ReactElement {
           <div className="mb-8">
             <PageHeader />
           
-            <div className="max-w-md">
+            <div className="flex items-center justify-between">
               <DrugSearchBar
                 onSearchChange={handleSearchChange}
               />
+
+              <button
+                onClick={onAddDrug}
+                className="ml-4 bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition" 
+              >
+                <PlusIcon className='w-5 h-5'/>
+              </button>
             </div>
           </div>
   

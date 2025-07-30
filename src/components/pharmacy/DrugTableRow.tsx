@@ -13,7 +13,7 @@ export function DrugTableRow({ drug, onStockLevelChange, onDeleteDrug }: DrugTab
     return (
         <tr className="hover:bg-blue-50 transition-colors duration-150">
           <td className="px-6 py-4">
-            <div className="text-sm font-mono font-medium text-gray-900 px-2 py-1 rounded">
+            <div className="text-sm font-medium text-gray-900 px-2 py-1">
               {drug.drug_id}
             </div>
           </td>
