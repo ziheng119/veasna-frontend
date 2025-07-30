@@ -1,4 +1,4 @@
-import { CrossFaceIcon, PackageIcon } from "@/assets/icons"
+import { CrossFaceIcon } from "@/assets/icons"
 import { Drug } from "@/lib/types/drug"
 import { DrugTableRow } from "./DrugTableRow"
 import { useMemo } from "react"
@@ -32,7 +32,7 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
               {/* Overal Inventory Statistics */}
               <div className="flex items-center space-x-4 text-sm">
                 <span className="text-gray-600">
-                  Total: <span className="font-semibold text-gray-900">{drugs.length}</span>
+                  Total: <span className="font-semibold">{drugs.length}</span>
                 </span>
                 <span className="text-red-500">
                   Low: <span className="font-semibold">{stockCounts.low || 0}</span>

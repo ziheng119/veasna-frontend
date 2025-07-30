@@ -6,6 +6,7 @@ import { Drug } from "@/lib/types/drug"
 import { PageHeader } from "@/components/pharmacy/PageHeader"
 import { DrugSearchBar } from "@/components/pharmacy/DrugSearchBar"
 import { PlusIcon } from "@/assets/icons"
+import { useRouter } from "next/navigation"
 
 const SAMPLE_DRUGS: Drug[] = [
     { drug_id: "D001", drug_name: "Aspirin", drug_stockLevel: "high" },
@@ -28,6 +29,7 @@ const SAMPLE_DRUGS: Drug[] = [
 
 
 export default function Pharmacy(): React.ReactElement {
+    const router = useRouter();
     const [drugs, setDrugs] = useState<Drug[]>(SAMPLE_DRUGS)
     const [searchTerm, setSearchTerm] = useState<string>("")
 
@@ -64,7 +66,7 @@ export default function Pharmacy(): React.ReactElement {
     }
 
     const onAddDrug = () => {
-        console.log('Adding Drug, navigate to add drug page')
+        router.push("/pharmacy/pharmacy-form");
     }
   
     return (
