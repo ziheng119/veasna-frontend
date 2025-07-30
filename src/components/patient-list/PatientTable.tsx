@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditIcon, TrashIcon } from '../../assets/icons';
-import { Patient } from '@/types/patient';
+import { Patient } from '@/lib/types/patient';
 
 interface PatientTableProps {
     patients: Patient[];
