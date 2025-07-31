@@ -72,6 +72,21 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
     return (
         <div>
         <div className='space-y-4 w-full max-w-md'>
+
+                {/* Queue Number */}
+                <div className='flex items-center gap-4'>
+                    <label className="min-w-[120px] text-sm font-medium">
+                        Queue Number
+                    </label>
+                    <input
+                        type="text"
+                        value={patient.queueNumber}
+                        onChange={(e) => handleChange('queueNumber', e.target.value)}
+                        className="w-64 px-3 py-2 border border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                {/* English Name */}
                 <div className='flex items-center gap-4'>
                     <label className='min-w-[120px] text-sm font-medium'>
                         English Name

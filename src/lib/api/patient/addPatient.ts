@@ -1,7 +1,7 @@
 import { backend_url } from "@/constants/env_variable";
-import { PatientData } from "@/lib/types/PatientData";
+import { PatientFormData } from "@/lib/types/PatientData";
 
-export async function addPatient(patientData: PatientData): Promise<PatientData> {
+export async function addPatient(patientData: PatientFormData): Promise<PatientFormData> {
     try {
         console.log('Adding Patient')
         const response = await fetch(`${backend_url}/api/patients/complete`, {
