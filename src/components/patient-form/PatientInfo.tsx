@@ -21,7 +21,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
 
     // Restrictions for respective inputs 
     const handleChange = (field: keyof PatientData, value: string) => {
-        if (field === 'age' || field === 'phoneNumber') {
+        if (field === 'age') {
             const regex = /^\d*$/; // only Integers
             if (value === '' || regex.test(value)) {
                 onUpdatePatient({ [field]: value });
@@ -31,6 +31,12 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
             if (value === '' || regex.test(value)) {
                 onUpdatePatient({ [field]: value });
             }
+        } else if (field === 'phoneNumber') {
+            // Allow: digits, spaces, plus sign (only at start), hyphens, parentheses
+            const regex = /^[\+]?[\d\s\-\(\)]*$/;
+            if (value === '' || regex.test(value)) {
+            onUpdatePatient({ [field]: value });
+            } 
         } else {
             onUpdatePatient({ [field]: value });
         };
