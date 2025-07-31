@@ -2,6 +2,7 @@ import React from 'react';
 // import { EditIcon, PlusIcon, TrashIcon } from '../../assets/icons';
 import { Patient } from '@/lib/types/patient';
 import { PatientTableRow } from './PatientTableRow';
+import { PersonIcon } from '@/assets/icons';
 
 interface PatientTableProps {
     patients: Patient[];
@@ -63,6 +64,7 @@ export function PatientTable({ patients, onEditPatient, onDeletePatient}: Patien
 
           {patients.length === 0 && (
             <div className="text-center py-12">
+              <PersonIcon className="mx-auto h-16 w-16 text-gray-300"/>
               <h3 className="mt-4 text-lg font-mediu, text-gray-900">No Patients Found</h3>
               <p className="mt-2 text-gray-500">
                 Try adjusting your search criteria or check your spelling.

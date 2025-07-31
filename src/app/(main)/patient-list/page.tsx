@@ -94,10 +94,21 @@ export default function PatientListPage() {
       // is there a toLowerCase for khmer strings?
       const searchLower = searchTerm.toLowerCase()
 
-      return patients.filter((patient) =>
-      patient.englishName.toLowerCase().includes(searchLower) ||
-      patient.khmerName.toLowerCase().includes(searchLower) 
-      )
+      return patients.filter((patient) => {
+        const searchNum = parseInt(searchLower, 10);
+        const queueMatch = (() => {
+          const numMatch = patient.queueNumber.match(/^\d+/); // Extract leading digits
+          if (!numMatch) return false;
+          const queueNum = parseInt(numMatch[0], 10);
+          return !isNaN(searchNum) && queueNum >= searchNum;
+        })();
+      
+        return (
+          patient.englishName.toLowerCase().includes(searchLower) ||
+          patient.khmerName.toLowerCase().includes(searchLower) ||
+          queueMatch
+        );
+      });
     }, [patients, searchTerm])
 
     const handleSearchChange = (term: string) => {
@@ -134,7 +145,7 @@ export default function PatientListPage() {
 
             <div className='flex items-center justify-between'>
               <FullSearchBar
-                placeholder= "Search for Patient..."
+                placeholder= "Search for Patient by English Name or Khmer Name"
                 onSearchChange={handleSearchChange}
               />
 
