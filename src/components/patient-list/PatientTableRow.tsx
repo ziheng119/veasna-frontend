@@ -26,7 +26,7 @@ export function PatientTableRow({ patient, onEditPatient, onDeletePatient}: Pati
 
                         {/* View Patient */}
                         <button
-                        onClick={() => console.log('View Patient clicked')}
+                        onClick={() => console.log('View Patient clicked', patient.id)}
                         className="text-green-600 hover:text-green-800"
                         title="View patient"
                         >

@@ -106,7 +106,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         pattern='[0-9]*'
                         value={patient.height}
                         onChange={(e) => handleChange('height', e.target.value)}
-                        className='w-64 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-64 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                     />
                 </div>
 
@@ -120,7 +120,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         placeholder='0.00'
                         value={patient.weight}
                         onChange={(e) => handleChange('weight', e.target.value)}
-                        className='w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                     />
                 </div>
 
@@ -136,7 +136,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                             placeholder='0.00'
                             value={patient.bmi}
                             onChange={(e) => handleChange('bmi', e.target.value)}
-                            className='w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            className='w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                             readOnly
                         />
                         <button
@@ -188,7 +188,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         pattern='[0-9]*'
                         value={patient.bloodPressureSystolic}
                         onChange={(e) => handleChange('bloodPressureSystolic', e.target.value)}
-                        className='w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                         placeholder='Systolic'
                     />
                     <span>/</span>
@@ -198,7 +198,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         pattern='[0-9]*'
                         value={patient.bloodPressureDiastolic}
                         onChange={(e) => handleChange('bloodPressureDiastolic', e.target.value)}
-                        className='w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                         placeholder='Diastolic'
                     />
                     </div>                 
@@ -215,7 +215,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         placeholder='0.0'
                         value={patient.temperature}
                         onChange={(e) => handleChange('temperature', e.target.value)}
-                        className='w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                     />
                 </div>
 
@@ -227,7 +227,7 @@ export default function Vitals({patient, onUpdatePatient }: Props) {
                         value={patient.additionalNotes}
                         onChange={(e) => handleChange('additionalNotes', e.target.value)}
                         rows={4}
-                        className='w-96 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-96 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                         placeholder='Enter any additional notes...'
                     />
                 </div>
