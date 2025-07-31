@@ -17,16 +17,16 @@ export function PatientTable({ patients, onEditPatient, onDeletePatient}: Patien
           <table className="w-full table-fixed">
             <thead className="bg-green-default">
               <tr>
-                <th className="px-4 py-3 text-left text-xs text-black tracking-wider">S/N</th>
-                <th className="px-4 py-3 text-left text-xs text-black tracking-wider">Queue No.</th>
+                <th className="w-1/20 px-4 py-3 text-left text-xs text-black tracking-wider">S/N</th>
+                <th className="w-1/20 px-4 py-3 text-left text-xs text-black tracking-wider">Queue No.</th>
                 <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">English Name</th>
                 <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Khmer Name</th>
                 <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Date of Birth</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Age</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Sex</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Phone No.</th>
+                <th className="w-1/20 px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Age</th>
+                <th className="w-1/20 px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Sex</th>
+                <th className="w-3/20 px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Phone No.</th>
                 <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Address</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Face ID</th>
+                <th className="w-1/20 px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Face ID</th>
                 <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Last Updated</th>
                 <th className="py-3 text-left text-xs font-bold text-black tracking-wider">Actions</th>
               </tr>

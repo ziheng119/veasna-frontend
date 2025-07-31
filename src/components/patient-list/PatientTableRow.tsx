@@ -21,7 +21,7 @@ export function PatientTableRow({ patient, onEditPatient, onDeletePatient}: Pati
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.address}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.faceId}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.lastUpdated.toLocaleString()}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">
+                <td className="py-3 text-sm text-gray-900">
                     <div className="flex items-center gap-2">
 
                         {/* View Patient */}
@@ -50,6 +50,7 @@ export function PatientTableRow({ patient, onEditPatient, onDeletePatient}: Pati
                         >
                             <TrashIcon className="w-4 h-4" />
                         </button>
+
                     </div>
                 </td>
             </tr>
