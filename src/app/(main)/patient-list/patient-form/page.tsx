@@ -4,11 +4,13 @@ import PatientTabs from "@/components/patient-form/patientTabs";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
-import { PatientData } from "@/lib/types/PatientData";
+import { PatientFormData } from "@/lib/types/PatientData";
+// import { addPatient } from "@/lib/api/patient/addPatient";
 
 // Create an empty PatientData for every create ot edit request
-const intitialPatientData: PatientData = {
+const initialPatientData: PatientFormData = {
     // Patient's Info
+    queueNumber: '',
     englishName: '',
     khmerName: '',
     dateOfBirth: '',
@@ -17,6 +19,7 @@ const intitialPatientData: PatientData = {
     phoneNumber: '',
     address: '',
     faceId: '',
+    lastUpdated: '',
     // Vitals
     height: '',
     weight: '',
@@ -40,7 +43,7 @@ export default async function PatientForm() {
     const isEdit = !!patientId;
 
     // Local state that accumulates changes from all tabs
-    const [localPatient, setLocalPatient] = useState<PatientData>(intitialPatientData);
+    const [localPatient, setLocalPatient] = useState<PatientFormData>(initialPatientData);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
@@ -77,10 +80,13 @@ export default async function PatientForm() {
         setIsSaving(true);
         try {
             if (isEdit) {
-                // Case 1 : Updating existing patient
+                // Case 1 : updating existing patient
+                // api call for finding the patient's id and updating the information
 
             } else {
-                // Case 2 : Creating a new patient
+                // Case 2 : Creating a new Patient
+                // api cal for inserting new patient, addPatient(localPatient);
+
                 
             }
         } catch (error) {
@@ -96,7 +102,7 @@ export default async function PatientForm() {
         router.push('/patient-list');
     }
 
-    const updateLocalPatient = (updates: Partial<PatientData>) => {
+    const updateLocalPatient = (updates: Partial<PatientFormData>) => {
         setLocalPatient(prev => ({ ...prev, ...updates}));
     };
 

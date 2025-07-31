@@ -1,5 +1,8 @@
-export interface PatientData {
+import { Patient } from "./patient";
+
+export interface PatientFormData {
     // Patient Info
+    queueNumber: string;
     englishName: string;
     khmerName: string;
     dateOfBirth: string;
@@ -8,6 +11,7 @@ export interface PatientData {
     phoneNumber: string;
     address: string;
     faceId: string;
+    lastUpdated: string;
     // Vitals
     height: string;
     weight: string;

@@ -1,6 +1,7 @@
 import React from 'react';
-import { EditIcon, PlusIcon, TrashIcon } from '../../assets/icons';
+// import { EditIcon, PlusIcon, TrashIcon } from '../../assets/icons';
 import { Patient } from '@/lib/types/patient';
+import { PatientTableRow } from './PatientTableRow';
 
 interface PatientTableProps {
     patients: Patient[];
@@ -8,70 +9,52 @@ interface PatientTableProps {
     onDeletePatient?: (patientId: number) => void;
 }
 
-export const PatientTable: React.FC<PatientTableProps> = ({ 
-    patients, 
-    onEditPatient, 
-    onDeletePatient 
-  }) => {
+export function PatientTable({ patients, onEditPatient, onDeletePatient}: PatientTableProps) {
     return (
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-green-default">
-            <tr>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">S/N</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">English Name</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Khmer Name</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Date of Birth</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Age</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Sex</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Phone Number</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Address</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Face ID</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Last Updated</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {patients.map((patient, index) => (
-              <tr key={patient.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 text-sm text-gray-900">{index + 1}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.englishName}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.khmerName}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.dateOfBirth}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.age}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.sex}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.phoneNumber}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.address}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.faceId}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.lastUpdated.toLocaleString()}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">
-                <div className="flex items-center gap-2">
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
 
-                    {/* Edit patient */}
-                    <button
-                    onClick={() => onEditPatient?.(patient.id)}
-                    className="text-blue-600 hover:text-blue-800"
-                    title="Edit Patient"
-                    >
-                    <EditIcon className="w-4 h-4" />
-                    </button>
-
-                    {/* Delete Patient*/}
-                    <button
-                    onClick={() => onDeletePatient?.(patient.id)}
-                    className="text-red-600 hover:text-red-800"
-                    title="Delete Patient"
-                    >
-                    <TrashIcon className="w-4 h-4" />
-                    </button>
-                </div>
-
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full table-fixed">
+            <thead className="bg-green-default">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs text-black tracking-wider">S/N</th>
+                <th className="px-4 py-3 text-left text-xs text-black tracking-wider">Queue No.</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">English Name</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Khmer Name</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Date of Birth</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Age</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Sex</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Phone No.</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Address</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Face ID</th>
+                <th className="px-4 py-3 text-left text-xs font-bold text-black tracking-wider">Last Updated</th>
+                <th className="py-3 text-left text-xs font-bold text-black tracking-wider">Actions</th>
               </tr>
-            ))}
-          </tbody>
-          
-        </table>
+            </thead>
+
+            <tbody className="bg-white divide-y divide-gray-200">
+              {patients.map((patient)=> (
+                <PatientTableRow
+                  key={patient.id}
+                  patient={patient}
+                  onEditPatient={onEditPatient}
+                  onDeletePatient={onDeletePatient}
+                />
+              ))}
+            </tbody>
+          </table>
+
+          {patients.length === 0 && (
+            <div className="text-center py-12">
+              <h3 className="mt-4 text-lg font-mediu, text-gray-900">No Patients Found</h3>
+              <p className="mt-2 text-gray-500">
+                Try adjusting your search criteria or check your spelling.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
-    );
-  };
+    )
+}
+
+        
