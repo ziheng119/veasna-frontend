@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface PatientData {
+    queueNumber: string;
     englishName: string;
     khmerName: string;
     dateOfBirth: string;
@@ -17,6 +18,8 @@ interface Props {
 }
 
 export default function PatientInfo({ patient, onUpdatePatient}: Props) {
+
+    // Restrictions for respective inputs 
     const handleChange = (field: keyof PatientData, value: string) => {
         if (field === 'age' || field === 'phoneNumber') {
             const regex = /^\d*$/; // only Integers
@@ -33,6 +36,7 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
         };
     }
 
+    // Helper function to calculate age
     const calculateAge = () => {
         if (!patient.dateOfBirth) return;
 

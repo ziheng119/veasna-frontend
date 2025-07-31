@@ -7,11 +7,11 @@ import Vitals from './Vitals';
 import HEF from './HEF';
 import { useState, useEffect } from 'react';
 import SaveButton from '@/components/shared/SaveButton';
-import { PatientData } from '@/lib/types/PatientData';
+import { PatientFormData } from '@/lib/types/PatientData';
 
 interface Props {
-    patient: PatientData;
-    onUpdatePatient: (updates: Partial<PatientData>) => void;
+    patient: PatientFormData;
+    onUpdatePatient: (updates: Partial<PatientFormData>) => void;
     onSave: () => void;
     onCancel: () => void;
     isSaving?: boolean;

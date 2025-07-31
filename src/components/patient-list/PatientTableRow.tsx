@@ -1,4 +1,4 @@
-import { EditIcon, TrashIcon } from "@/assets/icons";
+import { EditIcon, EyeIcon, TrashIcon } from "@/assets/icons";
 import { Patient } from "@/lib/types/patient";
 
 interface PatientTableRowProps {
@@ -23,6 +23,15 @@ export function PatientTableRow({ patient, onEditPatient, onDeletePatient}: Pati
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.lastUpdated.toLocaleString()}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">
                     <div className="flex items-center gap-2">
+
+                        {/* View Patient */}
+                        <button
+                        onClick={() => console.log('View Patient clicked')}
+                        className="text-green-600 hover:text-green-800"
+                        title="View patient"
+                        >
+                            <EyeIcon className="w-4- h-4"/>
+                        </button>
 
                         {/* Edit patient */}
                         <button
