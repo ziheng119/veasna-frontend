@@ -33,7 +33,6 @@ export function PatientTable({ patients, onEditPatient, onDeletePatient}: Patien
           <table className="w-full table-fixed">
             <thead className="bg-green-default">
               <tr>
-                <th className="w-1/22 px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">S/N</th>
                 <th className="w-1/12 px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">Queue No.</th>
                 <th className="px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">English Name</th>
                 <th className="px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">Khmer Name</th>

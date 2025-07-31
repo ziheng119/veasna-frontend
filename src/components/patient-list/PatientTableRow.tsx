@@ -10,7 +10,6 @@ interface PatientTableRowProps {
 export function PatientTableRow({ patient, onEditPatient, onDeletePatient}: PatientTableRowProps) {
     return (
         <tr className="h-16 align-middle hover:bg-blue-50 tansition-colors duration-150">
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.id}</td>
                 <td className="px-4 py-3 text-sm text-blue-500">{patient.queueNumber}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.englishName}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.khmerName}</td>
