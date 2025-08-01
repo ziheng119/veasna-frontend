@@ -15,13 +15,12 @@ export default function SevaNotesContainer() {
                 <SevaSnellensTest />
             </div>
 
-            <h2 className="text-[20px] font-semibold">Diagnosis</h2>
-            <div className="flex w-full h-[20%]">
-                <VerticalLabelInputPair />
+            <div className="flex w-full h-[30%] pt-5">
+                <VerticalLabelInputPair label="Diagnosis"/>
             </div>
 
         <div className="flex flex-col gap-2 w-full">
-            <h2 className="text-[20px] font-semibold">Date of Referral</h2>
+            <h2 className="text-[15px] font-semibold">Date of Referral</h2>
             <input
             type="date"
             placeholder="DD/MM/YYYY"
@@ -29,9 +28,8 @@ export default function SevaNotesContainer() {
             />
         </div>
 
-            <h2 className="text-[20px] font-semibold">Additional Notes</h2>
             <div className="flex w-full h-[40%]">
-                <VerticalLabelInputPair />
+                <VerticalLabelInputPair label="Additional Notes"/>
             </div>
 
 
