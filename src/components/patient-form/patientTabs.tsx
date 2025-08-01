@@ -28,25 +28,25 @@ export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel
                 return <PatientInfo 
                             patient={patient} 
                             onUpdatePatient={onUpdatePatient}
-                            isViewOnly={mode === 'view'}
+                            isViewMode={mode === 'view'}
                         />
             case VITALS_TAB:
                 return <Vitals 
                             patient={patient} 
                             onUpdatePatient={onUpdatePatient} 
-                            isViewOnly={mode === 'view'}
+                            isViewMode={mode === 'view'}
                         />
             case HEF_TAB:
                 return <HEF 
                             patient={patient} 
                             onUpdatePatient={onUpdatePatient} 
-                            isViewOnly={mode === 'view'}
+                            isViewMode={mode === 'view'}
                         />
             default:
                 return <PatientInfo 
                             patient={patient} 
                             onUpdatePatient={onUpdatePatient} 
-                            isViewOnly={mode === 'view'}
+                            isViewMode={mode === 'view'}
                         />
         }
     }

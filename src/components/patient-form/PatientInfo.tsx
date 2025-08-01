@@ -15,13 +15,19 @@ interface PatientData {
 interface Props {
     patient: PatientData;
     onUpdatePatient: (updates: Partial<PatientData>) => void;
-    isViewOnly: boolean;
+    isViewMode: boolean;
 }
 
-export default function PatientInfo({ patient, onUpdatePatient, isViewOnly}: Props) {
+export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Props) {
+
+    const inputProps = {
+        disabled: isViewMode,
+        readOnly: isViewMode,
+    };
 
     // Restrictions for respective inputs 
     const handleChange = (field: keyof PatientData, value: string) => {
+        if (isViewMode) return;
         if (field === 'age') {
             const regex = /^\d*$/; // only Integers
             if (value === '' || regex.test(value)) {

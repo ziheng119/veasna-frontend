@@ -15,12 +15,13 @@ interface PatientData {
 interface Props {
     patient: PatientData;
     onUpdatePatient: (updates: Partial<PatientData>) => void;
-    isViewOnly: boolean;
+    isViewMode: boolean;
 }
 
-export default function Vitals({patient, onUpdatePatient, isViewOnly}: Props) {
-    
+export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
+
     const handleChange = (field: keyof PatientData, value: string | boolean) => {
+        if (isViewMode) return;
         if (typeof value === 'string') {
 
             const regex0dp = /^\d*$/;
@@ -68,7 +69,7 @@ export default function Vitals({patient, onUpdatePatient, isViewOnly}: Props) {
         } else if (bmiValue < 40) {
             category = 'Obese'
         } else {
-            category = 'Severly Obese'
+            category = 'Severely Obese'
         }
 
         onUpdatePatient({
@@ -83,9 +84,9 @@ export default function Vitals({patient, onUpdatePatient, isViewOnly}: Props) {
                 return 'bg-blue-600';
             case 'Healthy Weight':
                 return 'bg-green-600';
-            case 'OverWeight':
+            case 'Overweight':
                 return 'bg-yellow-600';
-            case 'Obesity':
+            case 'Obese':
                 return 'bg-orange-600';
             case 'Severely Obese':
                 return 'bg-red-600';
