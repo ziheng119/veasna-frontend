@@ -76,7 +76,6 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
     };
 
     return (
-        <div>
         <div className='space-y-4 w-full max-w-md'>
 
                 {/* Queue Number */}
@@ -230,7 +229,6 @@ export default function PatientInfo({ patient, onUpdatePatient}: Props) {
                     />
                 </div>
 
-            </div>
         </div>
     );
 }

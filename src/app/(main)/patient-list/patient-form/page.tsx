@@ -38,14 +38,16 @@ const initialPatientData: PatientFormData = {
 
 export default async function PatientForm() {
     const router = useRouter();
+
+    // this portion checks if it is an edit or not, based on patientId
     const searchParams = useSearchParams();
     const patientId = searchParams.get('id');
     const isEdit = !!patientId;
 
     // Local state that accumulates changes from all tabs
     const [localPatient, setLocalPatient] = useState<PatientFormData>(initialPatientData);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isSaving, setIsSaving] = useState<boolean>(false);
 
     // useEffect(() => {
     //     if (isEdit && patientId) {
@@ -59,7 +61,7 @@ export default async function PatientForm() {
     //     setIsLoading(true);
     //     // try {
     //     //     // API Call for patientID calling
-    //     //     // const resnponse = await fetch(`/api/patients/${id}`);
+    //     //     // const response  = await fetch(`/api/patients/${id}`);
     //     //     // if (response.ok) {
     //     //         const patientData = await response.json();
     //     //         setLocalPatient(patientData);
