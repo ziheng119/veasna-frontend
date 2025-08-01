@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
 import { PatientFormData } from "@/lib/types/PatientData";
+import { EditIcon, EyeIcon, PlusIcon } from "@/assets/icons";
 // import { addPatient } from "@/lib/api/patient/addPatient";
 
 // Create an empty PatientData for every create ot edit request
@@ -119,9 +120,15 @@ export default async function PatientForm() {
 
     const getTitle = () => {
         if (isView) return 'View Patient';
-        if (isEdit) return 'Edit Patient';
+        if (isEdit) return `Edit Patient: ${localPatient.englishName}`;
         return 'Add New Patient';
     };
+
+    const getIcon = () => {
+        if (isView) return <EyeIcon className="h-8 w-8 text-green-500"/>
+        if (isEdit) return <EditIcon className="h-8 w-8 text-blue-600"/>
+        else return <PlusIcon className="h-8 w-8 text-green-600"/> 
+    }
 
     if (isLoading) {
         return (
@@ -135,15 +142,11 @@ export default async function PatientForm() {
     return (
         <div className='min-h-screen'>
             <div className='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:pxuct-8'>
-                <div className='mb-6'>
+                <div className='mb-6 flex items-center gap-2'>
+                    {getIcon()}
                     <h1 className='text-2xl font-bold'>
                         {getTitle()}
                     </h1>
-                    {isView && (
-                        <p className='text-sm text-gray-600 mt-1'>
-                            This patient information is in view-only mode
-                        </p>
-                    )}
                 </div>
 
                 <div className='rounded-lg shadow'>
