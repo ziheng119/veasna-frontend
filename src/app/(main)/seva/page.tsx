@@ -2,6 +2,7 @@ import SevaNotesContainer from "@/components/seva/SevaNotesContainer";
 import PatientContainer from "@/components/shared/read-only/patient-container/PatientContainer";
 import TriageContainer from "@/components/shared/read-only/triage-container/TriageContainer";
 import SearchBar from "@/components/shared/SearchBar";
+import SevaSnellenTest from "@/components/seva/SevaSnellensTest";
 
 export default function Seva() {
     return (
