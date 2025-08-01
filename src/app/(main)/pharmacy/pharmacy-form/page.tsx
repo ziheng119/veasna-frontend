@@ -1,12 +1,14 @@
 "use client";
 import React, { useState } from 'react'
 
-
 export default function PharmacyForm() {
     const [drug, setDrug] = useState({
         drugName: '',
-        stockLevel: '',
+        stockLevel: "high" as "low" | "medium" | "high",
     })
+
+    const [submittedDrugs, setSubmittedDrugs] = useState<Array<{id: string, drugName: string, stockLevel: "low" | "medium" | "high"}>>([])
+    
 
     return (
         <div className='min-h-screen'>

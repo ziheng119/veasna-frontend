@@ -2,7 +2,7 @@ interface StockLevelSelectorProps {
     currentLevel: "low" | "medium" | "high"
     drugId: string
     onStockLevelChange: (drugId: string, newLevel: "low" | "medium" | "high") => void
-  }
+}
 
 export function StockLevelSelector({ currentLevel, drugId, onStockLevelChange }: StockLevelSelectorProps) {
     return (

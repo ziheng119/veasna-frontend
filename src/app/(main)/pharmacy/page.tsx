@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/pharmacy/PageHeader"
 import { DrugSearchBar } from "@/components/pharmacy/DrugSearchBar"
 import { PlusIcon } from "@/assets/icons"
 import { useRouter } from "next/navigation"
+import { AddDrugSidebar } from "@/components/pharmacy/AddDrugSidebar"
 
 const SAMPLE_DRUGS: Drug[] = [
     { drug_id: "D001", drug_name: "Aspirin", drug_stockLevel: "high" },
@@ -32,6 +33,7 @@ export default function Pharmacy(): React.ReactElement {
     const router = useRouter();
     const [drugs, setDrugs] = useState<Drug[]>(SAMPLE_DRUGS)
     const [searchTerm, setSearchTerm] = useState<string>("")
+    const [showAddTab, setShowAddTab] = useState<boolean>(false)
 
     // if there is a change in the searchTerm or drug, filteredDrugs is recalculated
     const filteredDrugs = useMemo(() => {
@@ -47,10 +49,12 @@ export default function Pharmacy(): React.ReactElement {
         )
     }, [drugs, searchTerm])
 
+    // to change with db 
     const handleSearchChange = (term: string) => {
         setSearchTerm(term)
     }
 
+    // to change with db
     const handleStockLevelChange = (drugId: string, newLevel: "low" | "medium" | "high") => {
         setDrugs(prevDrugs =>
             prevDrugs.map((drug) => 
@@ -59,16 +63,18 @@ export default function Pharmacy(): React.ReactElement {
         )
     }
     
+    // to change with db
     const handleDeleteDrug = (drugId: string) => {
         if (window.confirm('Are you sure you want to delete this drug?')) {
             setDrugs(prevDrugs => prevDrugs.filter(drug => drug.drug_id !== drugId))
         }
     }
 
-    const onAddDrug = () => {
-        router.push("/pharmacy/pharmacy-form");
+    // to change with db
+    const handleAddDrug = (newDrug: Drug) => {
+      setDrugs(prevDrugs => [...prevDrugs, newDrug])
     }
-  
+
     return (
       <div className="min-h-screen p-6">
         <div className="max-w-7xl mx-auto">
@@ -81,19 +87,35 @@ export default function Pharmacy(): React.ReactElement {
               />
 
               <button
-                onClick={onAddDrug}
+                onClick={() => setShowAddTab(!showAddTab)}
                 className="ml-4 bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition" 
               >
                 <PlusIcon className='w-5 h-5'/>
               </button>
             </div>
           </div>
-  
-          <DrugTable 
-            drugs={filteredDrugs}
-            onStockLevelChange={handleStockLevelChange}
-            onDeleteDrug={handleDeleteDrug}
-          />
+
+          <div className="flex gap-6">
+            {/* Drug Tablee */}
+            <div className="w-2/3">
+              <DrugTable 
+                drugs={filteredDrugs}
+                onStockLevelChange={handleStockLevelChange}
+                onDeleteDrug={handleDeleteDrug}
+              />
+            </div>
+
+            {/* Add Drug Form */}
+            {showAddTab && (
+              <div className="w-1/3">
+              <AddDrugSidebar 
+                onSubmit={handleAddDrug}
+              />
+              </div>
+            )}
+            
+
+        </div>
         </div>
       </div>
     )
