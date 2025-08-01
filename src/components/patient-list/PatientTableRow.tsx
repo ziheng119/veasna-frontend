@@ -3,11 +3,12 @@ import { Patient } from "@/lib/types/patient";
 
 interface PatientTableRowProps {
     patient: Patient
+    onViewPatient?: (patientId: number) => void;
     onEditPatient?: (patientId: number) => void
     onDeletePatient?: (patientId: number) => void;
 }
 
-export function PatientTableRow({ patient, onEditPatient, onDeletePatient}: PatientTableRowProps) {
+export function PatientTableRow({ patient, onViewPatient, onEditPatient, onDeletePatient}: PatientTableRowProps) {
     return (
         <tr className="h-16 align-middle hover:bg-blue-50 tansition-colors duration-150">
                 <td className="px-4 py-3 text-sm text-blue-500">{patient.queueNumber}</td>
@@ -25,7 +26,7 @@ export function PatientTableRow({ patient, onEditPatient, onDeletePatient}: Pati
 
                         {/* View Patient */}
                         <button
-                        onClick={() => console.log('View Patient clicked', patient.id)}
+                        onClick={() => onViewPatient?.(patient.id)}
                         className="text-green-600 hover:text-green-800"
                         title="View patient"
                         >

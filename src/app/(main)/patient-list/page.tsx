@@ -52,6 +52,12 @@ export default function PatientListPage() {
       console.log('Add new patient Clicked');
       router.push('/patient-list/patient-form');
     };
+
+    // to edit with backend
+    const handleViewPatient = (patientId: number) => {
+      console.log('Viewing Patient, ', patientId);
+      router.push(`/patient-list/patient-form?id=${patientId}`);
+    }
   
     // to edit with backend
     const handleEditPatient = (patientId: number) => {
@@ -93,6 +99,7 @@ export default function PatientListPage() {
 
           <PatientTable
             patients={filteredPatients}
+            onViewPatient={handleViewPatient}
             onEditPatient={handleEditPatient}
             onDeletePatient={handleDeletePatient}
           />

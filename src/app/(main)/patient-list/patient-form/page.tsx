@@ -42,12 +42,15 @@ export default async function PatientForm() {
     // this portion checks if it is an edit or not, based on patientId
     const searchParams = useSearchParams();
     const patientId = searchParams.get('id');
-    const isEdit = !!patientId;
+    // const isEdit = !!patientId;
 
     // Local state that accumulates changes from all tabs
     const [localPatient, setLocalPatient] = useState<PatientFormData>(initialPatientData);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [isView, setIsView] = useState<boolean>(false);
+
 
     // useEffect(() => {
     //     if (isEdit && patientId) {

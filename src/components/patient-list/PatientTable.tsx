@@ -6,11 +6,12 @@ import { PersonIcon } from '@/assets/icons';
 
 interface PatientTableProps {
     patients: Patient[];
+    onViewPatient?: (patientId: number) => void
     onEditPatient?: (patientId: number) => void
     onDeletePatient?: (patientId: number) => void;
 }
 
-export function PatientTable({ patients, onEditPatient, onDeletePatient}: PatientTableProps) {
+export function PatientTable({ patients, onViewPatient, onEditPatient, onDeletePatient}: PatientTableProps) {
 
   // helper function to sort by queue number
   function sortQueueNumber(a: string, b: string): number {
@@ -55,6 +56,7 @@ export function PatientTable({ patients, onEditPatient, onDeletePatient}: Patien
                 <PatientTableRow
                   key={patient.id}
                   patient={patient}
+                  onViewPatient={onViewPatient}
                   onEditPatient={onEditPatient}
                   onDeletePatient={onDeletePatient}
                 />
