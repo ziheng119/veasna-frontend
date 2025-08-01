@@ -50,19 +50,19 @@ export default function PatientListPage() {
     // to edit with backend  
     const handleAddPatient = () => {
       console.log('Add new patient Clicked');
-      router.push('/patient-list/patient-form');
+      router.push('/patient-list/patient-form?mode=new');
     };
 
     // to edit with backend
     const handleViewPatient = (patientId: number) => {
       console.log('Viewing Patient, ', patientId);
-      router.push(`/patient-list/patient-form?id=${patientId}`);
+      router.push(`/patient-list/patient-form?mode=view&id=${patientId}`);
     }
   
     // to edit with backend
     const handleEditPatient = (patientId: number) => {
       console.log('Edit patient Clicked:', patientId);
-      router.push(`/patient-list/patient-form?id=${patientId}`);
+      router.push(`/patient-list/patient-form?mode=edit&id=${patientId}`);
     };
   
     // to edit with backend

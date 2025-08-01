@@ -15,9 +15,11 @@ interface PatientData {
 interface Props {
     patient: PatientData;
     onUpdatePatient: (updates: Partial<PatientData>) => void;
+    isViewOnly: boolean;
 }
 
-export default function Vitals({patient, onUpdatePatient }: Props) {
+export default function Vitals({patient, onUpdatePatient, isViewOnly}: Props) {
+    
     const handleChange = (field: keyof PatientData, value: string | boolean) => {
         if (typeof value === 'string') {
 

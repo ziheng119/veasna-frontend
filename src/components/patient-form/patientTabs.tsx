@@ -15,21 +15,39 @@ interface Props {
     onSave: () => void;
     onCancel: () => void;
     isSaving?: boolean;
+    mode: string;
 }
 
-export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel }: Props) {
+export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel, isSaving, mode }: Props) {
+
     const [activeTab, setActiveTab] = useState<PatientListTab>(PATIENTINFO_TAB);
 
     const applyTab = (activeTab: PatientListTab) => {
         switch (activeTab) {
             case PATIENTINFO_TAB:
-                return <PatientInfo patient={patient} onUpdatePatient={onUpdatePatient}/>
+                return <PatientInfo 
+                            patient={patient} 
+                            onUpdatePatient={onUpdatePatient}
+                            isViewOnly={mode === 'view'}
+                        />
             case VITALS_TAB:
-                return <Vitals patient={patient} onUpdatePatient={onUpdatePatient} />
+                return <Vitals 
+                            patient={patient} 
+                            onUpdatePatient={onUpdatePatient} 
+                            isViewOnly={mode === 'view'}
+                        />
             case HEF_TAB:
-                return <HEF patient={patient} onUpdatePatient={onUpdatePatient} />
+                return <HEF 
+                            patient={patient} 
+                            onUpdatePatient={onUpdatePatient} 
+                            isViewOnly={mode === 'view'}
+                        />
             default:
-                return <PatientInfo patient={patient} onUpdatePatient={onUpdatePatient} />
+                return <PatientInfo 
+                            patient={patient} 
+                            onUpdatePatient={onUpdatePatient} 
+                            isViewOnly={mode === 'view'}
+                        />
         }
     }
 
@@ -68,9 +86,13 @@ export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel
                 >
                     Cancel
                 </button>
-                <SaveButton
+                {mode !== 'view' && (
+                    <SaveButton
                     onClick={onSave}
+                    mode={mode}
                 />
+                )}
+                
             </div>
         </div>
     )

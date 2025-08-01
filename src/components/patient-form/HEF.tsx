@@ -9,9 +9,11 @@ interface PatientData {
 interface Props {
     patient: PatientData;
     onUpdatePatient: (updates: Partial<PatientData>) => void;
+    isViewOnly: boolean;
+
 }
 
-export default function HEF({patient, onUpdatePatient }: Props) {
+export default function HEF({patient, onUpdatePatient, isViewOnly}: Props) {
     const handleChange = (field: keyof PatientData, value: string) => {
         onUpdatePatient({ [field]: value});
     }

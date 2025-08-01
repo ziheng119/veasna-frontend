@@ -38,27 +38,27 @@ const initialPatientData: PatientFormData = {
 
 export default async function PatientForm() {
     const router = useRouter();
-
-    // this portion checks if it is an edit or not, based on patientId
     const searchParams = useSearchParams();
+
+    const mode = searchParams.get('mode') || 'new';
     const patientId = searchParams.get('id');
-    // const isEdit = !!patientId;
+
+    const isNew  = mode === 'new';
+    const isEdit = mode === 'edit';
+    const isView = mode === 'view';
 
     // Local state that accumulates changes from all tabs
     const [localPatient, setLocalPatient] = useState<PatientFormData>(initialPatientData);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
-    const [isEdit, setIsEdit] = useState<boolean>(false);
-    const [isView, setIsView] = useState<boolean>(false);
-
 
     // useEffect(() => {
-    //     if (isEdit && patientId) {
+    //     if ((isEdit || isView) && patientId) {
     //         // insert loadPatientData logic here
     //         console.log('Loading patient data for ID:', patientId);
     //         loadPatientData(patientId);
     //     }
-    // }, [isEdit, patientId]);
+    // }, [isEdit, isView, patientId]);
 
     // const loadPatientData = await (id: string) => {
     //     setIsLoading(true);
@@ -82,18 +82,22 @@ export default async function PatientForm() {
     // };
 
     const handleSave = async () => {
+
+        if (isView) return;
+
         setIsSaving(true);
         try {
-            if (isEdit) {
+            if (isEdit && patientId) {
                 // Case 1 : updating existing patient
                 // api call for finding the patient's id and updating the information
 
-            } else {
+            } else if (isNew) {
                 // Case 2 : Creating a new Patient
                 // api cal for inserting new patient, addPatient(localPatient);
 
                 
             }
+            router.push('/patient-list');
         } catch (error) {
             console.error('Error saving patient:', error);
         } finally {
@@ -108,8 +112,24 @@ export default async function PatientForm() {
     }
 
     const updateLocalPatient = (updates: Partial<PatientFormData>) => {
+
+        if (isView) return;
         setLocalPatient(prev => ({ ...prev, ...updates}));
     };
+
+    const getTitle = () => {
+        if (isView) return 'View Patient';
+        if (isEdit) return 'Edit Patient';
+        return 'Add New Patient';
+    };
+
+    if (isLoading) {
+        return (
+            <div className='min-h-screen flex items-center justify-center'>
+                <div className='text-lg'>Loading patient data...</div>
+            </div>
+        );
+    }
 
 
     return (
@@ -117,8 +137,13 @@ export default async function PatientForm() {
             <div className='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:pxuct-8'>
                 <div className='mb-6'>
                     <h1 className='text-2xl font-bold'>
-                        {isEdit ? 'Edit Patient' : 'Add Patient'}
+                        {getTitle()}
                     </h1>
+                    {isView && (
+                        <p className='text-sm text-gray-600 mt-1'>
+                            This patient information is in view-only mode
+                        </p>
+                    )}
                 </div>
 
                 <div className='rounded-lg shadow'>
@@ -128,6 +153,7 @@ export default async function PatientForm() {
                         onSave={handleSave}
                         onCancel={handleCancel}
                         isSaving={isSaving}
+                        mode={mode}
                     />
                 </div>
             </div>
