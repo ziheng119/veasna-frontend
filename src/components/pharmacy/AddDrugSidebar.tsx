@@ -39,7 +39,7 @@ export function AddDrugSidebar({
     onSubmit(newDrug);
     
     setDrugName("");
-    setStockLevel("medium");
+    setStockLevel("high");
   };
 
   return (

@@ -1,4 +1,4 @@
-import { CrossFaceIcon } from "@/assets/icons"
+import { DrugIcon } from "@/assets/icons"
 import { Drug } from "@/lib/types/drug"
 import { DrugTableRow } from "./DrugTableRow"
 import { useMemo } from "react"
@@ -79,7 +79,7 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
             
             {drugs.length === 0 && (
               <div className="text-center py-12">
-                <CrossFaceIcon className="mx-auto h-16 w-16 text-gray-300" />
+                <DrugIcon className="mx-auto h-16 w-16 text-gray-300" />
                 <h3 className="mt-4 text-lg font-medium text-gray-900">No drugs found</h3>
                 <p className="mt-2 text-gray-500">
                   Try adjusting your search criteria or check your spelling.
