@@ -6,7 +6,6 @@ import { Drug } from "@/lib/types/drug"
 import { PageHeader } from "@/components/pharmacy/PageHeader"
 import { DrugSearchBar } from "@/components/pharmacy/DrugSearchBar"
 import { PlusIcon } from "@/assets/icons"
-import { useRouter } from "next/navigation"
 import { AddDrugSidebar } from "@/components/pharmacy/AddDrugSidebar"
 
 const SAMPLE_DRUGS: Drug[] = [
@@ -30,7 +29,6 @@ const SAMPLE_DRUGS: Drug[] = [
 
 
 export default function Pharmacy(): React.ReactElement {
-    const router = useRouter();
     const [drugs, setDrugs] = useState<Drug[]>(SAMPLE_DRUGS)
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [showAddTab, setShowAddTab] = useState<boolean>(false)
