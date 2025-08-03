@@ -1,6 +1,8 @@
 interface Props {
   placeholder?:string
   classname?: string
+  value?: any
+  onChange?: () => void
 }
 
 export default function Input({ placeholder, classname }: Props) {
