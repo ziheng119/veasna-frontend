@@ -24,7 +24,7 @@ const mockPatients = [
     },
 ];
   
-  export default function PatientListPage() {
+  export default function Home() {
     const router = useRouter();
     const [patients, setPatients] = useState(mockPatients);
     const [searchQuery, setSearchQuery] = useState('');
