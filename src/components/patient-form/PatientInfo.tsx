@@ -81,6 +81,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
     const handleDateChange = (value: string) => {
         handleChange('dateOfBirth', value);
     };
+    
 
     return (
         <div className='space-y-4 w-full max-w-md'>
@@ -91,6 +92,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         Queue Number
                     </label>
                     <input
+                        {...inputProps}
                         type="text"
                         value={patient.queueNumber}
                         onChange={(e) => handleChange('queueNumber', e.target.value)}
@@ -104,6 +106,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         English Name
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         value={patient.englishName}
                         onChange={(e) => handleChange('englishName', e.target.value)}
@@ -116,6 +119,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         Khmer Name
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         value={patient.khmerName}
                         onChange={(e) => handleChange('khmerName', e.target.value)}
@@ -129,6 +133,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                     </label>
                     <div className='flex items-center gap-2'>
                         <input
+                            {...inputProps}
                             type='date'
                             value={patient.dateOfBirth ?
                                 patient.dateOfBirth.split('/').reverse().join('-') : ''
@@ -158,6 +163,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         Age
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
@@ -174,6 +180,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                     <div className='flex items-center gap-4'>
                         <label className='flex items-center gap-2'>
                             <input
+                                {...inputProps}
                                 type='radio'
                                 name='sex'
                                 value='M'
@@ -185,6 +192,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         </label>
                         <label className='flex items-center gap-2'>
                             <input
+                                {...inputProps}
                                 type='radio'
                                 name='sex'
                                 value='F'
@@ -203,6 +211,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         Phone Number
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
@@ -217,6 +226,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         Address
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         value={patient.address}
                         onChange={(e) => handleChange('address', e.target.value)}
@@ -229,6 +239,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         Face ID
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         value={patient.faceId}
                         onChange={(e) => handleChange('faceId', e.target.value)}

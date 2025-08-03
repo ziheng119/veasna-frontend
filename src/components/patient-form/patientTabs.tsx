@@ -55,6 +55,22 @@ export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel
         applyTab(activeTab)
     }, [activeTab])
 
+
+    // Allow users to cancel by simply clicking escape key
+    useEffect(() => {
+        const handleKeydown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onCancel();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeydown);
+        
+        return () => {
+            document.removeEventListener('keydown', handleKeydown);
+        };
+    }, [onCancel]);
+
     return (
         <div>
             <div className='flex'>
@@ -86,6 +102,7 @@ export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel
                 >
                     Cancel
                 </button>
+                
                 {mode !== 'view' && (
                     <SaveButton
                     onClick={onSave}

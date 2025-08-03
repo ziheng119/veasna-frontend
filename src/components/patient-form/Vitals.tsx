@@ -20,6 +20,11 @@ interface Props {
 
 export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
 
+    const inputProps = {
+        disabled: isViewMode,
+        readOnly: isViewMode,
+    };
+
     const handleChange = (field: keyof PatientData, value: string | boolean) => {
         if (isViewMode) return;
         if (typeof value === 'string') {
@@ -49,6 +54,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
     };
 
     const calculateBMI = () => {
+        if (isViewMode) return;
         const heightValue = parseFloat(patient.height) / 100;
         const weightValue = parseFloat(patient.weight);
 
@@ -104,6 +110,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                         Height (cm)
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
@@ -118,6 +125,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                         Weight (kg)
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         inputMode='decimal'
                         placeholder='0.00'
@@ -158,6 +166,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                             Child is below 3rd percentile (BMI by age)
                         </label>
                         <input
+                            {...inputProps}
                             type='checkbox'
                             id='below3rdPercentile'
                             checked={patient.isBelow3rdPercentile}
@@ -172,6 +181,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                         Category
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         value={patient.category}
                         onChange={(e) => handleChange('category', e.target.value)}
@@ -186,6 +196,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                     </label>
                     <div className='flex gap-2 items-center'>
                     <input
+                        {...inputProps}
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
@@ -196,6 +207,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                     />
                     <span>/</span>
                     <input
+                        {...inputProps}
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
@@ -212,6 +224,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                         Temperature (°C)
                     </label>
                     <input
+                        {...inputProps}
                         type='text'
                         inputMode='decimal'
                         pattern='[0-9]*\.?[0-9]{0,1}'
@@ -227,6 +240,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                         Additional Notes
                     </label>
                     <textarea
+                        {...inputProps}
                         value={patient.additionalNotes}
                         onChange={(e) => handleChange('additionalNotes', e.target.value)}
                         rows={4}
