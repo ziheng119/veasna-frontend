@@ -4,13 +4,14 @@
   /* Background & Text */
   --background: #E6F0FA;
   --text-primary: #000000;
-  --text-secondary: #555555;
 
   /* Primary Accent Colors */
+  --color-gray-default: #1e293b;
   --color-blue-default: #4A90E2; /* Bright, clean blue */
   --color-green-default: #9DBFAF; /* Soft muted green */
 
   /* Neutrals & Surfaces */
+  --color-light-gray-default: #ECECEC;
   --color-beige-default: #FFF9F4; /* Warm off-white for cards */
   --color-white-default: #FDFDFD; /* Pure white for surfaces */
 
@@ -23,13 +24,14 @@
     /* Background & Text */
     --background: #121A22;
     --text-primary: #D6D9DD;
-    --text-secondary: #A6B0B8;
 
     /* Primary Accent Colors */
-    --color-blue-default: #3D7FC0 ;
+    --color-gray-default: #5865F2;
+    --color-blue-default: #3D7FC0;
     --color-green-default: #5F8878;
 
     /* Neutrals & Surfaces */
+    --color-light-gray-default: #C0C0C0;
     --color-beige-default: #3B3635;
     --color-white-default: #DADADA;
 
