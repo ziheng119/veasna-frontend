@@ -1,16 +1,17 @@
 import { backend_url } from "@/constants/env_variable";
-import { User } from "../../types/user";
+import { Location } from "@/lib/types/location";
 
-export async function getUsers(): Promise<User[]> {
+export async function getLocations(): Promise<Location[]> {
   try {
-    const res = await fetch(`${backend_url}/api/users`);
+    const res = await fetch(`${backend_url}/api/locations`);
 
     if (!res.ok) {
       throw new Error(`Network response was not ok: ${res.status} ${res.statusText}`);
     }
 
     const json = await res.json();
-    const data: User[] = json;
+    const data: Location[] = json.locations;
+
     return data;
 
   } catch (err) {

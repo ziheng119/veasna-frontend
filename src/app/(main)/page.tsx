@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from 'react';
 import { PatientTable } from '@/components/patient-list/PatientTable';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/stores/useUserStore';
 import SearchBar from '@/components/shared/SearchBar';
 import { LocationIcon, PlusIcon } from '@/assets/icons';
-
+import LocationsDropdown from '@/components/shared/LocationsDropdown';
+import { useState } from 'react';
 
 /*************** MOCK DATA ********************/
 const mockPatients = [
@@ -26,9 +26,11 @@ const mockPatients = [
 
 export default function Home() {
   const router = useRouter();
-  const [patients, setPatients] = useState(mockPatients);
-  const [searchQuery, setSearchQuery] = useState('');
-  const user = useUserStore((state) => state.user);
+  
+  const [patients, setPatients] = useState(mockPatients)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const user = useUserStore((state) => state.user)
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -70,10 +72,8 @@ export default function Home() {
             width={24}
             height={24}
           />
-          <div className='flex gap-4'>
-            <p className='ml-2'>XXX</p>
-            <p className='text-blue-default hover:cursor-pointer'>(Change Location)</p>
-          </div>
+
+          <LocationsDropdown />
         </div>
         
         <PatientTable 
