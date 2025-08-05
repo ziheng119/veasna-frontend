@@ -98,7 +98,7 @@ export default async function PatientForm() {
 
                 
             }
-            router.push('/patient-list');
+            router.push('/');
         } catch (error) {
             console.error('Error saving patient:', error);
         } finally {
@@ -109,7 +109,7 @@ export default async function PatientForm() {
     const handleCancel = () => {
         // Case 3: Cancel - no chnages made to database
         // Optionally show confirmation dialog if there are unsaved changes if possible
-        router.push('/patient-list');
+        router.push('/');
     }
 
     const updateLocalPatient = (updates: Partial<PatientFormData>) => {
