@@ -37,7 +37,7 @@ const initialPatientData: PatientFormData = {
     useHEFReason: ''
 }
 
-export default async function PatientForm() {
+export default function PatientForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
