@@ -7,39 +7,14 @@ import Vitals from './Vitals';
 import HEF from './HEF';
 import { useState, useEffect } from 'react';
 import SaveButton from '@/components/shared/SaveButton';
-
-
-interface PatientData {
-    // Patient Info
-    englishName: string;
-    khmerName: string;
-    dateOfBirth: string;
-    age: string;
-    sex: string;
-    phoneNumber: string;
-    address: string;
-    faceId: string;
-    // Vitals
-    height: string;
-    weight: string;
-    bmi: string;
-    category: string;
-    isBelow3rdPercentile: boolean;
-    bloodPressureSystolic: string;
-    bloodPressureDiastolic: string;
-    temperature: string;
-    additionalNotes: string;
-    // HEF
-    knowsAboutHEF: string;
-    hasHEF: string;
-    useHEFReason: string;
-}
+import { PatientData } from '@/lib/types/PatientData';
 
 interface Props {
     patient: PatientData;
     onUpdatePatient: (updates: Partial<PatientData>) => void;
     onSave: () => void;
     onCancel: () => void;
+    isSaving?: boolean;
 }
 
 export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel }: Props) {
