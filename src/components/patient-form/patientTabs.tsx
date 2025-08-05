@@ -7,60 +7,69 @@ import Vitals from './Vitals';
 import HEF from './HEF';
 import { useState, useEffect } from 'react';
 import SaveButton from '@/components/shared/SaveButton';
-
-
-interface PatientData {
-    // Patient Info
-    englishName: string;
-    khmerName: string;
-    dateOfBirth: string;
-    age: string;
-    sex: string;
-    phoneNumber: string;
-    address: string;
-    faceId: string;
-    // Vitals
-    height: string;
-    weight: string;
-    bmi: string;
-    category: string;
-    isBelow3rdPercentile: boolean;
-    bloodPressureSystolic: string;
-    bloodPressureDiastolic: string;
-    temperature: string;
-    additionalNotes: string;
-    // HEF
-    knowsAboutHEF: string;
-    hasHEF: string;
-    useHEFReason: string;
-}
+import { PatientFormData } from '@/lib/types/PatientData';
 
 interface Props {
-    patient: PatientData;
-    onUpdatePatient: (updates: Partial<PatientData>) => void;
+    patient: PatientFormData;
+    onUpdatePatient: (updates: Partial<PatientFormData>) => void;
     onSave: () => void;
     onCancel: () => void;
+    isSaving?: boolean;
+    mode: string;
 }
 
-export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel }: Props) {
+export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel, isSaving, mode }: Props) {
+
     const [activeTab, setActiveTab] = useState<PatientListTab>(PATIENTINFO_TAB);
 
     const applyTab = (activeTab: PatientListTab) => {
         switch (activeTab) {
             case PATIENTINFO_TAB:
-                return <PatientInfo patient={patient} onUpdatePatient={onUpdatePatient}/>
+                return <PatientInfo 
+                            patient={patient} 
+                            onUpdatePatient={onUpdatePatient}
+                            isViewMode={mode === 'view'}
+                        />
             case VITALS_TAB:
-                return <Vitals patient={patient} onUpdatePatient={onUpdatePatient} />
+                return <Vitals 
+                            patient={patient} 
+                            onUpdatePatient={onUpdatePatient} 
+                            isViewMode={mode === 'view'}
+                        />
             case HEF_TAB:
-                return <HEF patient={patient} onUpdatePatient={onUpdatePatient} />
+                return <HEF 
+                            patient={patient} 
+                            onUpdatePatient={onUpdatePatient} 
+                            isViewMode={mode === 'view'}
+                        />
             default:
-                return <PatientInfo patient={patient} onUpdatePatient={onUpdatePatient} />
+                return <PatientInfo 
+                            patient={patient} 
+                            onUpdatePatient={onUpdatePatient} 
+                            isViewMode={mode === 'view'}
+                        />
         }
     }
 
     useEffect(() => {
         applyTab(activeTab)
     }, [activeTab])
+
+
+    // Allow users to cancel by simply clicking escape key
+    useEffect(() => {
+        const handleKeydown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onCancel();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeydown);
+        
+        return () => {
+            document.removeEventListener('keydown', handleKeydown);
+        };
+    }, [onCancel]);
 
     return (
         <div>
@@ -93,9 +102,14 @@ export default function PatientTabs({ patient, onUpdatePatient, onSave, onCancel
                 >
                     Cancel
                 </button>
-                <SaveButton
+                
+                {mode !== 'view' && (
+                    <SaveButton
                     onClick={onSave}
+                    mode={mode}
                 />
+                )}
+                
             </div>
         </div>
     )

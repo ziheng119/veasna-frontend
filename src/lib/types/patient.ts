@@ -1,5 +1,6 @@
 export interface Patient {
     id: number;
+    queueNumber: string;
     englishName: string;
     khmerName: string;
     dateOfBirth: string;
