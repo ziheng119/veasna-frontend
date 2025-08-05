@@ -1,87 +1,114 @@
 "use client";
 
+import React, { useState, useMemo } from 'react';
+import { FullSearchBar } from '@/components/patient-list/FullSearchBar';
 import { PatientTable } from '@/components/patient-list/PatientTable';
 import { useRouter } from 'next/navigation';
-import { useUserStore } from '@/stores/useUserStore';
-import SearchBar from '@/components/shared/SearchBar';
+// import { getAllPatients } from '@/lib/api/patient/getAllPatients';
+// import { addPatient } from '@/lib/api/patient/addPatient';
+import { Patient } from '@/lib/types/patient';
 import { LocationIcon, PlusIcon } from '@/assets/icons';
+import { PatientPageHeader } from '@/components/patient-list/PageHeader';
+import { SAMPLE_PATIENTS } from '@/sampleData/SAMPLE_PATIENTS';
 import LocationsDropdown from '@/components/shared/LocationsDropdown';
-import { useState } from 'react';
 
-/*************** MOCK DATA ********************/
-const mockPatients = [
-  {
-    id: 1,
-    englishName: 'Sovannary',
-    khmerName: 'សុវណ្ណារី',
-    dateOfBirth: '01/01/2011',
-    age: 14,
-    sex: 'F' as const,
-    phoneNumber: '+855 XX XXX XXXX',
-    address: '',
-    faceId: 1,
-    lastUpdated: '13-07-2025' // Requires implementation of last-updates
-  },
-];
-
-export default function Home() {
-  const router = useRouter();
   
-  const [patients, setPatients] = useState(mockPatients)
-  const [searchQuery, setSearchQuery] = useState('')
+export default function PatientListPage() {
 
-  const user = useUserStore((state) => state.user)
+  const router = useRouter();
+  const [patients, setPatients] = useState<Patient[]>(SAMPLE_PATIENTS);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    console.log('Searching for:', query);
-  };
+    const filteredPatients = useMemo(() => {
+      if (!searchTerm.trim()) {
+        return patients;
+      }
 
-  const handleAddPatient = () => {
-    console.log('Add new patient Clicked');
-    console.log('[DEBUG] Routing to /patient-list/patient-form');
-    router.push('/patient-list/patient-form');
-  };
+      // is there a toLowerCase for khmer strings?
+      const searchLower = searchTerm.toLowerCase()
 
-  const handleEditPatient = (patientId: number) => {
-    console.log('Edit patient Clicked:', patientId);
-    router.push(`/patient-list/patient-form?id=${patientId}`);
-  };
+      return patients.filter((patient) => {
+        const searchNum = parseInt(searchLower, 10);
+        const queueMatch = (() => {
+          const numMatch = patient.queueNumber.match(/^\d+/); // Extract leading digits
+          if (!numMatch) return false;
+          const queueNum = parseInt(numMatch[0], 10);
+          return !isNaN(searchNum) && queueNum >= searchNum;
+        })();
+      
+        return (
+          patient.englishName.toLowerCase().includes(searchLower) ||
+          patient.khmerName.toLowerCase().includes(searchLower) ||
+          queueMatch
+        );
+      });
+    }, [patients, searchTerm])
 
-  const handleDeletePatient = (patientId: number) => {
-    console.log('Delete patient Clicked:', patientId);      
-  };
+    const handleSearchChange = (term: string) => {
+      setSearchTerm(term);
+    }
+    
+    // to edit with backend  
+    const handleAddPatient = () => {
+      console.log('Add new patient Clicked');
+      router.push('/patient-form?mode=new');
+    };
 
-  return (
-    <div className='flex flex-col gap-4'>
-      <h1 className="text-[30px] font-bold">Welcome {user?.username}!</h1>
+    // to edit with backend
+    const handleViewPatient = (patientId: number) => {
+      console.log('Viewing Patient, ', patientId);
+      router.push(`/patient-form?mode=view&id=${patientId}`);
+    }
+  
+    // to edit with backend
+    const handleEditPatient = (patientId: number) => {
+      console.log('Edit patient Clicked:', patientId);
+      router.push(`/patient-form?mode=edit&id=${patientId}`);
+    };
+  
+    // to edit with backend
+    const handleDeletePatient = (patientId: number) => {
+      if (window.confirm('Are you sure you want to delete this patient?')){
+        // temporarily show that it was deleted here
+        setPatients(prevPatients => prevPatients.filter(patient => patient.id !== patientId))
+        console.log('Delete patient Clicked:', patientId);      
+      }
+    };
+  
+    return (
+      <div className="min-h-screen p-6">
+        <div className="flex flex-col gap-2 max-w-7xl mx-auto">
+          <PatientPageHeader/>
 
-      <div className='flex'>
-        <SearchBar />
-        <button
-            onClick={handleAddPatient}
-            className='bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition-colors'
-        > 
-            <PlusIcon className='w-5 h-5'/>
-        </button>
-      </div>
+          <div className='flex items-center justify-between'>
+            <FullSearchBar
+              placeholder= "Search for Patient by English Name or Khmer Name"
+              onSearchChange={handleSearchChange}
+            />
 
-      <div className='flex flex-col gap-2'>
-        <div className='flex'>
-          <LocationIcon 
-            width={24}
-            height={24}
+            <button
+              onClick={handleAddPatient}
+              className="ml-4 bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition"
+            >
+              <PlusIcon className="w-5 h-5"/>
+            </button>
+          </div>
+
+          <div className='flex'>
+            <LocationIcon 
+              width={24}
+              height={24}
+            />
+            <LocationsDropdown />
+          </div>  
+
+          <PatientTable
+            patients={filteredPatients}
+            onViewPatient={handleViewPatient}
+            onEditPatient={handleEditPatient}
+            onDeletePatient={handleDeletePatient}
           />
-
-          <LocationsDropdown />
         </div>
-        
-        <PatientTable 
-          patients={patients}
-          onEditPatient={handleEditPatient}
-          onDeletePatient={handleDeletePatient}
-        />
       </div>
-    </div>
-  );
+    )
 }
