@@ -1,5 +1,4 @@
 import Input from "../shared/react-components/Input";
-import SaveButton from "../shared/SaveButton";
 import VerticalLabelInputPair from "../shared/VerticalLabelInputPair";
 
 export default function SevaSnellensTest() {

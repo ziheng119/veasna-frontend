@@ -1,7 +1,7 @@
 interface Props {
   placeholder?:string
   classname?: string
-  value?: any
+  value?: string
   onChange?: () => void
 }
 
