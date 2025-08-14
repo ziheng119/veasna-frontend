@@ -25,24 +25,21 @@ export default function LocationsDropdown() {
   }
 
   useEffect(() => {
-    // remove and replace with below code once api fetching is ready
-    setLocations(defaultLocations)
+    async function fetchLocations() {
+      try {
+        const locationsData = await getLocations();
+        if (locationsData.length === 0) {
+          setLocations(defaultLocations);
+        } else {
+          setLocations(locationsData);
+        }
+      } catch (err) {
+        console.error(err);
+        setLocations(defaultLocations);
+      }
+    }
 
-    // async function fetchLocations() {
-    //   try {
-    //     const locationsData = await getLocations();
-    //     if (locationsData.length === 0) {
-    //       setLocations(defaultLocations);
-    //     } else {
-    //       setLocations(locationsData);
-    //     }
-    //   } catch (err) {
-    //     console.error(err);
-    //     setLocations(defaultLocations);
-    //   }
-    // }
-
-    // fetchLocations();
+    fetchLocations();
   }, []);
 
   useEffect(() => {
