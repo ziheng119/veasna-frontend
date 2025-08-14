@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import SaveButton from "../shared/SaveButton"
 import VerticalLabelInputPair from "../shared/VerticalLabelInputPair"
 import SevaSnellensTest from "./SevaSnellensTest"
@@ -10,7 +9,7 @@ export default function SevaNotesContainer() {
     return (
         <div className="flex flex-col gap-4 bg-beige-default px-4 py-2 rounded-md border-[1px] lg:w-[30%]">
 
-            <h2 className="text-[20px] font-semibold">New Snellen's Test</h2>
+            <h2 className="text-[20px] font-semibold">New Snellen&apos;s Test</h2>
             <div className="flex w-full h-[30%]">
                 <SevaSnellensTest />
             </div>

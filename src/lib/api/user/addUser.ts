@@ -3,7 +3,6 @@ import { User } from "../../types/user";
 
 export async function addUser(newUser: User): Promise<User> {
   try {
-    console.log("adding user")
     const res = await fetch(`${backend_url}/api/users`, {
       method: "POST",
       headers: {
@@ -20,7 +19,7 @@ export async function addUser(newUser: User): Promise<User> {
     return createdUser;
 
   } catch (error) {
-    console.error("Add user error:", error);
+    console.error("POST error:", error);
     throw error;
   }
 }

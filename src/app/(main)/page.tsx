@@ -7,9 +7,10 @@ import { useRouter } from 'next/navigation';
 // import { getAllPatients } from '@/lib/api/patient/getAllPatients';
 // import { addPatient } from '@/lib/api/patient/addPatient';
 import { Patient } from '@/lib/types/patient';
-import { PlusIcon } from '@/assets/icons';
+import { LocationIcon, PlusIcon } from '@/assets/icons';
 import { PatientPageHeader } from '@/components/patient-list/PageHeader';
 import { SAMPLE_PATIENTS } from '@/sampleData/SAMPLE_PATIENTS';
+import LocationsDropdown from '@/components/shared/LocationsDropdown';
 
   
 export default function PatientListPage() {
@@ -76,27 +77,30 @@ export default function PatientListPage() {
   
     return (
       <div className="min-h-screen p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
+        <div className="flex flex-col gap-2 max-w-7xl mx-auto">
+          <PatientPageHeader/>
 
-            {/* Page Header */}
-            <PatientPageHeader/>
+          <div className='flex items-center justify-between'>
+            <FullSearchBar
+              placeholder= "Search for Patient by English Name or Khmer Name"
+              onSearchChange={handleSearchChange}
+            />
 
-            <div className='flex items-center justify-between'>
-              <FullSearchBar
-                placeholder= "Search for Patient by English Name or Khmer Name"
-                onSearchChange={handleSearchChange}
-              />
-
-              <button
-                onClick={handleAddPatient}
-                className="ml-4 bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition"
-              >
-                <PlusIcon className="w-5 h-5"/>
-              </button>
-
-            </div>
+            <button
+              onClick={handleAddPatient}
+              className="ml-4 bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition"
+            >
+              <PlusIcon className="w-5 h-5"/>
+            </button>
           </div>
+
+          <div className='flex'>
+            <LocationIcon 
+              width={24}
+              height={24}
+            />
+            <LocationsDropdown />
+          </div>  
 
           <PatientTable
             patients={filteredPatients}
@@ -106,5 +110,5 @@ export default function PatientListPage() {
           />
         </div>
       </div>
-    );
+    )
 }
