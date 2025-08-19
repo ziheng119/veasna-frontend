@@ -23,9 +23,9 @@ export default function PatientListPage() {
         return patients;
       }
 
-      // is there a toLowerCase for khmer strings?
       const searchLower = searchTerm.toLowerCase()
 
+      // filters list of patients by english name, khmer name or queue Number 
       return patients.filter((patient) => {
         const searchNum = parseInt(searchLower, 10);
         const queueMatch = (() => {

@@ -28,7 +28,7 @@ const SAMPLE_DRUGS: Drug[] = [
   
 
 
-export default function Pharmacy(): React.ReactElement {
+export default function Pharmacy() {
     const [drugs, setDrugs] = useState<Drug[]>(SAMPLE_DRUGS)
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [showAddTab, setShowAddTab] = useState<boolean>(false)
