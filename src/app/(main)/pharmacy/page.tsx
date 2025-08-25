@@ -4,9 +4,9 @@ import React, { useMemo, useState } from "react"
 import { DrugTable } from "@/components/pharmacy/DrugTable"
 import { Drug } from "@/lib/types/drug"
 import { PageHeader } from "@/components/pharmacy/PageHeader"
-import { DrugSearchBar } from "@/components/pharmacy/DrugSearchBar"
 import { PlusIcon } from "@/assets/icons"
 import { AddDrugSidebar } from "@/components/pharmacy/AddDrugSidebar"
+import { FullSearchBar } from "@/components/patient-list/FullSearchBar"
 
 const SAMPLE_DRUGS: Drug[] = [
     { drug_id: "D001", drug_name: "Aspirin", drug_stockLevel: "high" },
@@ -28,7 +28,7 @@ const SAMPLE_DRUGS: Drug[] = [
   
 
 
-export default function Pharmacy(): React.ReactElement {
+export default function Pharmacy() {
     const [drugs, setDrugs] = useState<Drug[]>(SAMPLE_DRUGS)
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [showAddTab, setShowAddTab] = useState<boolean>(false)
@@ -80,8 +80,9 @@ export default function Pharmacy(): React.ReactElement {
             <PageHeader />
           
             <div className="flex items-center justify-between">
-              <DrugSearchBar
-                onSearchChange={handleSearchChange}
+              <FullSearchBar
+               onSearchChange={handleSearchChange}
+               placeholder={"Search drugs or ID..."}
               />
 
               <button

@@ -8,7 +8,9 @@ import { Patient } from '@/lib/types/patient';
 import { useUserStore } from '@/stores/useUserStore';
 import QueueTable from '@/components/home/QueueTable';
 import QueuePatient from '@/components/home/QueuePatient';
+import { PatientTable } from '@/components/patient-list/PatientTable';
 import { SAMPLE_PATIENTS } from '@/sample_data/sample_patients';
+// import LocationsDropdown from '@/components/shared/LocationsDropdown';
 
   
 export default function HomePage() {
@@ -24,9 +26,9 @@ export default function HomePage() {
         return patients;
       }
 
-      // is there a toLowerCase for khmer strings?
       const searchLower = searchTerm.toLowerCase()
 
+      // filters list of patients by english name, khmer name or queue Number 
       return patients.filter((patient) => {
         const searchNum = parseInt(searchLower, 10);
         const queueMatch = (() => {
@@ -142,6 +144,20 @@ export default function HomePage() {
           onDeletePatient={handleDeletePatient}
         /> */}
 
-      </div>
+          {/* <div className='flex'>
+            <LocationIcon 
+              width={24}
+              height={24}
+            />
+            <LocationsDropdown />
+          </div>   */}
+
+          {/* <PatientTable
+            patients={filteredPatients}
+            onViewPatient={handleViewPatient}
+            onEditPatient={handleEditPatient}
+            onDeletePatient={handleDeletePatient}
+          /> */}
+        </div>
     )
 }
