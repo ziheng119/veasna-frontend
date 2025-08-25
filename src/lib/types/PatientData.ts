@@ -1,5 +1,3 @@
-import { Patient } from "./patient";
-
 export interface PatientFormData {
     // Patient Info
     queueNumber: string;

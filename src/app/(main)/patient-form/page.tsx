@@ -3,7 +3,7 @@
 import PatientTabs from "@/components/patient-form/patientTabs";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PatientFormData } from "@/lib/types/PatientData";
 import { EditIcon, EyeIcon, PlusIcon } from "@/assets/icons";
 // import { addPatient } from "@/lib/api/patient/addPatient";

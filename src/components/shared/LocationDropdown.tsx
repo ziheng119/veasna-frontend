@@ -1,7 +1,8 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import { useLocationStore, type Location } from '@/stores/useLocationStore';
+import { useLocationStore } from '@/stores/useLocationStore';
 import { EditIcon, LocationIcon, PlusIcon, TrashIcon } from '@/assets/icons';
+import { Location } from '@/lib/types/location';
 
 export default function LocationDropdown() {
   const { locations, currentLocation, setCurrentLocation, addLocation, removeLocation } = useLocationStore();
