@@ -1,6 +1,5 @@
 import { Patient } from "@/lib/types/patient";
 
-/*************** MOCK DATA ********************/
 export const SAMPLE_PATIENTS: Patient[] = [
     {
       id: 1,

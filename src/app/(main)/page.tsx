@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { FullSearchBar } from '@/components/patient-list/FullSearchBar';
-import { PatientTable } from '@/components/patient-list/PatientTable';
 import { useRouter } from 'next/navigation';
 // import { getAllPatients } from '@/lib/api/patient/getAllPatients';
 // import { addPatient } from '@/lib/api/patient/addPatient';
 import { Patient } from '@/lib/types/patient';
-import { LocationIcon, PlusIcon } from '@/assets/icons';
-import { PatientPageHeader } from '@/components/patient-list/PageHeader';
-import { SAMPLE_PATIENTS } from '@/sampleData/SAMPLE_PATIENTS';
-import LocationsDropdown from '@/components/shared/LocationsDropdown';
+import { useUserStore } from '@/stores/useUserStore';
+import QueueTable from '@/components/home/QueueTable';
+import QueuePatient from '@/components/home/QueuePatient';
+import { SAMPLE_PATIENTS } from '@/sample_data/sample_patients';
 
   
-export default function PatientListPage() {
+export default function HomePage() {
+
+  const username = useUserStore((state) => state.user)?.username
 
   const router = useRouter();
   const [patients, setPatients] = useState<Patient[]>(SAMPLE_PATIENTS);
@@ -76,39 +76,61 @@ export default function PatientListPage() {
     };
   
     return (
-      <div className="min-h-screen p-6">
-        <div className="flex flex-col gap-2 max-w-7xl mx-auto">
-          <PatientPageHeader/>
+      <div className="min-h-screen flex flex-col gap-y-2.5">
 
-          <div className='flex items-center justify-between'>
-            <FullSearchBar
-              placeholder= "Search for Patient by English Name or Khmer Name"
-              onSearchChange={handleSearchChange}
-            />
+        <h1 className='text-3xl font-bold mb-4.5'>Welcome {username}!</h1>
 
-            <button
-              onClick={handleAddPatient}
-              className="ml-4 bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition"
-            >
-              <PlusIcon className="w-5 h-5"/>
-            </button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Overall Summary Card */}
+          <div className="bg-beige-default p-4 rounded-lg shadow flex flex-col gap-3">
+            <h3 className="text-xl font-semibold border-b pb-2">Overall Summary</h3>
+            <div className="flex justify-between">
+              <span>Location A:</span>
+              <span className="font-medium">100</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Location B:</span>
+              <span className="font-medium">200</span>
+            </div>
           </div>
 
-          <div className='flex'>
-            <LocationIcon 
-              width={24}
-              height={24}
-            />
-            <LocationsDropdown />
-          </div>  
-
-          <PatientTable
-            patients={filteredPatients}
-            onViewPatient={handleViewPatient}
-            onEditPatient={handleEditPatient}
-            onDeletePatient={handleDeletePatient}
-          />
+          {/* Today's Summary Card */}
+          <div className="bg-beige-default p-4 rounded-lg shadow flex flex-col gap-3">
+            <h3 className="text-xl font-semibold border-b pb-2">Today's Summary</h3>
+            <div className="flex justify-between">
+              <span>Number of Patients:</span>
+              <span className="font-medium">100</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Location:</span>
+              <span className="font-medium">BLAHBLAHBLAH</span>
+            </div>
+          </div>
         </div>
+
+        <h2 className='text-2xl font-semibold mt-4.5'>Today&apos;s Patients</h2>
+
+      <div className="flex flex-col lg:flex-row max-w-full">
+        {/* QueueTable takes less space */}
+        <div className="flex-[7] min-w-0">
+          <QueueTable />
+        </div>
+
+        {/* QueuePatient takes more space */}
+        <div className="flex-[3] min-w-0">
+          <QueuePatient />
+        </div>
+      </div>
+
+
+
+        {/* <PatientTable
+          patients={filteredPatients}
+          onViewPatient={handleViewPatient}
+          onEditPatient={handleEditPatient}
+          onDeletePatient={handleDeletePatient}
+        /> */}
+
       </div>
     )
 }
