@@ -96,7 +96,7 @@ export default function HomePage() {
 
           {/* Today's Summary Card */}
           <div className="bg-beige-default p-4 rounded-lg shadow flex flex-col gap-3">
-            <h3 className="text-xl font-semibold border-b pb-2">Today's Summary</h3>
+            <h3 className="text-xl font-semibold border-b pb-2">Today&apos;s Summary</h3>
             <div className="flex justify-between">
               <span>Number of Patients:</span>
               <span className="font-medium">100</span>
@@ -110,19 +110,30 @@ export default function HomePage() {
 
         <h2 className='text-2xl font-semibold mt-4.5'>Today&apos;s Patients</h2>
 
-      <div className="flex flex-col lg:flex-row max-w-full">
-        {/* QueueTable takes less space */}
-        <div className="flex-[7] min-w-0">
-          <QueueTable />
+        <div className="flex flex-col lg:flex-row max-w-full">
+          {/* QueueTable takes less space */}
+          <div className="flex-[7] min-w-0">
+            <QueueTable />
+          </div>
+
+          {/* QueuePatient takes more space */}
+          <div className="flex-[3] min-w-0">
+            <QueuePatient />
+          </div>
         </div>
 
-        {/* QueuePatient takes more space */}
-        <div className="flex-[3] min-w-0">
-          <QueuePatient />
+        <h2 className='text-2xl font-semibold mt-4.5'>All Locations&apos; Patients</h2>
+        <div className="flex flex-col gap-2 mt-2">
+          {["Location A", "Location B", "Location C"].map((location) => (
+            <button
+              key={location}
+              onClick={() => router.push(`/patients?location=${encodeURIComponent(location)}`)}
+              className="text-left px-4 py-2 bg-white hover:bg-blue-50 border rounded shadow-sm font-medium transition"
+            >
+              {location}
+            </button>
+          ))}
         </div>
-      </div>
-
-
 
         {/* <PatientTable
           patients={filteredPatients}
