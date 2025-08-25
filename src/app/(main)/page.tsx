@@ -10,7 +10,7 @@ import { Patient } from '@/lib/types/patient';
 import { LocationIcon, PlusIcon } from '@/assets/icons';
 import { PatientPageHeader } from '@/components/patient-list/PageHeader';
 import { SAMPLE_PATIENTS } from '@/sampleData/SAMPLE_PATIENTS';
-import LocationsDropdown from '@/components/shared/LocationsDropdown';
+// import LocationsDropdown from '@/components/shared/LocationsDropdown';
 
   
 export default function PatientListPage() {
@@ -94,13 +94,13 @@ export default function PatientListPage() {
             </button>
           </div>
 
-          <div className='flex'>
+          {/* <div className='flex'>
             <LocationIcon 
               width={24}
               height={24}
             />
             <LocationsDropdown />
-          </div>  
+          </div>   */}
 
           <PatientTable
             patients={filteredPatients}
