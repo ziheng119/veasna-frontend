@@ -7,10 +7,10 @@ import { useRouter } from 'next/navigation';
 // import { getAllPatients } from '@/lib/api/patient/getAllPatients';
 // import { addPatient } from '@/lib/api/patient/addPatient';
 import { Patient } from '@/lib/types/patient';
-import { LocationIcon, PlusIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 import { PatientPageHeader } from '@/components/patient-list/PageHeader';
 import { SAMPLE_PATIENTS } from '@/sampleData/SAMPLE_PATIENTS';
-import LocationsDropdown from '@/components/shared/LocationsDropdown';
+// import LocationsDropdown from '@/components/shared/LocationsDropdown';
 
   
 export default function PatientListPage() {
@@ -24,9 +24,9 @@ export default function PatientListPage() {
         return patients;
       }
 
-      // is there a toLowerCase for khmer strings?
       const searchLower = searchTerm.toLowerCase()
 
+      // filters list of patients by english name, khmer name or queue Number 
       return patients.filter((patient) => {
         const searchNum = parseInt(searchLower, 10);
         const queueMatch = (() => {
@@ -94,13 +94,13 @@ export default function PatientListPage() {
             </button>
           </div>
 
-          <div className='flex'>
+          {/* <div className='flex'>
             <LocationIcon 
               width={24}
               height={24}
             />
             <LocationsDropdown />
-          </div>  
+          </div>   */}
 
           <PatientTable
             patients={filteredPatients}
