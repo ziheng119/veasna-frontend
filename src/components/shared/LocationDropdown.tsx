@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { useLocationStore } from '@/stores/useLocationStore';
-import { EditIcon, LocationIcon, PlusIcon, TrashIcon } from '@/assets/icons';
+import { LocationIcon, PlusIcon, TrashIcon } from '@/assets/icons';
 import { Location } from '@/lib/types/location';
 
 export default function LocationDropdown() {

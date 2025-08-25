@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 // import { getAllPatients } from '@/lib/api/patient/getAllPatients';
 // import { addPatient } from '@/lib/api/patient/addPatient';
 import { Patient } from '@/lib/types/patient';
-import { LocationIcon, PlusIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 import { PatientPageHeader } from '@/components/patient-list/PageHeader';
 import { SAMPLE_PATIENTS } from '@/sampleData/SAMPLE_PATIENTS';
 // import LocationsDropdown from '@/components/shared/LocationsDropdown';
