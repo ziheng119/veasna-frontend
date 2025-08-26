@@ -8,8 +8,6 @@ interface Prop {
 
 export default function QueuePatientTable({ patients }: Prop) {
 
-  console.log("RAHHH:", patients)
-
   const [faceId, setFaceId] = useState<string>("");
   const [englishName, setEnglishName] = useState<string>("");
   const [khmerName, setKhmerName] = useState<string>("");
