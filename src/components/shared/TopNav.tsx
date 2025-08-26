@@ -44,17 +44,18 @@ export default function TopNav() {
             Seva
           </Link>
           <Link
-            href="/doctors-consultation"
-            className={`${linkBaseClass} ${isActive('/doctors-consultation') ? activeLinkClass : inactiveLinkClass}`}
-          >
-            Consult
-          </Link>
-          <Link
             href="/physiotherapy"
             className={`${linkBaseClass} ${isActive('/physiotherapy') ? activeLinkClass : inactiveLinkClass}`}
           >
             Physiotherapy
           </Link>
+          <Link
+            href="/doctors-consultation"
+            className={`${linkBaseClass} ${isActive('/doctors-consultation') ? activeLinkClass : inactiveLinkClass}`}
+          >
+            Consult
+          </Link>
+          
           <Link
             href="/pharmacy"
             className={`${linkBaseClass} ${isActive('/pharmacy') ? activeLinkClass : inactiveLinkClass}`}
