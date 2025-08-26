@@ -43,7 +43,7 @@ export default function HistoryContainer() {
   return (
     <>
       <div className="flex justify-between">
-        <h2 className="text-[20px] font-semibold">History</h2>
+        <h2 className="text-[20px] font-semibold">Patient History</h2>
         <div
           className="flex items-center justify-center hover:cursor-pointer"
           onClick={() => setShowPopUp(true)}
