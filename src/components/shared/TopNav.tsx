@@ -26,6 +26,12 @@ export default function TopNav() {
             Home
           </Link>
           <Link
+            href="/patient-list"
+            className={`${linkBaseClass} ${isActive('/patient-list') ? activeLinkClass : inactiveLinkClass}`}
+          >
+            Patient List
+          </Link>
+          <Link
             href="/triage"
             className={`${linkBaseClass} ${isActive('/triage') ? activeLinkClass : inactiveLinkClass}`}
           >

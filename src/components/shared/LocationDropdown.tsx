@@ -42,7 +42,7 @@ export default function LocationDropdown() {
     }
   };
 
-  const handleDeleteLocation = (locationId: string, e: React.MouseEvent) => {
+  const handleDeleteLocation = (locationId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     removeLocation(locationId);
   };
@@ -61,8 +61,9 @@ export default function LocationDropdown() {
     e.preventDefault();
     if (newLocationName.trim()) {
       const newLocation: Location = {
-        id: Date.now().toString(),
+        id: 0,                                          // should obtain id from backend
         name: newLocationName.trim(),
+        is_active: true,
       };
       addLocation(newLocation);
       setNewLocationName('');
