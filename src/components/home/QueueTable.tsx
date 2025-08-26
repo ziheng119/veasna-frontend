@@ -1,7 +1,11 @@
-import { SAMPLE_PATIENTS_IN_QUEUE } from "@/sample_data/sample_patients_in_queue";
+import { QueuePatientData } from "@/lib/types/queue_patient_data";
 import QueueTableRow from "./QueueTableRow"
 
-export default function QueueTable() {
+interface Prop {
+  patients: QueuePatientData[];
+}
+
+export default function QueueTable({ patients }: Prop) {
   function sortQueueNumber(a: string, b: string): number {
     const extractParts = (q: string): [number, string] => {
       const match = q.match(/^(\d+)([A-Za-z]*)$/);
@@ -35,7 +39,7 @@ export default function QueueTable() {
           </thead>
 
           <tbody className="bg-white-default divide-y divide-gray-200">
-            {SAMPLE_PATIENTS_IN_QUEUE
+            {patients
               .sort((patient_a, patient_b) => sortQueueNumber(patient_a.queue_no, patient_b.queue_no))
               .map((patient, i)  => (
                 <QueueTableRow 

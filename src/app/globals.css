@@ -9,6 +9,7 @@
   --color-gray-default: #1e293b;
   --color-blue-default: #4A90E2; /* Bright, clean blue */
   --color-green-default: #9DBFAF; /* Soft muted green */
+  --color-dark-green-default: #86A891;
 
   /* Neutrals & Surfaces */
   --color-light-gray-default: #ECECEC;
@@ -29,6 +30,7 @@
     --color-gray-default: #5865F2;
     --color-blue-default: #3D7FC0;
     --color-green-default: #5F8878;
+    --color-dark-green-default: #517566;
 
     /* Neutrals & Surfaces */
     --color-light-gray-default: #C0C0C0;

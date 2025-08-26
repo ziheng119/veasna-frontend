@@ -1,13 +1,12 @@
 export interface Patient {
     id: number;
-    queueNumber: string;
     englishName: string;
     khmerName: string;
     dateOfBirth: string;
-    age: number;
-    sex: 'M' | 'F';
+    age: string;
+    sex: 'Male' | 'Female';
     phoneNumber: string;
     address: string;
-    faceId: number;
+    faceId: string;
     lastUpdated: string;
 }

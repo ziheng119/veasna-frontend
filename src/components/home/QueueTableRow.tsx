@@ -1,7 +1,7 @@
-import { QueuePatient } from "@/lib/types/queue_patient"
+import { QueuePatientData } from "@/lib/types/queue_patient_data"
 
 interface Prop {
-  patient: QueuePatient
+  patient: QueuePatientData
 }
 
 export default function QueueTableRow({ patient } : Prop) {

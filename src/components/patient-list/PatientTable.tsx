@@ -12,21 +12,6 @@ interface PatientTableProps {
 }
 
 export function PatientTable({ patients, onViewPatient, onEditPatient, onDeletePatient}: PatientTableProps) {
-
-  // helper function to sort by queue number
-  function sortQueueNumber(a: string, b: string): number {
-    const extractParts = (q: string): [number, string] => {
-      const match = q.match(/^(\d+)([A-Za-z]*)$/);
-      if (!match) return [0, '']; // fallback
-      return [parseInt(match[1], 10), match[2]];
-    };
-  
-    const [numA, letterA] = extractParts(a);
-    const [numB, letterB] = extractParts(b);
-  
-    if (numA !== numB) return numA - numB;
-    return letterA.localeCompare(letterB);
-  }
   
     return (
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -35,7 +20,6 @@ export function PatientTable({ patients, onViewPatient, onEditPatient, onDeleteP
           <table className="w-full table-fixed">
             <thead className="bg-green-default">
               <tr>
-                <th className="w-1/12 px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">Queue No.</th>
                 <th className="px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">English Name</th>
                 <th className="px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">Khmer Name</th>
                 <th className="w-2/22 px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">Date of Birth</th>
@@ -51,7 +35,6 @@ export function PatientTable({ patients, onViewPatient, onEditPatient, onDeleteP
 
             <tbody className="bg-white divide-y divide-gray-200">
               {patients
-                .sort((a, b) => sortQueueNumber(a.queueNumber, b.queueNumber))
                 .map((patient)=> (
                 <PatientTableRow
                   key={patient.id}
