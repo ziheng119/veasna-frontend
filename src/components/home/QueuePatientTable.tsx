@@ -16,7 +16,7 @@ export default function QueuePatientTable({ patients }: Prop) {
   const [sex, setSex] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-
+  const [queueNumber, setQueueNumber] = useState<string>("");
 
   const handleCheck = () => {
     const patient: Patient | undefined = patients.find(patient => patient.faceId === faceId);
@@ -34,8 +34,19 @@ export default function QueuePatientTable({ patients }: Prop) {
   }
 
   const handleSubmit = () => {
+    const incomplete = !faceId || !englishName || !khmerName || !dateOfBirth || !age || !sex || !address || !phoneNumber || !queueNumber
+    
+    if (incomplete) {
+      toast.error("Incomplete fields!", {
+        position: "bottom-center"
+      })
+      return
+    }
+
     // TODO: post information to backend (ADD TO QUEUE)
-    toast.success("Queued Patient")
+    toast.success("Queued Patient", {
+        position: "bottom-center"
+      })
     setFaceId("")
     setEnglishName("")
     setKhmerName("")
@@ -44,6 +55,7 @@ export default function QueuePatientTable({ patients }: Prop) {
     setSex("")
     setAddress("")
     setPhoneNumber("")
+    setQueueNumber("")
   }
 
   return (
@@ -144,6 +156,17 @@ export default function QueuePatientTable({ patients }: Prop) {
             className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-200 focus:outline-none"
           />
         </div>
+
+        <div>
+          <label className="mb-1 font-medium text-gray-700">Queue Number:</label>
+          <input
+            type="number"
+            value={queueNumber}
+            onChange={e => setQueueNumber(e.target.value)}
+            className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+          />
+        </div>
+        
       </div>
 
       <button 
