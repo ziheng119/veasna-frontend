@@ -1,7 +1,7 @@
 export interface Drug {
     drug_id: string
     drug_name: string
-    drug_stockLevel: "low" | "medium" | "high"
+    drug_stockLevel: "low" | "medium" | "high" | "no stock"
 }
 
 export interface Stats {

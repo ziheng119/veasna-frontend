@@ -11,9 +11,9 @@ export function AddDrugSidebar({
   onSubmit,
 }: AddDrugSidebarProps) {
   const [drugName, setDrugName] = useState("");
-  const [stockLevel, setStockLevel] = useState<"low" | "medium" | "high">("high");
+  const [stockLevel, setStockLevel] = useState<"low" | "medium" | "high" | "no stock">("high");
 
-  const handleStockLevelChange = (drugId: string, newLevel: "low" | "medium" | "high") => {
+  const handleStockLevelChange = (drugId: string, newLevel: "low" | "medium" | "high" | "no stock") => {
     setStockLevel(newLevel);
   };
 
@@ -38,6 +38,7 @@ export function AddDrugSidebar({
 
     onSubmit(newDrug);
     
+    // default settings once submission passes successfully
     setDrugName("");
     setStockLevel("high");
   };

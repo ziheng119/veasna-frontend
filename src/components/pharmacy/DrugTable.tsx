@@ -5,7 +5,7 @@ import { useMemo } from "react"
 
 interface DrugTableProps {
     drugs: Drug[]
-    onStockLevelChange: (drugId: string, newLevel: "low" | "medium" | "high") => void
+    onStockLevelChange: (drugId: string, newLevel: "low" | "medium" | "high" | "no stock") => void
     onDeleteDrug: (drugId: string) => void
 }
 
@@ -16,7 +16,7 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
         return drugs.reduce((acc, drug) => {
           acc[drug.drug_stockLevel] = (acc[drug.drug_stockLevel] || 0) + 1
           return acc
-        }, {} as Record<string, number>)
+        }, {} as Record<"low" | "medium" | "high" | "no stock", number>)
       }, [drugs])
 
     return (
@@ -35,9 +35,12 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
                   Total: <span className="font-semibold">{drugs.length}</span>
                 </span>
                 <span className="text-red-500">
-                  Low: <span className="font-semibold">{stockCounts.low || 0}</span>
+                  No Stock: <span className="font-semibold">{stockCounts["no stock"] || 0}</span>
                 </span>
                 <span className="text-yellow-500">
+                  Low: <span className="font-semibold">{stockCounts.low || 0}</span>
+                </span>
+                <span className="text-blue-500">
                   Medium: <span className="font-semibold">{stockCounts.medium || 0}</span>
                 </span>
                 <span className="text-green-500">
