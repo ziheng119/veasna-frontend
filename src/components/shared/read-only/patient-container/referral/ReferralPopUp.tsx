@@ -16,11 +16,12 @@ export default function ReferralPopUp({ setShowPopUp, popupRef, pos, onMouseDown
     >
       <div
         ref={popupRef}
-        className="p-6 rounded-lg shadow-lg relative cursor-move bg-green-default w-fit max-w-[90vw] max-h-[90vh] overflow-auto"
+        className="p-6 rounded-lg shadow-lg relative cursor-move bg-green-default "
         style={{
           position: "absolute",
           left: pos.x,
           top: pos.y,
+          maxHeight: "90vh",
           overflow: "auto",
         }}
         onMouseDown={onMouseDown}

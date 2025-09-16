@@ -40,8 +40,10 @@ export default function ReferralButton() {
   };
   
   return (
-    <div className="flex justify-between" onClick={e => setShowPopUp(true)}>
-      <button className="bg-green-default rounded-md p-2 hover:cursor-pointer">
+    <>
+      <button 
+        className="bg-green-default rounded-md p-2 hover:cursor-pointer"
+        onClick={e => setShowPopUp(true)}>
         Create/Edit Referral
       </button>
 
@@ -53,6 +55,6 @@ export default function ReferralButton() {
           onMouseDown={onMouseDown}
         />
       }
-    </div>
+    </>
   )
 }
