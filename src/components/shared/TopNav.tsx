@@ -2,8 +2,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LocationDropdown from "./LocationDropdown";
+import { useLocationStore } from "@/stores/useLocationStore";
+import { useEffect } from "react";
+import { Location } from "@/lib/types/location";
 
-export default function TopNav() {
+interface Props {
+  locations: Location[]
+}
+
+export default function TopNav({ locations }: Props) {
+
+  const setLocations = useLocationStore((state) => state.setLocations);
+
+  useEffect(() => {
+    setLocations(locations);
+  }, [locations, setLocations]);
+
   const pathname = usePathname();
   
   const isActive = (path: string) => {
