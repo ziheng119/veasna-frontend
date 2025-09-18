@@ -11,11 +11,11 @@ export async function getUsers(): Promise<User[]> {
 
     const json = await res.json();
     const data: User[] = json;
-    console.log(data)
+    console.log("GET Users (Success)", data)
     return data;
 
   } catch (err) {
-    console.error('GET error:', err);
+    console.error('GET Users (Error):', err);
     return [];
   }
 }
