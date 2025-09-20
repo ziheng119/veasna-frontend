@@ -1,7 +1,14 @@
+"use client"
+
+import { useState } from "react";
 import SaveButton from "../shared/SaveButton";
 import VerticalLabelInputPair from "../shared/VerticalLabelInputPair";
+import Referral from "./Referral";
+import ReferralButton from "../shared/read-only/patient-container/referral/ReferralButton";
 
 export default function DoctorsNotesContainer() {
+  const [referralNeeded, setReferralNeeded] = useState<boolean>(false)
+
   return (
     <div className="flex flex-col gap-4 bg-beige-default px-4 py-2 rounded-md border-[1px] lg:w-[30%]">
       <h2 className="text-[20px] font-semibold">Consultation Notes</h2>
@@ -17,14 +24,19 @@ export default function DoctorsNotesContainer() {
       <div className="flex gap-4">
         <h2 className="text-[20px] font-semibold">Referral Needed</h2>
         <div className="flex gap-2">
-          <input type="radio" name="referralNeeded" value="yes"/>
+          <input type="radio" name="referralNeeded" value="yes" onClick={e => setReferralNeeded(true)}/>
           <p>Yes</p>
         </div>
         <div className="flex gap-2">
-          <input type="radio" name="referralNeeded" value="no"/>
+          <input type="radio" name="referralNeeded" value="no" onClick={e => setReferralNeeded(false)}/>
           <p>No</p>
         </div>
-      </div>
+      </div>  
+      
+      {referralNeeded && (
+        <ReferralButton/>
+      )}
+
       <div className="flex items-center justify-end">
         <SaveButton />
       </div>

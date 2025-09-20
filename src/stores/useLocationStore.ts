@@ -23,6 +23,7 @@ interface LocationState {
   hasHydrated: boolean;
 
   setHasHydrated: (state: boolean) => void;
+  setLocations: (locations: Location[]) => void;
   setCurrentLocation: (location: Location) => void;
   addLocation: (location: Location) => void;
   removeLocation: (locationId: number) => void;
@@ -36,6 +37,7 @@ export const useLocationStore = create<LocationState>()(
       hasHydrated: false,
 
       setHasHydrated: (state: boolean) => set({ hasHydrated: state }),
+      setLocations: (locations: Location[]) => set({ locations: locations}),
       setCurrentLocation: (location: Location) => set({ currentLocation: location }),
       addLocation: (location: Location) =>
         set((state) => ({

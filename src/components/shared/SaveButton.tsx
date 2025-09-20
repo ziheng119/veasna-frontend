@@ -9,7 +9,7 @@ export default function SaveButton({ onClick, mode }: Props) {
 
   return (
     <button 
-      className="bg-green-default rounded-md p-2 hover:cursor-pointer text-white"
+      className="bg-green-default rounded-md p-2 hover:cursor-pointer"
       onClick={onClick}
     >
       {label}
