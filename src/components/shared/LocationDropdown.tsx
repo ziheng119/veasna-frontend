@@ -5,7 +5,16 @@ import { LocationIcon, PlusIcon, TrashIcon } from '@/assets/icons';
 import { Location } from '@/lib/types/location';
 
 export default function LocationDropdown() {
-  const { locations, currentLocation, setCurrentLocation, addLocation, removeLocation } = useLocationStore();
+  const { 
+    locations, 
+    currentLocation, 
+    setCurrentLocation, 
+    addLocation, 
+    removeLocation, 
+    isLoading, 
+    error,
+    setError 
+  } = useLocationStore();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [showAddLocationInput, setShowAddLocationInput] = useState(false);
@@ -42,9 +51,14 @@ export default function LocationDropdown() {
     }
   };
 
-  const handleDeleteLocation = (locationId: number, e: React.MouseEvent) => {
+  const handleDeleteLocation = async (locationId: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    removeLocation(locationId);
+    try {
+      await removeLocation(locationId);
+    } catch (error) {
+      console.error('Failed to delete location:', error);
+      // Error is already set in the store, no need to handle it here
+    }
   };
 
   const handleEditModeToggle = () => {
@@ -57,23 +71,24 @@ export default function LocationDropdown() {
     setShowAddLocationInput(true);
   };
 
-  const handleSubmitNewLocation = (e: React.FormEvent) => {
+  const handleSubmitNewLocation = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newLocationName.trim()) {
-      const newLocation: Location = {
-        id: 0,                                          // should obtain id from backend
-        name: newLocationName.trim(),
-        is_active: true,
-      };
-      addLocation(newLocation);
-      setNewLocationName('');
-      setShowAddLocationInput(false);
+      try {
+        await addLocation(newLocationName.trim());
+        setNewLocationName('');
+        setShowAddLocationInput(false);
+        setError(null); 
+      } catch (error) {
+        console.error('Failed to create location:', error);
+      }
     }
   };
 
   const handleCancelAdd = () => {
     setShowAddLocationInput(false);
     setNewLocationName('');
+    setError(null); // Clear errors when canceling
   };
 
   return (
@@ -104,6 +119,19 @@ export default function LocationDropdown() {
       {/* Dropdown Menu */}
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+          {/* Error Display */}
+          {error && (
+            <div className="px-4 py-2 bg-red-50 border-b border-red-200">
+              <p className="text-sm text-red-600">{error}</p>
+              <button
+                onClick={() => setError(null)}
+                className="text-xs text-red-500 hover:text-red-700 mt-1"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
           {/* Header with Edit Toggle */}
           <div className="px-4 py-2 border-b border-gray-200 flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700">
@@ -111,7 +139,8 @@ export default function LocationDropdown() {
             </span>
             <button
               onClick={handleEditModeToggle}
-              className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors duration-150"
+              disabled={isLoading}
+              className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isEditMode ? 'Done' : 'Edit'}
             </button>
@@ -137,7 +166,8 @@ export default function LocationDropdown() {
 
                 <button
                   onClick={(e) => handleDeleteLocation(location.id, e)}
-                  className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors duration-150"
+                  disabled={isLoading}
+                  className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                   title="Delete location"
                 >
                   <TrashIcon className="w-4 h-4"/>
@@ -172,15 +202,16 @@ export default function LocationDropdown() {
                   <div className="flex space-x-2 mt-2">
                     <button
                       type="submit"
-                      disabled={!newLocationName.trim()}
+                      disabled={!newLocationName.trim() || isLoading}
                       className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
                     >
-                      Add
+                      {isLoading ? 'Adding...' : 'Add'}
                     </button>
                     <button
                       type="button"
                       onClick={handleCancelAdd}
-                      className="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded hover:bg-gray-300 transition-colors duration-150"
+                      disabled={isLoading}
+                      className="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
                     >
                       Cancel
                     </button>
@@ -189,7 +220,8 @@ export default function LocationDropdown() {
               ) : (
                 <button
                   onClick={handleAddLocation}
-                  className="w-full text-left px-4 py-3 text-blue-600 hover:bg-blue-50 transition-colors duration-150 flex items-center space-x-2"
+                  disabled={isLoading}
+                  className="w-full text-left px-4 py-3 text-blue-600 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150 flex items-center space-x-2"
                 >
                   <PlusIcon className='w-4 h-4'/>
                   <span className="font-medium">Add Location</span>
