@@ -1,83 +1,91 @@
 "use client";
-
-import { useUserStore } from '@/stores/useUserStore';
-import QueueTable from '@/components/home/QueueTable';
-import { useLocationStore } from '@/stores/useLocationStore';
 import { useEffect, useState } from 'react';
-import { SAMPLE_PATIENTS_IN_QUEUE } from '@/sample_data/sample_patients_in_queue';
-import QueuePatientTable from '@/components/home/QueuePatientTable';
-import { QueuePatientData } from '@/lib/types/queue_patient_data';
-import { Patient } from '@/lib/types/patient';
-import { SAMPLE_PATIENTS } from '@/sample_data/sample_patients';
-  
+import { useUserStore } from '@/stores/useUserStore';
+import { useLocationStore } from '@/stores/useLocationStore';
+
+import { PatientQueue } from '@/components/home/PatientQueue';
+import { PatientForm } from '@/components/home/PatientForm';
+
+import { QueuedPatient, PatientInfo } from '@/lib/types/patient';  
+
+import { getQueue } from '@/lib/api/queue/getQueue';
+import { getPatientsByLocation } from '@/lib/api/patients/getPatients';
+
 export default function HomePage() {
 
-  const username = useUserStore((state) => state.user)?.username
-  const location = useLocationStore((state) => state.currentLocation)
+  const user = useUserStore((state) => state.user);
+  const token = user?.token;
+  const username = user?.username;
+  const location = useLocationStore((state) => state.currentLocation);
+  
   const date = new Date(); // local time
   const dateOnly = date.toISOString().slice(0, 10);
 
-  const [locationPatients, setLocationPatients] = useState<Patient[]>([])
-  const [queuePatients, setQueuePatients] = useState<QueuePatientData[]>([])
+  const [locationPatients, setLocationPatients] = useState<PatientInfo[]>([])
+  const [queuedPatients, setQueuedPatients] = useState<QueuedPatient[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handlePatientSubmit = (patient: QueuedPatient) => {
+    // add patient returned from successful api call to queue
+    setQueuedPatients(prev => [...prev, patient]);
+  }
 
   useEffect(() => {
-    setQueuePatients(SAMPLE_PATIENTS_IN_QUEUE)
-    // TODO: call api by today's date and location  
-  }, [location, dateOnly])
+    const fetchData = async () => {
+      if (location && token) {
+        setIsLoading(true);
+        try {
+          // fetch both existing patients and today's queue in parallel
+          const [patientsData, queueData] = await Promise.all([
+            getPatientsByLocation(location.id, token),
+            getQueue(location.id, dateOnly, token)
+          ]);
+          setLocationPatients(patientsData);
+          setQueuedPatients(queueData);
+        } catch (error) {
+          console.error("Failed to fetch page data:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
 
-  useEffect(() => {
-    setLocationPatients(SAMPLE_PATIENTS)
-    // TODO: call api by location 
-  }, [location])
+    fetchData();
+  }, [location, token, dateOnly]) // Rerun when location, token, or date changes
   
   return (
-    <div className="min-h-screen flex flex-col gap-y-2.5">
-
-      <h1 className='text-3xl font-bold mb-4.5'>Welcome {username}!</h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Overall Summary Card */}
-        <div className="bg-beige-default p-4 rounded-lg shadow flex flex-col gap-3">
-          <h3 className="text-xl font-semibold border-b pb-2">Overall Summary</h3>
-          <div className="flex justify-between">
-            <span>Location A:</span>
-            <span className="font-medium">100</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Location B:</span>
-            <span className="font-medium">200</span>
+    <div className="min-h-screen w-screen flex flex-col bg-slate-900 overflow-hidden">
+      {/* Header with gradient */}
+      <header className="bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 border-b border-border/50 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+              <h1 className="text-2xl text-white font-bold text-foreground">
+                Patient Management System
+              </h1>
           </div>
         </div>
+      </header>
 
-        {/* Today's Summary Card */}
-        <div className="bg-beige-default p-4 rounded-lg shadow flex flex-col gap-3">
-          <h3 className="text-xl font-semibold border-b pb-2">Today&apos;s Summary</h3>
-          <div className="flex justify-between">
-            <span>Number of Patients:</span>
-            <span className="font-medium">100</span>
+      <main className="flex-1 p-6 overflow-hidden bg-slate-900 max-w-screen-2xl mx-auto">
+
+        <div className="flex gap-6 h-full">
+          <div className="w-1/3">
+            {isLoading ? (
+              <p className="text-slate-400 text-center py-8">Loading Queue....</p>
+            ): (
+              <PatientQueue patients={queuedPatients} />
+            )}
+
           </div>
-          <div className="flex justify-between">
-            <span>Location:</span>
-            <span className="font-medium">BLAHBLAHBLAH</span>
+          <div className="flex-1">
+            <PatientForm
+              existingPatients={locationPatients}
+              onSubmit={handlePatientSubmit}
+              locationId={location?.id}
+              />
           </div>
         </div>
-      </div>
-
-      <h2 className='text-2xl font-semibold mt-4.5'>Today&apos;s Patients</h2>
-
-      <div className="flex flex-col lg:flex-row max-w-full">
-        <div className="flex-[7] min-w-0">
-          <QueueTable
-            patients={queuePatients}
-          />
-        </div>
-        
-        <div className="flex-[3] min-w-0">
-          <QueuePatientTable 
-            patients={locationPatients}
-          />
-        </div>
-      </div>
+      </main>
     </div>
   )
 }

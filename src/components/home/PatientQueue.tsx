@@ -1,0 +1,112 @@
+"use client"
+
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Badge } from "../ui/badge";
+import { QueuedPatient } from "@/lib/types/patient";
+import { useState } from "react";
+import { Input } from "../ui/input";
+import { SearchIcon } from "@/assets/icons";
+
+interface PatientQueueProps {
+    patients: QueuedPatient[];
+}
+
+function sortQueueNumber(a: QueuedPatient, b: QueuedPatient) {
+    // Extract the number and parts portiom
+    const extractParts = (queueNum: string) => {
+        const match = queueNum.match(/^(\d+)([A-Za-z]?)$/);
+        if (match) {
+            return {
+                number: parseInt(match[1]),
+                letter: match[2] || 'ZZ' // put numbers without letters as last?
+            }
+        }
+        return { number: 999999, letter: queueNum };
+    };
+
+    const partsA = extractParts(a.queue_no);
+    const partsB = extractParts(b.queue_no);
+
+    // Sort by number first
+    if (partsA.number !== partsB.number) {
+        return partsA.number - partsB.number;
+    }
+
+    return partsA.letter.localeCompare(partsB.letter);
+   
+}
+
+export function PatientQueue({patients}: PatientQueueProps) {
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const filteredPatients = patients.filter((patient) => {
+        if (!searchQuery) return true;
+        const query = searchQuery.toLowerCase();
+        return (
+            patient.english_name.toLowerCase().includes(query) ||
+            patient.khmer_name.toLowerCase().includes(query) ||
+            patient.queue_no.toLowerCase().includes(query) // should be parsing the number here
+        );
+    })
+    const sortedPatients = [...filteredPatients].sort(sortQueueNumber);
+    const today = new Date().toLocaleDateString();
+
+    return (
+        <Card className="h-full flex flex-col bg-slate-800 border-slate-700">
+          <CardHeader className="bg-slate-900 border-b border-slate-700">
+            <CardTitle className="flex items-center justify-between text-slate-100">
+              Today's Queue
+              <Badge 
+                variant="secondary" 
+                className="bg-blue-600 text-white hover:bg-blue-700"
+              >
+                {today}
+              </Badge>
+            </CardTitle>
+            <div className="relative mt-4">
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+              <Input
+                placeholder="Search by name or queue number..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400"
+              />
+            </div>
+          </CardHeader>
+          <CardContent className="flex-1 overflow-y-auto space-y-3 bg-slate-800">
+            {sortedPatients.length === 0 ? (
+              <p className="text-slate-400 text-center py-8">
+                {searchQuery ? "No patients found matching search" : "No patients in queue today"}
+              </p>
+            ) : (
+              sortedPatients.map((patient) => (
+                <div
+                  key={`${patient.queue_no}-${patient.timestamp}`}
+                  className="flex items-center justify-between p-3 border border-slate-600 rounded-lg hover:bg-slate-700/50 transition-colors bg-slate-750"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Badge 
+                      variant="outline" 
+                      className="font-mono border-slate-500 text-slate-200"
+                    >
+                      {patient.queue_no}
+                    </Badge>
+                    <div>
+                      <div className="font-medium text-slate-100">{patient.english_name}</div>
+                      <div className="text-sm text-slate-400">
+                        {patient.khmer_name}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right text-sm text-slate-400">
+                    <div>{patient.age}y, {patient.sex}</div>
+                    <div>{patient.timestamp}</div>
+                  </div>
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+      );
+}
+
