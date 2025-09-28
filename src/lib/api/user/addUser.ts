@@ -1,25 +1,27 @@
-import { backend_url } from "@/constants/env_variable";
-import { User } from "../../types/user";
+// // src/lib/api/user/addUser.ts
 
-export async function addUser(newUser: User): Promise<User> {
-  try {
-    const res = await fetch(`${backend_url}/api/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    });
+// import { backend_url } from "@/constants/env_variable";
+// import { User } from "../../types/user";
 
-    if (!res.ok) {
-      throw new Error(`Failed to add user: ${res.status} ${res.statusText}`);
-    }
+// export async function addUser(newUser: User): Promise<User> {
+//   try {
+//     const res = await fetch(`${backend_url}/api/users`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(newUser),
+//     });
 
-    const createdUser: User = await res.json();
-    return createdUser;
+//     if (!res.ok) {
+//       throw new Error(`Failed to add user: ${res.status} ${res.statusText}`);
+//     }
 
-  } catch (error) {
-    console.error("POST error:", error);
-    throw error;
-  }
-}
+//     const createdUser: User = await res.json();
+//     return createdUser;
+
+//   } catch (error) {
+//     console.error("POST error:", error);
+//     throw error;
+//   }
+// }
