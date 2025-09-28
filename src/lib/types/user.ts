@@ -1,4 +1,5 @@
-// set attribute to username for ease of API GET/POST
 export interface User {
+  id: number;
   username: string;
+  token: string;
 }
