@@ -1,3 +1,5 @@
+// src/app/(main)/layout.tsx
+
 import TopNav from "@/components/shared/TopNav";
 import AuthWrapper from "../wrappers/AuthWrapper";
 import Footer from "@/components/shared/Footer";
@@ -16,7 +18,7 @@ export default async function MainLayout({
     <>
       <AuthWrapper>
         <TopNav locations={locations}/>
-          <main className="mx-10 my-6">
+          <main className="flex-1">
             {children}
           </main>
         <Footer />

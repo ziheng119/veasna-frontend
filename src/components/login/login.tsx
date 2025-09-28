@@ -1,6 +1,9 @@
+// src/components/login/login.tsx
+
 "use client"
 
-import { addUser } from "@/lib/api/user/addUser"
+import { loginUser } from "@/lib/api/user/loginUser"
+// import { addUser } from "@/lib/api/user/addUser"
 import { User } from "@/lib/types/user"
 import { useUserStore } from "@/stores/useUserStore"
 import { useRouter } from "next/navigation"
@@ -17,43 +20,40 @@ export default function Login({ initialUsers }: Props) {
   const setUser = useUserStore((state) => state.setUser)
   const router = useRouter();
 
-  const [users, setUsers] = useState<User[]>([])
-  const [options, setOptions] = useState<User[]>([])
-  const [selectedUser, setSelectedUser] = useState<User>({ username: "" })
+  // const [users, setUsers] = useState<User[]>([])
+  // const [options, setOptions] = useState<User[]>([])
+  // const [selectedUser, setSelectedUser] = useState<{username: ""}>({ username: "" })
+
+  const [selectedUsername, setSelectedUsername] = useState<string>("");
+  const [options ,setOptions] = useState<{label: string, value: string}[]>([]);
 
   useEffect(() => {
-    setUsers(initialUsers);
-    setOptions(initialUsers)
+    setOptions(initialUsers.map(user => ({label: user.username, value: user.username})));
   }, [initialUsers])
 
-  const handleCreateUser = async (user: User) => {
-    const createdUser = await addUser(user);
-    toast.success(`Login Success: User ${createdUser.username} created`)
-  };
+  // const handleCreateUser = async (user: User) => {
+  //   const createdUser = await addUser(user);
+  //   toast.success(`Login Success: User ${createdUser.username} created`)
+  // };
 
   const handleLogin = async () => {
-    if (!selectedUser) {
-      toast("Please select a user!");
+    if (!selectedUsername || selectedUsername.trim() === "") {
+      toast.error("Please select or create a username!");
       return;
     }
 
-    if (selectedUser.username.trim() === "") {
-      toast("Username cannot be empty!");
-      return
-    }
-
     try {
-      if (!users.some(user => user.username === selectedUser.username)) {
-        await handleCreateUser(selectedUser);
-      }
+      // 1. Call loginUser, which handles both existing and new users on the backend
+      const loggedInUser = await loginUser(selectedUsername);
 
-      setUser(selectedUser)
-      router.push('/')
+      // 2. save the complete user object (id, username, token) to the store
+      setUser(loggedInUser)
 
+      toast.success(`Welcome, ${loggedInUser.username}!`);
+      router.push('/');
     } catch (error) {
-      console.log(error)
-      toast.error("An error has occurred, please try again")
-      return
+      console.error(error)
+      toast.error("An error has occurred during login, please try again")
     }
   }
 
@@ -66,17 +66,16 @@ export default function Login({ initialUsers }: Props) {
       <div className="flex items-center mb-[30px]">
         <p className="w-24">User</p>
         <CreatableSelect
-          instanceId="my-creatable-select"
+          instanceId="login-creatable-select"
           isClearable
           className="w-[200px] text-black"
-          onChange={(newValue) => setSelectedUser({ username: (newValue?.value || '') })}
+          onChange={(newValue) => setSelectedUsername(newValue?.value || '')}
           onCreateOption={(newUsername) => {
-            setOptions((prev) => [...prev, { username: newUsername }])
-            setSelectedUser({ username: newUsername })
+            setOptions((prev) => [...prev, { label: newUsername, value: newUsername }]);
+            setSelectedUsername(newUsername);
           }}
-          options={options.map(user => {
-            return { label: user.username, value: user.username };
-          })}
+          options={options}
+          placeholder="Select or type name..."
         />
       </div>
 

@@ -5,11 +5,11 @@ import { FullSearchBar } from "@/components/patient-list/FullSearchBar";
 import { PatientPageHeader } from "@/components/patient-list/PageHeader";
 import { PatientTable } from "@/components/patient-list/PatientTable";
 import { Location } from "@/lib/types/location";
-import { Patient } from "@/lib/types/patient";
-import { SAMPLE_PATIENTS } from "@/sample_data/sample_patients";
+import { PatientInfo } from "@/lib/types/patient";
 import { useLocationStore } from "@/stores/useLocationStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { SAMPLE_PATIENTS } from "@/sample_data/sample_patients";
 
 export default function PatientListPage() {
 
@@ -19,10 +19,10 @@ export default function PatientListPage() {
   const date : Date = new Date(); // local time
   const dateOnly: string = date.toISOString().slice(0, 10);
 
-  const [patients, setPatients] = useState<Patient[]>([]);
+  const [patients, setPatients] = useState<PatientInfo[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const filteredPatients: Patient[] = useMemo(() => {
+  const filteredPatients: PatientInfo[] = useMemo(() => {
     if (!searchTerm.trim()) {
       return patients;
     }
@@ -40,8 +40,8 @@ export default function PatientListPage() {
       // })();
     
       return (
-        patient.englishName.toLowerCase().includes(searchLower) ||
-        patient.khmerName.toLowerCase().includes(searchLower)
+        patient.english_name.toLowerCase().includes(searchLower) ||
+        patient.khmer_name.toLowerCase().includes(searchLower)
         // queueMatch
       );
     });
