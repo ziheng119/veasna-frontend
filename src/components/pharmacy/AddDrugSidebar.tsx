@@ -4,22 +4,16 @@ import { StockLevelSelector } from "./StockLevelSelector";
 import { StockLevelBadge } from "./StockLevelBadge";
 
 interface AddDrugSidebarProps {
-  onSubmit: (newDrug: Drug) => void;
+  onSubmit: (newDrug: { drug_name: string, stock_level: Drug['stock_level'] }) => void;
 }
 
-export function AddDrugSidebar({
-  onSubmit,
-}: AddDrugSidebarProps) {
+export function AddDrugSidebar({ onSubmit }: AddDrugSidebarProps) {
   const [drugName, setDrugName] = useState("");
-  const [stockLevel, setStockLevel] = useState<"low" | "medium" | "high" | "no stock">("high");
+  const [stockLevel, setStockLevel] = useState<Drug['stock_level']>("high");
 
-  const handleStockLevelChange = (drugId: string, newLevel: "low" | "medium" | "high" | "no stock") => {
+  // The StockLevelSelector passes a dummy ID which we ignore here
+  const handleStockLevelChange = (_drugId: number | string, newLevel: Drug['stock_level']) => {
     setStockLevel(newLevel);
-  };
-
-  {/* for random example */}
-  const generateTempId = (): string => {
-    return `D${Math.random()}`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,21 +24,19 @@ export function AddDrugSidebar({
       return;
     }
 
-    const newDrug: Drug = {
-      drug_id: generateTempId(),
+    // Pass the raw form data to the parent component for submission
+    onSubmit({
       drug_name: drugName.trim(),
-      drug_stockLevel: stockLevel
-    };
-
-    onSubmit(newDrug);
+      stock_level: stockLevel
+    });
     
-    // default settings once submission passes successfully
+    // Reset form fields after submission
     setDrugName("");
     setStockLevel("high");
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6">
+    <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">Add New Drug</h3>
       </div>
@@ -70,15 +62,11 @@ export function AddDrugSidebar({
             Stock Level
           </label>
           <div className="flex items-center gap-3">
-
-            <div className="flex items-center gap-2">
-              <StockLevelBadge level={stockLevel} />
-            </div>
-
+            <StockLevelBadge level={stockLevel} />
             <div className="flex-1">
               <StockLevelSelector
                 currentLevel={stockLevel}
-                drugId="new-drug-temp"
+                drugId={0} // Dummy ID, not used for a new drug
                 onStockLevelChange={handleStockLevelChange}
               />
             </div>
@@ -88,12 +76,11 @@ export function AddDrugSidebar({
         <div className="flex gap-3 pt-4">
           <button
             type="submit"
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition-colors font-medium"
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors font-medium shadow-sm"
           >
             Add Drug
           </button>
         </div>
-
       </form>
     </div>
   );

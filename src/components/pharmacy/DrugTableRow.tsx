@@ -5,35 +5,30 @@ import { TrashIcon } from "@/assets/icons"
 
 interface DrugTableRowProps {
     drug: Drug
-    onStockLevelChange: (drugId: string, newLevel: "low" | "medium" | "high") => void
-    onDeleteDrug: (drugId: string) => void
+    onStockLevelChange: (drugId: number, newLevel: "low" | "medium" | "high" | "no stock") => void
+    onDeleteDrug: (drugId: number) => void
 }
 
 export function DrugTableRow({ drug, onStockLevelChange, onDeleteDrug }: DrugTableRowProps) {
     return (
         <tr className="hover:bg-blue-50 transition-colors duration-150">
           <td className="px-6 py-4">
-            <div className="text-sm font-medium text-gray-900 px-2 py-1">
-              {drug.drug_id}
-            </div>
-          </td>
-          <td className="px-6 py-4">
             <div className="text-sm font-medium text-gray-900">
               {drug.drug_name}
             </div>
           </td>
           <td className="px-6 py-4">
-            <StockLevelBadge level={drug.drug_stockLevel} />
+            <StockLevelBadge level={drug.stock_level} />
           </td>
           <td className="px-6 py-4">
             <div className="flex items-center space-x-3">
                 <StockLevelSelector 
-                currentLevel={drug.drug_stockLevel}
-                drugId={drug.drug_id}
+                currentLevel={drug.stock_level}
+                drugId={drug.id}
                 onStockLevelChange={onStockLevelChange}
                 />
                 <button
-                    onClick={() => onDeleteDrug(drug.drug_id)}
+                    onClick={() => onDeleteDrug(drug.id)}
                     className="
                     p-2 text-red-500 hover:text-red-700 hover:bg-red-50 
                     rounded-md transition-colors duration-150
