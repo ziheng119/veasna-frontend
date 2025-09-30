@@ -18,7 +18,7 @@ export default async function MainLayout({
     <>
       <AuthWrapper>
         <TopNav locations={locations}/>
-          <main className="flex-1">
+          <main className="px-6 py-4">
             {children}
           </main>
         <Footer />

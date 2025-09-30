@@ -177,335 +177,336 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
     };
 
     return (
-        <Card className="h-full bg-slate-800 border-slate-700">
-          <CardHeader className="bg-slate-900 border-b border-slate-700">
-            <CardTitle className="text-slate-100">Patient Registration</CardTitle>
-          </CardHeader>
-          <CardContent className="bg-slate-800">
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-3 bg-slate-700 text-slate-300">
-                <TabsTrigger value="patient-info" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">Patient Info</TabsTrigger>
-                <TabsTrigger value="vitals" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">Vitals</TabsTrigger>
-                <TabsTrigger value="hef" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">HEF</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="patient-info" className="space-y-4 mt-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="queueNumber" className="text-slate-200">Queue Number *</Label>
+      <Card className="h-full bg-card border-border shadow-sm">
+        <CardHeader className="bg-muted border-b border-border p-6">
+          <CardTitle className="text-foreground">Patient Registration</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6 flex flex-col">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 w-full">
+            <TabsList className="grid w-full grid-cols-3 bg-muted">
+              <TabsTrigger value="patient-info" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-muted-foreground">Patient Info</TabsTrigger>
+              <TabsTrigger value="vitals" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-muted-foreground">Vitals</TabsTrigger>
+              <TabsTrigger value="hef" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-muted-foreground">HEF</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="patient-info" className="space-y-4 mt-6 h-[600px] overflow-y-auto w-full">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="queueNumber" className="text-muted-foreground">Queue Number *</Label>
+                  <Input
+                    id="queueNumber"
+                    value={patientInfo.queue_no}
+                    onChange={(e) => setPatientInfo(prev => ({ ...prev, queue_no: e.target.value }))}
+                    placeholder="e.g., 12A"
+                    className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="sex" className="text-muted-foreground">Sex *</Label>
+                  <Select 
+                    value={patientInfo.sex} 
+                    onValueChange={(value) => setPatientInfo(prev => ({ ...prev, sex: value as "M" | "F" }))}
+                  >
+                    <SelectTrigger className="bg-background border-input text-foreground mt-2">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover border-border">
+                      <SelectItem value="M" className="text-foreground hover:bg-accent">Male</SelectItem>
+                      <SelectItem value="F" className="text-foreground hover:bg-accent">Female</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+  
+              <div>
+                <Label htmlFor="englishName" className="text-muted-foreground">English Name *</Label>
+                <Input
+                  id="englishName"
+                  value={patientInfo.english_name}
+                  onChange={(e) => setPatientInfo(prev => ({ ...prev, english_name: e.target.value }))}
+                  placeholder="Enter English name"
+                  className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                />
+              </div>
+  
+              <div>
+                <Label htmlFor="khmerName" className="text-muted-foreground">Khmer Name</Label>
+                <Input
+                  id="khmerName"
+                  value={patientInfo.khmer_name}
+                  onChange={(e) => setPatientInfo(prev => ({ ...prev, khmer_name: e.target.value }))}
+                  placeholder="Enter Khmer name"
+                  className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                />
+              </div>
+  
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="dateOfBirth" className="text-muted-foreground">Date of Birth</Label>
+                  <Input
+                    id="dateOfBirth"
+                    type="date"
+                    value={patientInfo.date_of_birth}
+                    onChange={(e) => setPatientInfo(prev => ({ ...prev, date_of_birth: e.target.value }))}
+                    className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="age" className="text-muted-foreground">Age</Label>
+                  <div className="flex gap-2 mt-2">
                     <Input
-                      id="queueNumber"
-                      value={patientInfo.queue_no}
-                      onChange={(e) => setPatientInfo(prev => ({ ...prev, queue_no: e.target.value }))}
-                      placeholder="e.g., 12A"
-                      className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
+                      id="age"
+                      type="number"
+                      value={patientInfo.age || ""}
+                      onChange={(e) => setPatientInfo(prev => ({ ...prev, age: parseInt(e.target.value) || 0 }))}
+                      placeholder="Age"
+                      className="bg-background border-input text-foreground placeholder-muted-foreground"
                     />
-                  </div>
-                  <div>
-                    <Label htmlFor="sex" className="text-slate-200">Sex *</Label>
-                    <Select 
-                      value={patientInfo.sex} 
-                      onValueChange={(value) => setPatientInfo(prev => ({ ...prev, sex: value as "M" | "F" }))}
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={calculateAge}
+                      className={`${
+                        patientInfo.date_of_birth 
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90 border-primary" 
+                          : "bg-background border-input text-muted-foreground"
+                      }`}
                     >
-                      <SelectTrigger className="bg-slate-700 border-slate-600 text-slate-100 mt-2">
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-slate-700 border-slate-600">
-                        <SelectItem value="M" className="text-slate-100 hover:bg-slate-600">Male</SelectItem>
-                        <SelectItem value="F" className="text-slate-100 hover:bg-slate-600">Female</SelectItem>
-                      </SelectContent>
-                    </Select>
+                      Calculate
+                    </Button>
                   </div>
                 </div>
-    
                 <div>
-                  <Label htmlFor="englishName" className="text-slate-200">English Name *</Label>
+                  <Label htmlFor="phoneNumber" className="text-muted-foreground">Phone Number</Label>
                   <Input
-                    id="englishName"
-                    value={patientInfo.english_name}
-                    onChange={(e) => setPatientInfo(prev => ({ ...prev, english_name: e.target.value }))}
-                    placeholder="Enter English name"
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
+                    id="phoneNumber"
+                    value={patientInfo.phone_number || ""}
+                    onChange={(e) => setPatientInfo(prev => ({ ...prev, phone_number: e.target.value }))}
+                    placeholder="Phone number"
+                    className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
                   />
                 </div>
-    
+              </div>
+  
+              <div>
+                <Label htmlFor="address" className="text-muted-foreground">Address</Label>
+                <Textarea
+                  id="address"
+                  value={patientInfo.address || ""}
+                  onChange={(e) => setPatientInfo(prev => ({ ...prev, address: e.target.value }))}
+                  placeholder="Enter address"
+                  className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                />
+              </div>
+  
+              <div>
+                <Label htmlFor="faceId" className="text-muted-foreground">Face ID</Label>
+                <Input
+                  id="faceId"
+                  value={patientInfo.face_id}
+                  onChange={(e) => setPatientInfo(prev => ({ ...prev, face_id: parseInt(e.target.value) || 0 }))}
+                  placeholder="Face ID"
+                  className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                />
+              </div>
+            </TabsContent>
+  
+            <TabsContent value="vitals" className="space-y-4 mt-6 flex-1">
+              <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <Label htmlFor="khmerName" className="text-slate-200">Khmer Name</Label>
+                  <Label htmlFor="height" className="text-muted-foreground">Height (cm)</Label>
                   <Input
-                    id="khmerName"
-                    value={patientInfo.khmer_name}
-                    onChange={(e) => setPatientInfo(prev => ({ ...prev, khmer_name: e.target.value }))}
-                    placeholder="Enter Khmer name"
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                  />
-                </div>
-    
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <Label htmlFor="dateOfBirth" className="text-slate-200">Date of Birth</Label>
-                    <Input
-                      id="dateOfBirth"
-                      type="date"
-                      value={patientInfo.date_of_birth}
-                      onChange={(e) => setPatientInfo(prev => ({ ...prev, date_of_birth: e.target.value }))}
-                      className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="age" className="text-slate-200">Age</Label>
-                    <div className="flex gap-2 mt-2">
-                      <Input
-                        id="age"
-                        type="number"
-                        value={patientInfo.age || ""}
-                        onChange={(e) => setPatientInfo(prev => ({ ...prev, age: parseInt(e.target.value) || 0 }))}
-                        placeholder="Age"
-                        className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400"
-                      />
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        onClick={calculateAge}
-                        className={`${
-                          patientInfo.date_of_birth 
-                            ? "bg-blue-600 text-white hover:bg-blue-700 border-blue-600" 
-                            : "bg-slate-700 border-slate-600 text-slate-300"
-                        }`}
-                      >
-                        Calculate
-                      </Button>
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="phoneNumber" className="text-slate-200">Phone Number</Label>
-                    <Input
-                      id="phoneNumber"
-                      value={patientInfo.phone_number || ""}
-                      onChange={(e) => setPatientInfo(prev => ({ ...prev, phone_number: e.target.value }))}
-                      placeholder="Phone number"
-                      className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                    />
-                  </div>
-                </div>
-    
-                <div>
-                  <Label htmlFor="address" className="text-slate-200">Address</Label>
-                  <Textarea
-                    id="address"
-                    value={patientInfo.address || ""}
-                    onChange={(e) => setPatientInfo(prev => ({ ...prev, address: e.target.value }))}
-                    placeholder="Enter address"
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                  />
-                </div>
-    
-                <div>
-                  <Label htmlFor="faceId" className="text-slate-200">Face ID</Label>
-                  <Input
-                    id="faceId"
-                    value={patientInfo.face_id}
-                    onChange={(e) => setPatientInfo(prev => ({ ...prev, face_id: parseInt(e.target.value) || 0 }))}
-                    placeholder="Face ID"
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                  />
-                </div>
-              </TabsContent>
-    
-              <TabsContent value="vitals" className="space-y-4 mt-6">
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <Label htmlFor="height" className="text-slate-200">Height (cm)</Label>
-                    <Input
-                      id="height"
-                      type="number"
-                      step="0.1"
-                      value={vitals.height}
-                      onChange={(e) => setVitals(prev => ({ ...prev, height: e.target.value }))}
-                      placeholder="Height in cm"
-                      className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="weight" className="text-slate-200">Weight (kg)</Label>
-                    <Input
-                      id="weight"
-                      type="number"
-                      step="0.1"
-                      value={vitals.weight}
-                      onChange={(e) => setVitals(prev => ({ ...prev, weight: e.target.value }))}
-                      placeholder="Weight in kg"
-                      className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="bmi" className="text-slate-200">BMI</Label>
-                    <div className="flex gap-2 mt-2">
-                      <Input
-                        id="bmi"
-                        value={vitals.bmi}
-                        readOnly
-                        placeholder="BMI"
-                        className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400"
-                      />
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        onClick={calculateBMI}
-                        className={`${
-                          vitals.height && vitals.weight 
-                            ? "bg-blue-600 text-white hover:bg-blue-700 border-blue-600" 
-                            : "bg-slate-700 border-slate-600 text-slate-300"
-                        }`}
-                      >
-                        Calculate
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-    
-                <div className="flex items-center space-x-2 pt-2">
-                  <Checkbox
-                    id="below3rd"
-                    checked={vitals.below_3rd_percentile}
-                    onCheckedChange={(checked) => setVitals(prev => ({ 
-                      ...prev, 
-                      below_3rd_percentile: checked as boolean 
-                    }))}
-                    className="border-slate-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-                  />
-                  <Label htmlFor="below3rd" className="text-slate-300">Child is below 3rd percentile (BMI by age)</Label>
-                </div>
-    
-                <div>
-                  <Label htmlFor="category" className="text-slate-200">Category</Label>
-                  <Input
-                    id="category"
-                    value={vitals.category}
-                    readOnly
-                    placeholder="BMI category (auto-calculated)"
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                  />
-                </div>
-    
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="systolic" className="text-slate-200">Blood Pressure - Systolic</Label>
-                    <Input
-                      id="systolic"
-                      type="number"
-                      value={vitals.bp_systolic}
-                      onChange={(e) => setVitals(prev => ({ ...prev, bp_systolic: e.target.value }))}
-                      placeholder="Systolic"
-                      className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="diastolic" className="text-slate-200">Blood Pressure - Diastolic</Label>
-                    <Input
-                      id="diastolic"
-                      type="number"
-                      value={vitals.bp_diastolic}
-                      onChange={(e) => setVitals(prev => ({ ...prev, bp_diastolic: e.target.value }))}
-                      placeholder="Diastolic"
-                      className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
-                    />
-                  </div>
-                </div>
-    
-                <div>
-                  <Label htmlFor="temperature" className="text-slate-200">Temperature (°C)</Label>
-                  <Input
-                    id="temperature"
+                    id="height"
                     type="number"
                     step="0.1"
-                    value={vitals.temperature}
-                    onChange={(e) => setVitals(prev => ({ ...prev, temperature: e.target.value }))}
-                    placeholder="Temperature in Celsius"
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
+                    value={vitals.height}
+                    onChange={(e) => setVitals(prev => ({ ...prev, height: e.target.value }))}
+                    placeholder="Height in cm"
+                    className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
                   />
                 </div>
-    
                 <div>
-                  <Label htmlFor="notes" className="text-slate-200">Additional Notes</Label>
-                  <Textarea
-                    id="notes"
-                    value={vitals.notes}
-                    onChange={(e) => setVitals(prev => ({ ...prev, notes: e.target.value }))}
-                    placeholder="Additional notes about vitals"
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 mt-2"
+                  <Label htmlFor="weight" className="text-muted-foreground">Weight (kg)</Label>
+                  <Input
+                    id="weight"
+                    type="number"
+                    step="0.1"
+                    value={vitals.weight}
+                    onChange={(e) => setVitals(prev => ({ ...prev, weight: e.target.value }))}
+                    placeholder="Weight in kg"
+                    className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
                   />
                 </div>
-              </TabsContent>
-    
-              <TabsContent value="hef" className="space-y-6 mt-6">
                 <div>
-                  <Label className="text-slate-200 block mb-4">Does patient know about HEF?</Label>
-                  <RadioGroup 
-                    value={hef.know_of_hef} 
-                    onValueChange={(value) => setHEF(prev => ({ ...prev, know_of_hef: value as "yes" | "no" }))}
-                    className="flex gap-6"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="yes" id="knows-yes" className="border-slate-500 text-blue-600" />
-                      <Label htmlFor="knows-yes" className="text-slate-300">Yes</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="no" id="knows-no" className="border-slate-500 text-blue-600" />
-                      <Label htmlFor="knows-no" className="text-slate-300">No</Label>
-                    </div>
-                  </RadioGroup>
+                  <Label htmlFor="bmi" className="text-muted-foreground">BMI</Label>
+                  <div className="flex gap-2 mt-2">
+                    <Input
+                      id="bmi"
+                      value={vitals.bmi}
+                      readOnly
+                      placeholder="BMI"
+                      className="bg-background border-input text-foreground placeholder-muted-foreground"
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={calculateBMI}
+                      className={`${
+                        vitals.height && vitals.weight 
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90 border-primary" 
+                          : "bg-background border-input text-muted-foreground"
+                      }`}
+                    >
+                      Calculate
+                    </Button>
+                  </div>
                 </div>
-    
+              </div>
+  
+              <div className="flex items-center space-x-2 pt-2">
+                <Checkbox
+                  id="below3rd"
+                  checked={vitals.below_3rd_percentile}
+                  onCheckedChange={(checked) => setVitals(prev => ({ 
+                    ...prev, 
+                    below_3rd_percentile: checked as boolean 
+                  }))}
+                  className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                />
+                <Label htmlFor="below3rd" className="text-muted-foreground">Child is below 3rd percentile (BMI by age)</Label>
+              </div>
+  
+              <div>
+                <Label htmlFor="category" className="text-muted-foreground">Category</Label>
+                <Input
+                  id="category"
+                  value={vitals.category}
+                  readOnly
+                  placeholder="BMI category (auto-calculated)"
+                  className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                />
+              </div>
+  
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-slate-200 block mb-4">Does patient have HEF?</Label>
-                  <RadioGroup 
-                    value={hef.has_hef} 
-                    onValueChange={(value) => setHEF(prev => ({ ...prev, has_hef: value as "yes" | "no" }))}
-                    className="flex gap-6"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="yes" id="has-yes" className="border-slate-500 text-blue-600" />
-                      <Label htmlFor="has-yes" className="text-slate-300">Yes</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="no" id="has-no" className="border-slate-500 text-blue-600" />
-                      <Label htmlFor="has-no" className="text-slate-300">No</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-    
-                <div>
-                  <Label htmlFor="hefReason" className="text-slate-200 block mb-3">Does patient use HEF? Why or Why not?</Label>
-                  <Textarea
-                    id="hefReason"
-                    value={hef.notes}
-                    onChange={(e) => setHEF(prev => ({ ...prev, notes: e.target.value }))}
-                    placeholder="Explain patient's HEF usage and reasoning"
-                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400"
+                  <Label htmlFor="systolic" className="text-muted-foreground">Blood Pressure - Systolic</Label>
+                  <Input
+                    id="systolic"
+                    type="number"
+                    value={vitals.bp_systolic}
+                    onChange={(e) => setVitals(prev => ({ ...prev, bp_systolic: e.target.value }))}
+                    placeholder="Systolic"
+                    className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
                   />
                 </div>
-              </TabsContent>
-            </Tabs>
-    
-            <div className="flex justify-end gap-3 mt-6">
-              <Button 
-                onClick={checkExistingPatient}
-                variant="outline"
-                className="px-6 bg-slate-700 border-slate-600 text-slate-300 hover:bg-slate-600"
-              >
-                Check Existing
-              </Button>
-              <Button 
-                onClick={handleSubmit} 
-                disabled={isSubmitting}
-                className="px-8 bg-green-600 hover:bg-green-700 text-white"
-              >
-                {isSubmitting ? "Submitting..." : "Submit & Add to Queue"}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      );
+                <div>
+                  <Label htmlFor="diastolic" className="text-muted-foreground">Blood Pressure - Diastolic</Label>
+                  <Input
+                    id="diastolic"
+                    type="number"
+                    value={vitals.bp_diastolic}
+                    onChange={(e) => setVitals(prev => ({ ...prev, bp_diastolic: e.target.value }))}
+                    placeholder="Diastolic"
+                    className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                  />
+                </div>
+              </div>
+  
+              <div>
+                <Label htmlFor="temperature" className="text-muted-foreground">Temperature (°C)</Label>
+                <Input
+                  id="temperature"
+                  type="number"
+                  step="0.1"
+                  value={vitals.temperature}
+                  onChange={(e) => setVitals(prev => ({ ...prev, temperature: e.target.value }))}
+                  placeholder="Temperature in Celsius"
+                  className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                />
+              </div>
+  
+              <div>
+                <Label htmlFor="notes" className="text-muted-foreground">Additional Notes</Label>
+                <Textarea
+                  id="notes"
+                  value={vitals.notes}
+                  onChange={(e) => setVitals(prev => ({ ...prev, notes: e.target.value }))}
+                  placeholder="Additional notes about vitals"
+                  className="bg-background border-input text-foreground placeholder-muted-foreground mt-2"
+                />
+              </div>
+            </TabsContent>
+  
+            <TabsContent value="hef" className="space-y-6 mt-6 flex-1">
+              <div>
+                <Label className="text-muted-foreground block mb-4">Does patient know about HEF?</Label>
+                <RadioGroup 
+                  value={hef.know_of_hef} 
+                  onValueChange={(value) => setHEF(prev => ({ ...prev, know_of_hef: value as "yes" | "no" }))}
+                  className="flex gap-6"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="yes" id="knows-yes" className="border-border text-primary" />
+                    <Label htmlFor="knows-yes" className="text-muted-foreground">Yes</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="no" id="knows-no" className="border-border text-primary" />
+                    <Label htmlFor="knows-no" className="text-muted-foreground">No</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+  
+              <div>
+                <Label className="text-muted-foreground block mb-4">Does patient have HEF?</Label>
+                <RadioGroup 
+                  value={hef.has_hef} 
+                  onValueChange={(value) => setHEF(prev => ({ ...prev, has_hef: value as "yes" | "no" }))}
+                  className="flex gap-6"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="yes" id="has-yes" className="border-border text-primary" />
+                    <Label htmlFor="has-yes" className="text-muted-foreground">Yes</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="no" id="has-no" className="border-border text-primary" />
+                    <Label htmlFor="has-no" className="text-muted-foreground">No</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+  
+              <div>
+                <Label htmlFor="hefReason" className="text-muted-foreground block mb-3">Does patient use HEF? Why or Why not?</Label>
+                <Textarea
+                  id="hefReason"
+                  value={hef.notes}
+                  onChange={(e) => setHEF(prev => ({ ...prev, notes: e.target.value }))}
+                  placeholder="Explain patient's HEF usage and reasoning"
+                  className="bg-background border-input text-foreground placeholder-muted-foreground"
+                />
+              </div>
+            </TabsContent>
+          </Tabs>
+  
+          <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-border">
+            <Button 
+              onClick={checkExistingPatient}
+              variant="outline"
+              className="px-6 bg-background border-input text-muted-foreground hover:bg-accent"
+            >
+              Check Existing
+            </Button>
+            <Button 
+              onClick={handleSubmit} 
+              disabled={isSubmitting}
+              className="px-8 bg-green-600 hover:bg-green-700 text-white"
+            >
+              {isSubmitting ? "Submitting..." : "Submit & Add to Queue"}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+
 
 
 }

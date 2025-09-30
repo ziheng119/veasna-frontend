@@ -54,24 +54,24 @@ export default function HomePage() {
   }, [location, token, dateOnly]) // Rerun when location, token, or date changes
   
   return (
-    <div className="min-h-screen w-screen flex flex-col bg-slate-900 overflow-hidden">
+    <div className="min-h-screen w-screen flex flex-col bg-background overflow-hidden">
       {/* Header with gradient */}
       <header className="bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 border-b border-border/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-              <h1 className="text-2xl text-white font-bold text-foreground">
-                Patient Management System
+              <h1 className="text-2xl text-black font-bold text-foreground">
+                Welcome, {username} !
               </h1>
           </div>
         </div>
       </header>
 
-      <main className="flex-1 p-6 overflow-hidden bg-slate-900 max-w-screen-2xl mx-auto">
+      <main className="flex-1 p-6 overflow-hidden bg-background max-w-screen-2xl mx-auto">
 
         <div className="flex gap-6 h-full">
           <div className="w-1/3">
             {isLoading ? (
-              <p className="text-slate-400 text-center py-8">Loading Queue....</p>
+              <p className="text-muted-foreground text-center py-8">Loading Queue....</p>
             ): (
               <PatientQueue patients={queuedPatients} />
             )}

@@ -52,53 +52,53 @@ export function PatientQueue({patients}: PatientQueueProps) {
     const today = new Date().toLocaleDateString();
 
     return (
-        <Card className="h-full flex flex-col bg-slate-800 border-slate-700">
-          <CardHeader className="bg-slate-900 border-b border-slate-700">
-            <CardTitle className="flex items-center justify-between text-slate-100">
+      <Card className="h-full flex flex-col bg-card border-border shadow-sm">
+        <CardHeader className="bg-muted border-b border-border p-6">
+          <CardTitle className="flex items-center justify-between text-foreground">
               Today's Queue
               <Badge 
                 variant="secondary" 
-                className="bg-blue-600 text-white hover:bg-blue-700"
+                className="bg-muted text-foreground hover:bg-accent"
               >
                 {today}
               </Badge>
             </CardTitle>
             <div className="relative mt-4">
-              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
                 placeholder="Search by name or queue number..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400"
+                className="pl-10 bg-background border-input text-foreground placeholder-muted-foreground"
               />
             </div>
           </CardHeader>
-          <CardContent className="flex-1 overflow-y-auto space-y-3 bg-slate-800">
+          <CardContent className="flex-1 overflow-y-auto space-y-3 p-6 bg-card">
             {sortedPatients.length === 0 ? (
-              <p className="text-slate-400 text-center py-8">
+              <p className="text-muted-foreground text-center py-8">
                 {searchQuery ? "No patients found matching search" : "No patients in queue today"}
               </p>
             ) : (
               sortedPatients.map((patient) => (
                 <div
                   key={`${patient.queue_no}-${patient.timestamp}`}
-                  className="flex items-center justify-between p-3 border border-slate-600 rounded-lg hover:bg-slate-700/50 transition-colors bg-slate-750"
+                  className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-accent transition-colors bg-card"
                 >
                   <div className="flex items-center space-x-3">
                     <Badge 
                       variant="outline" 
-                      className="font-mono border-slate-500 text-slate-200"
+                      className="font-mono border-border text-foreground"
                     >
                       {patient.queue_no}
                     </Badge>
                     <div>
-                      <div className="font-medium text-slate-100">{patient.english_name}</div>
-                      <div className="text-sm text-slate-400">
+                      <div className="font-medium text-foreground">{patient.english_name}</div>
+                      <div className="text-sm text-muted-foreground">
                         {patient.khmer_name}
                       </div>
                     </div>
                   </div>
-                  <div className="text-right text-sm text-slate-400">
+                  <div className="text-right text-sm text-muted-foreground">
                     <div>{patient.age}y, {patient.sex}</div>
                     <div>{patient.timestamp}</div>
                   </div>
