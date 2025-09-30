@@ -53,12 +53,12 @@ export function PatientQueue({patients}: PatientQueueProps) {
 
     return (
       <Card className="h-full flex flex-col bg-card border-border shadow-sm">
-        <CardHeader className="bg-muted border-b border-border p-6">
+        <CardHeader className="bg-muted border-b border-border">
           <CardTitle className="flex items-center justify-between text-foreground">
               Today's Queue
               <Badge 
                 variant="secondary" 
-                className="bg-muted text-foreground hover:bg-accent"
+                className="bg-primary text-foreground"
               >
                 {today}
               </Badge>
@@ -73,9 +73,10 @@ export function PatientQueue({patients}: PatientQueueProps) {
               />
             </div>
           </CardHeader>
-          <CardContent className="flex-1 overflow-y-auto space-y-3 p-6 bg-card">
+
+          <CardContent className="flex-1 overflow-y-auto space-y-3 bg-card">
             {sortedPatients.length === 0 ? (
-              <p className="text-muted-foreground text-center py-8">
+              <p className="text-muted-foreground text-center">
                 {searchQuery ? "No patients found matching search" : "No patients in queue today"}
               </p>
             ) : (
@@ -87,7 +88,7 @@ export function PatientQueue({patients}: PatientQueueProps) {
                   <div className="flex items-center space-x-3">
                     <Badge 
                       variant="outline" 
-                      className="font-mono border-border text-foreground"
+                      className="font-mono border-border text-foreground bg-primary"
                     >
                       {patient.queue_no}
                     </Badge>

@@ -66,10 +66,10 @@ export default function HomePage() {
         </div>
       </header>
 
-      <main className="flex-1 p-6 overflow-hidden bg-background max-w-screen-2xl mx-auto">
+      <main className="flex-1 p-6 overflow-hidden bg-background w-full">
 
-        <div className="flex gap-6 h-full">
-          <div className="w-1/3">
+        <div className="flex w-full gap-6">
+          <div className="w-1/3 min-w-[300px]">
             {isLoading ? (
               <p className="text-muted-foreground text-center py-8">Loading Queue....</p>
             ): (
@@ -77,7 +77,7 @@ export default function HomePage() {
             )}
 
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-[600px] flex">
             <PatientForm
               existingPatients={locationPatients}
               onSubmit={handlePatientSubmit}
