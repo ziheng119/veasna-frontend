@@ -16,7 +16,7 @@ export default function HistoryPopUp({ setShowPopUp, popupRef, pos, onMouseDown 
     >
       <div
         ref={popupRef}
-        className="p-6 rounded-lg shadow-lg relative cursor-move bg-green-default w-[80vw] h-[80vh]"
+        className="p-6 rounded-lg shadow-lg relative cursor-move bg-green-default"
         style={{
           position: "absolute",
           left: pos.x,
