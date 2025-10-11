@@ -7,7 +7,7 @@ import Vitals from './Vitals';
 import HEF from './HEF';
 import { useState, useEffect } from 'react';
 import SaveButton from '@/components/shared/SaveButton';
-import { PatientFormData } from '@/lib/types/PatientData';
+import { PatientFormData } from '@/lib/types/patient';
 
 interface Props {
     patient: PatientFormData;

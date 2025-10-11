@@ -1,29 +1,33 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SearchIcon } from "@/assets/icons/SearchIcon"
 import { CrossIcon } from "@/assets/icons/CrossIcon"
+import { useDataStore } from "@/stores/useLocationDataStore"
+import { QueuedPatient } from "@/lib/types/patient"
 
-export default function SearchBar() {
+interface SearchBarProps {
+  onSelectPatient?: (patient: QueuedPatient) => void
+}
+
+export default function SearchBar({ onSelectPatient }: SearchBarProps) {
+  const patients: QueuedPatient[] = useDataStore(state => state.todays_patients)
+  const fetchData = useDataStore(state => state.fetchData)
+
   const [query, setQuery] = useState<string>("")
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1)
 
-  const sample_patients = [
-    "Alice Lee",
-    "Amy Teo",
-    "Amy Wee",
-    "Bella",
-    "Charmaine"
-  ]
-
-  const filteredPatients = sample_patients.filter(
-    (name) => name.toLowerCase().includes(query.toLowerCase())
+  // Filter patients based on queue number
+  const filteredPatients = patients.filter(
+    (patient) => patient.queue_no.toLowerCase().includes(query.toLowerCase())
   )
 
-  const handleClearQuery = () => {
-    setQuery("")
+  const handlePatientSelect = (patient: QueuedPatient) => {
+    setQuery(patient.queue_no)
+    setShowSuggestions(false)
     setHighlightedIndex(-1)
+    if (onSelectPatient) onSelectPatient(patient)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -42,12 +46,25 @@ export default function SearchBar() {
     } else if (e.key === "Enter") {
       e.preventDefault()
       if (highlightedIndex >= 0 && highlightedIndex < filteredPatients.length) {
-        setQuery(filteredPatients[highlightedIndex])
-        setShowSuggestions(false)
-        setHighlightedIndex(-1)
+        handlePatientSelect(filteredPatients[highlightedIndex])
       }
     }
   }
+
+  const handleClearQuery = () => {
+    setQuery("")
+    setHighlightedIndex(-1)
+  }
+
+  useEffect(() => {
+    fetchData() // initial fetch
+
+    const interval = setInterval(() => {
+      fetchData()
+    }, 5 * 60 * 1000) // every 5 minutes
+
+    return () => clearInterval(interval) // cleanup on unmount
+  }, [fetchData])
 
   return (
     <div className="relative w-full text-gray-700">
@@ -56,7 +73,7 @@ export default function SearchBar() {
 
         <input
           type="text"
-          placeholder="Select Patient"
+          placeholder="Enter Queue Number"
           value={query}
           className="flex-1 min-w-[100px] outline-none ml-1"
           onChange={e => {
@@ -77,22 +94,18 @@ export default function SearchBar() {
         />
       </div>
 
-      {showSuggestions && query.trim() !== "" && filteredPatients.length !== 0 && (
+      {showSuggestions && query.trim() !== "" && filteredPatients.length > 0 && (
         <ul className="absolute z-10 bg-white border border-gray-300 rounded-md w-full mt-1 max-h-48 overflow-y-auto">
-          {filteredPatients.map((name, idx) => (
+          {filteredPatients.map((patient, idx) => (
             <li
-              key={idx}
+              key={patient.patient_id ?? idx}
               className={`px-4 py-2 cursor-pointer ${
                 idx === highlightedIndex ? "bg-gray-100 font-medium" : "hover:bg-gray-100"
               }`}
               onMouseEnter={() => setHighlightedIndex(idx)}
-              onMouseDown={() => {
-                setQuery(name)
-                setShowSuggestions(false)
-                setHighlightedIndex(-1)
-              }}
+              onMouseDown={() => handlePatientSelect(patient)}
             >
-              {name}
+              <span className="font-medium">{patient.queue_no}</span> - {patient.english_name}
             </li>
           ))}
         </ul>

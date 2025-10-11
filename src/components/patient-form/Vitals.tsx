@@ -1,15 +1,15 @@
 import React from 'react';
 
 interface PatientData {
-    height: string;
-    weight: string;
-    bmi: string;
-    category: string;
-    isBelow3rdPercentile: boolean;
-    bloodPressureSystolic: string;
-    bloodPressureDiastolic: string;
-    temperature: string;
-    additionalNotes: string;
+    height?: string;
+    weight?: string;
+    bmi?: string;
+    category?: string;
+    below_3rd_percentile?: boolean;
+    bp_systolic?: string;
+    bp_diastolic?: string;
+    temperature?: string;
+    additionalNotes?: string;
 }
 
 interface Props {
@@ -37,7 +37,7 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                 if (value === '' || regex2dp.test(value)) {
                     onUpdatePatient({ [field] : value });
                 }
-            } else if (field === 'bloodPressureDiastolic' || field === 'bloodPressureSystolic' || field === 'height') {
+            } else if (field === 'bp_systolic' || field === 'bp_diastolic' || field === 'height') {
                 if (value === '' || regex0dp.test(value)) {
                     onUpdatePatient({ [field] : value });
                 }
@@ -55,32 +55,37 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
 
     const calculateBMI = () => {
         if (isViewMode) return;
-        const heightValue = parseFloat(patient.height) / 100;
-        const weightValue = parseFloat(patient.weight);
 
-        if (isNaN(heightValue) || isNaN(weightValue) || heightValue <= 0 || weightValue <= 0) {
+        // Safely parse numbers, default to NaN if invalid
+        const heightValue = patient?.height ? parseFloat(patient.height) / 100 : NaN;
+        const weightValue = patient?.weight ? parseFloat(patient.weight) : NaN;
+
+        // Exit if either value is not a valid positive number
+        if (!heightValue || !weightValue || isNaN(heightValue) || isNaN(weightValue)) {
+            // Optionally reset BMI and category if input is invalid
+            onUpdatePatient({ bmi: '', category: '' });
             return;
         }
-        
+
         const bmiValue = weightValue / (heightValue * heightValue);
-        const roundedBMI = Math.round(bmiValue * 100) / 100; // Round to 2 dp
+        const roundedBMI = Math.round(bmiValue * 100) / 100; // 2 decimal places
 
         let category = '';
         if (bmiValue < 18.5) {
             category = 'Underweight';
         } else if (bmiValue < 25) {
-            category = 'Healthy Weight'
+            category = 'Healthy Weight';
         } else if (bmiValue < 30) {
-            category = 'Overweight'
+            category = 'Overweight';
         } else if (bmiValue < 40) {
-            category = 'Obese'
+            category = 'Obese';
         } else {
-            category = 'Severely Obese'
+            category = 'Severely Obese';
         }
 
         onUpdatePatient({
             bmi: roundedBMI.toString(),
-            category
+            category,
         });
     };
 
@@ -169,8 +174,8 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                             {...inputProps}
                             type='checkbox'
                             id='below3rdPercentile'
-                            checked={patient.isBelow3rdPercentile}
-                            onChange={(e) => handleChange('isBelow3rdPercentile', e.target.checked)}
+                            checked={patient.below_3rd_percentile}
+                            onChange={(e) => handleChange('below_3rd_percentile', e.target.checked)}
                             className='justify-self-start h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
                         />
                     </div>
@@ -183,9 +188,11 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                     <input
                         {...inputProps}
                         type='text'
-                        value={patient.category}
+                        value={patient.category || ""} // default to empty string if undefined
                         onChange={(e) => handleChange('category', e.target.value)}
-                        className={`text-center w-36 px-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium ${getCategoryColor(patient.category)}`}   
+                        className={`text-center w-36 px-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium ${
+                            getCategoryColor(patient.category || "")
+                        }`}   
                         readOnly
                     />
                 </div>
@@ -200,8 +207,8 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
-                        value={patient.bloodPressureSystolic}
-                        onChange={(e) => handleChange('bloodPressureSystolic', e.target.value)}
+                        value={patient.bp_systolic}
+                        onChange={(e) => handleChange('bp_systolic', e.target.value)}
                         className='w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                         placeholder='Systolic'
                     />
@@ -211,8 +218,8 @@ export default function Vitals({patient, onUpdatePatient, isViewMode}: Props) {
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
-                        value={patient.bloodPressureDiastolic}
-                        onChange={(e) => handleChange('bloodPressureDiastolic', e.target.value)}
+                        value={patient.bp_diastolic}
+                        onChange={(e) => handleChange('bp_diastolic', e.target.value)}
                         className='w-29 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
                         placeholder='Diastolic'
                     />

@@ -9,7 +9,7 @@ import { PatientForm } from '@/components/home/PatientForm';
 import { QueuedPatient, PatientInfo } from '@/lib/types/patient';  
 
 import { getQueue } from '@/lib/api/queue/getQueue';
-import { getPatientsByLocation } from '@/lib/api/patients/getPatients';
+import { getPatientsByLocation } from '@/lib/api/patients/getPatientsByLocation';
 
 export default function HomePage() {
 

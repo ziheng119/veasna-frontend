@@ -39,7 +39,7 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
     const [activeTab, setActiveTab] = useState("patient-info");
 
     const [patientInfo, setPatientInfo] =  useState<PatientFormData>({
-        face_id: 0,
+        face_id: "",
         english_name: "",
         khmer_name: "",
         date_of_birth: "",
@@ -78,7 +78,7 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
             const calculatedAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())
                 ? age - 1 : age;
             
-            setPatientInfo(prev => ({ ...prev, age: calculatedAge }));
+            setPatientInfo(prev => ({ ...prev, age: calculatedAge.toString() }));
         }
     };
 
@@ -98,21 +98,31 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
         }
       };
 
-      const checkExistingPatient = () => {
-        const name = patientInfo.english_name || patientInfo.khmer_name;
-        if (!name) return;
-        
-        const found = existingPatients.find(
-          p => p.english_name.toLowerCase().includes(name.toLowerCase()) ||
-               p.khmer_name.toLowerCase().includes(name.toLowerCase())
-        );
-        
-        if (found) {
-          setPatientInfo(found);
-        } else {
-          alert("No existing patient found with that name");
-        }
-      };
+    const checkExistingPatient = () => {
+      // Use either English or Khmer name for search
+      const name = patientInfo.english_name?.trim() || patientInfo.khmer_name?.trim();
+      if (!name) return;
+
+      const found = existingPatients.find((p) => {
+        const engName = p.english_name?.toLowerCase() || "";
+        const khmerName = p.khmer_name?.toLowerCase() || "";
+        return engName.includes(name.toLowerCase()) || khmerName.includes(name.toLowerCase());
+      });
+
+      if (found) {
+        setPatientInfo({
+          face_id: found.face_id.toString(),
+          english_name: found.english_name || "",
+          khmer_name: found.khmer_name || "",
+          date_of_birth: found.date_of_birth || "",
+          sex: found.sex,
+          address: found.address || "",
+          phone_number: found.phone_number || "",
+        });
+      } else {
+        alert("No existing patient found with that name");
+      }
+    };
 
     const handleSubmit = async () => {
         if (!locationId || !token) {
@@ -139,7 +149,7 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
 
           // Reset form states
           setPatientInfo({
-            face_id: 0,
+            face_id: "",
             queue_no: "",
             english_name: "",
             khmer_name: "",
@@ -202,7 +212,7 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
               </TabsTrigger>
 
             </TabsList>
-            <div className="flex-1 w-full w-full">
+            <div className="flex-1 w-full">
               <TabsContent value="patient-info" className="space-y-4 mt-6 h-full">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -272,7 +282,7 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
                         id="age"
                         type="number"
                         value={patientInfo.age || ""}
-                        onChange={(e) => setPatientInfo(prev => ({ ...prev, age: parseInt(e.target.value) || 0 }))}
+                        onChange={(e) => setPatientInfo(prev => ({ ...prev, age: e.target.value || "" }))}
                         placeholder="Age"
                         className="!bg-white !text-black !placeholder-gray-400 !border-gray-300"
                       />
@@ -317,7 +327,7 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
                   <Input
                     id="faceId"
                     value={patientInfo.face_id}
-                    onChange={(e) => setPatientInfo(prev => ({ ...prev, face_id: parseInt(e.target.value) || 0 }))}
+                    onChange={(e) => setPatientInfo(prev => ({ ...prev, face_id: e.target.value || "" }))}
                     placeholder="Face ID"
                     className="!bg-white !text-black !placeholder-gray-400 !border-gray-300 mt-2"
                   />

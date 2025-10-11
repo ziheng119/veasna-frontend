@@ -40,14 +40,21 @@ export function PatientQueue({patients}: PatientQueueProps) {
     const [searchQuery, setSearchQuery] = useState("");
 
     const filteredPatients = patients.filter((patient) => {
-        if (!searchQuery) return true;
-        const query = searchQuery.toLowerCase();
-        return (
-            patient.english_name.toLowerCase().includes(query) ||
-            patient.khmer_name.toLowerCase().includes(query) ||
-            patient.queue_no.toLowerCase().includes(query) // should be parsing the number here
-        );
-    })
+      if (!searchQuery) return true;
+
+      const query = searchQuery.toLowerCase();
+
+      const engName = patient.english_name?.toLowerCase() || "";
+      const khmerName = patient.khmer_name?.toLowerCase() || "";
+      const queueNo = patient.queue_no ? patient.queue_no.toString().toLowerCase() : "";
+
+      return (
+        engName.includes(query) ||
+        khmerName.includes(query) ||
+        queueNo.includes(query)
+      );
+    });
+
     const sortedPatients = [...filteredPatients].sort(sortQueueNumber);
     const today = new Date().toLocaleDateString();
 
