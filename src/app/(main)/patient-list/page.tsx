@@ -5,11 +5,11 @@ import { FullSearchBar } from "@/components/patient-list/FullSearchBar";
 import { PatientPageHeader } from "@/components/patient-list/PageHeader";
 import { PatientTable } from "@/components/patient-list/PatientTable";
 import { Location } from "@/lib/types/location";
-import { Patient } from "@/lib/types/patient";
-import { SAMPLE_PATIENTS } from "@/sample_data/sample_patients";
+import { PatientInfo } from "@/lib/types/patient";
 import { useLocationStore } from "@/stores/useLocationStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { useDataStore } from "@/stores/useLocationDataStore";
 
 export default function PatientListPage() {
 
@@ -19,33 +19,27 @@ export default function PatientListPage() {
   const date : Date = new Date(); // local time
   const dateOnly: string = date.toISOString().slice(0, 10);
 
-  const [patients, setPatients] = useState<Patient[]>([]);
+  const [patients, setPatients] = useState<PatientInfo[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const filteredPatients: Patient[] = useMemo(() => {
+  const location_patients = useDataStore((state) => state.all_patients)
+  const fetchData = useDataStore((state) => state.fetchData)
+
+  const filteredPatients: PatientInfo[] = useMemo(() => {
     if (!searchTerm.trim()) {
       return patients;
     }
 
-    const searchLower: string = searchTerm.toLowerCase()
+    const searchLower = searchTerm.toLowerCase();
 
-    // filters list of patients by english name, khmer name or queue Number 
     return patients.filter((patient) => {
-      // const searchNum = parseInt(searchLower, 10);
-      // const queueMatch = (() => {
-      //   const numMatch = patient.queueNumber.match(/^\d+/); // Extract leading digits
-      //   if (!numMatch) return false;
-      //   const queueNum = parseInt(numMatch[0], 10);
-      //   return !isNaN(searchNum) && queueNum >= searchNum;
-      // })();
-    
-      return (
-        patient.englishName.toLowerCase().includes(searchLower) ||
-        patient.khmerName.toLowerCase().includes(searchLower)
-        // queueMatch
-      );
+      const engName = patient.english_name?.toLowerCase() || "";
+      const khmerName = patient.khmer_name?.toLowerCase() || "";
+
+      return engName.includes(searchLower) || khmerName.includes(searchLower);
     });
-  }, [patients, searchTerm])
+  }, [patients, searchTerm]);
+
 
   const handleSearchChange = (term: string) => {
     setSearchTerm(term);
@@ -79,9 +73,14 @@ export default function PatientListPage() {
   };
 
   useEffect(() => {
-    setPatients(SAMPLE_PATIENTS)
+    if (!location) return; // Only fetch if location is set
+    fetchData();
+  }, [location]);
+
+  useEffect(() => {
+    setPatients(location_patients)
     // call API according to locationId and dateOnly
-  }, [location, dateOnly])
+  }, [location_patients])
 
   return (
     <div>

@@ -1,8 +1,12 @@
 export interface Drug {
-    drug_id: string
-    drug_name: string
-    drug_stockLevel: "low" | "medium" | "high"
-}
+    id: number;
+    location_id: number;
+    drug_name: string;
+    stock_level: "low" | "medium" | "high" | "no stock";
+    last_updated_at: string;
+    last_updated_by: number;
+    created_at: string;
+  }
 
 export interface Stats {
     total: number

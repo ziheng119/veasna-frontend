@@ -1,37 +1,40 @@
 "use client"
 
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { DrugTable } from "@/components/pharmacy/DrugTable"
 import { Drug } from "@/lib/types/drug"
 import { PageHeader } from "@/components/pharmacy/PageHeader"
 import { PlusIcon } from "@/assets/icons"
 import { AddDrugSidebar } from "@/components/pharmacy/AddDrugSidebar"
 import { FullSearchBar } from "@/components/patient-list/FullSearchBar"
-
-const SAMPLE_DRUGS: Drug[] = [
-    { drug_id: "D001", drug_name: "Aspirin", drug_stockLevel: "high" },
-    { drug_id: "D002", drug_name: "Ibuprofen", drug_stockLevel: "medium" },
-    { drug_id: "D003", drug_name: "Acetaminophen", drug_stockLevel: "low" },
-    { drug_id: "D004", drug_name: "Amoxicillin", drug_stockLevel: "high" },
-    { drug_id: "D005", drug_name: "Lisinopril", drug_stockLevel: "low" },
-    { drug_id: "D006", drug_name: "Metformin", drug_stockLevel: "medium" },
-    { drug_id: "D007", drug_name: "Atorvastatin", drug_stockLevel: "high" },
-    { drug_id: "D008", drug_name: "Levothyroxine", drug_stockLevel: "medium" },
-    { drug_id: "D009", drug_name: "Omeprazole", drug_stockLevel: "low" },
-    { drug_id: "D010", drug_name: "Hydrochlorothiazide", drug_stockLevel: "high" },
-    { drug_id: "D011", drug_name: "Amlodipine", drug_stockLevel: "medium" },
-    { drug_id: "D012", drug_name: "Metoprolol", drug_stockLevel: "high" },
-    { drug_id: "D013", drug_name: "Losartan", drug_stockLevel: "low" },
-    { drug_id: "D014", drug_name: "Simvastatin", drug_stockLevel: "medium" },
-    { drug_id: "D015", drug_name: "Prednisone", drug_stockLevel: "high" }
-]
-  
-
+import { getDrugsByLocation } from "@/lib/api/pharmacy/pharmacy"
+import { addDrug } from "@/lib/api/pharmacy/pharmacy"
+import { updateDrugStock } from "@/lib/api/pharmacy/pharmacy"
+import { deleteDrug } from "@/lib/api/pharmacy/pharmacy"
+import { useLocationStore } from "@/stores/useLocationStore"
+import toast from "react-hot-toast"
 
 export default function Pharmacy() {
-    const [drugs, setDrugs] = useState<Drug[]>(SAMPLE_DRUGS)
+    const [drugs, setDrugs] = useState<Drug[]>([])
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [showAddTab, setShowAddTab] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const location = useLocationStore((state) => state.currentLocation)
+
+    // Fetch drugs from the database when location changes
+    useEffect(() => {
+      if (location) {
+        setIsLoading(true);
+        toast.promise(
+          getDrugsByLocation(location.id).then(setDrugs),
+          {
+            loading: 'Fetching drug inventory...',
+            success: 'Inventory loaded!',
+            error: 'Failed to fetch inventory.',
+          }
+        ).finally(() => setIsLoading(false));
+      }
+    }, [location]);
 
     // if there is a change in the searchTerm or drug, filteredDrugs is recalculated
     const filteredDrugs = useMemo(() => {
@@ -42,8 +45,7 @@ export default function Pharmacy() {
         const searchLower = searchTerm.toLowerCase()
         return drugs.filter((drug) =>
         drug.drug_name.toLowerCase().includes(searchLower) ||
-        drug.drug_id.toLowerCase().includes(searchLower) ||
-        drug.drug_stockLevel.toLowerCase().includes(searchLower)
+        drug.stock_level.toLowerCase().includes(searchLower)
         )
     }, [drugs, searchTerm])
 
@@ -52,26 +54,48 @@ export default function Pharmacy() {
         setSearchTerm(term)
     }
 
-    // to change with db
-    const handleStockLevelChange = (drugId: string, newLevel: "low" | "medium" | "high") => {
+    const handleStockLevelChange = async (drugId: number, newLevel: Drug['stock_level']) => {
+      try {
+        const updatedDrug = await updateDrugStock(drugId, newLevel);
         setDrugs(prevDrugs =>
-            prevDrugs.map((drug) => 
-                drug.drug_id === drugId ? { ...drug, drug_stockLevel: newLevel} : drug
-            )
-        )
+          prevDrugs.map((drug) =>
+            drug.id === drugId ? updatedDrug : drug
+          )
+        );
+        toast.success(`${updatedDrug.drug_name} stock updated.`);
+      } catch (error) {
+        toast.error("Failed to update stock level.");
+      }
     }
     
-    // to change with db
-    const handleDeleteDrug = (drugId: string) => {
+    const handleDeleteDrug = async (drugId: number) => {
         if (window.confirm('Are you sure you want to delete this drug?')) {
-            setDrugs(prevDrugs => prevDrugs.filter(drug => drug.drug_id !== drugId))
+          try {
+            await deleteDrug(drugId);
+            setDrugs(prevDrugs => prevDrugs.filter(drug => drug.id !== drugId));
+            toast.success("Drug deleted successfully.");
+          } catch (error) {
+            toast.error("Failed to delete drug.");
+          }
         }
     }
 
     // to change with db
-    const handleAddDrug = (newDrug: Drug) => {
-      setDrugs(prevDrugs => [...prevDrugs, newDrug])
+    const handleAddDrug = async (newDrugData: { drug_name: string, stock_level: Drug['stock_level'] }) => {
+      if (!location) {
+        toast.error("No Location Selected !");
+        return;
+      }
+      try {
+        const payload = { ...newDrugData, location_id: location.id };
+        const newDrug = await addDrug(payload);
+        setDrugs(prevDrugs => [...prevDrugs, newDrug]);
+        toast.success(`${newDrug.drug_name} added to inventory.`);
+      } catch (error) {
+        toast.error("Failed to add new drug.");
+      }
     }
+
 
     return (
       <div className="min-h-screen p-6">

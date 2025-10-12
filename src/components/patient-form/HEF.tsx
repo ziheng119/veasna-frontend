@@ -1,9 +1,9 @@
 import React from 'react';
 
 interface PatientData {
-    knowsAboutHEF: string;
-    hasHEF: string;
-    useHEFReason: string;
+    know_of_hef?: string;
+    has_hef?: string;
+    notes?: string;
 }
 
 interface Props {
@@ -41,8 +41,8 @@ export default function HEF({patient, onUpdatePatient, isViewMode}: Props) {
                 id={`knowsHEF-${opt}`}
                 name='knowsAboutHEF'
                 value={opt}
-                checked={patient.knowsAboutHEF === opt}
-                onChange={e => handleChange('knowsAboutHEF', e.target.value)}
+                checked={patient.know_of_hef === opt}
+                onChange={e => handleChange('know_of_hef', e.target.value)}
                 className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300'
               />
               <label htmlFor={`knowsHEF-${opt}`} className='ml-2 text-sm'>
@@ -66,8 +66,8 @@ export default function HEF({patient, onUpdatePatient, isViewMode}: Props) {
                 id={`hasHEF-${opt}`}
                 name='hasHEF'
                 value={opt}
-                checked={patient.hasHEF === opt}
-                onChange={e => handleChange('hasHEF', e.target.value)}
+                checked={patient.has_hef === opt}
+                onChange={e => handleChange('has_hef', e.target.value)}
                 className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300'
               />
               <label htmlFor={`hasHEF-${opt}`} className='ml-2 text-sm'>
@@ -85,8 +85,8 @@ export default function HEF({patient, onUpdatePatient, isViewMode}: Props) {
         </label>
         <textarea
           {...inputProps}
-          value={patient.useHEFReason}
-          onChange={e => handleChange('useHEFReason', e.target.value)}
+          value={patient.notes}
+          onChange={e => handleChange('know_of_hef', e.target.value)}
           rows={6}
           className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black'
           placeholder='Insert Text'

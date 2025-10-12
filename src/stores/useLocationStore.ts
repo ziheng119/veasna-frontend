@@ -2,6 +2,8 @@ import { Location } from "@/lib/types/location";
 import { SAMPLE_LOCATIONS } from "@/sample_data/sample_locations";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { createLocation } from "@/lib/api/location/createLocation";
+import { deleteLocation } from "@/lib/api/location/deleteLocation";
 
 const getNext6AM = () => {
   const now = new Date();
@@ -21,37 +23,73 @@ interface LocationState {
   locations: Location[];
   currentLocation: Location | null;
   hasHydrated: boolean;
+  isLoading: boolean;
+  error: string | null;
 
   setHasHydrated: (state: boolean) => void;
   setLocations: (locations: Location[]) => void;
   setCurrentLocation: (location: Location) => void;
-  addLocation: (location: Location) => void;
-  removeLocation: (locationId: number) => void;
+  addLocation: (name: string) => Promise<void>;
+  removeLocation: (locationId: number) => Promise<void>;
+  setError: (error: string | null) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 export const useLocationStore = create<LocationState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       locations: SAMPLE_LOCATIONS,
       currentLocation: null,
       hasHydrated: false,
+      isLoading: false,
+      error: null,
 
       setHasHydrated: (state: boolean) => set({ hasHydrated: state }),
       setLocations: (locations: Location[]) => set({ locations: locations}),
       setCurrentLocation: (location: Location) => set({ currentLocation: location }),
-      addLocation: (location: Location) =>
-        set((state) => ({
-          locations: [...state.locations,location],
-        })),
-      removeLocation: (locationId) =>
-        set((state) => {
-          const filtered = state.locations.filter((loc) => loc.id !== locationId);
-          const stillValid = state.currentLocation && state.currentLocation.id !== locationId;
-          return {
-             locations: filtered,
-            currentLocation: stillValid ? state.currentLocation : filtered[0] || null,
-          };
-       })
+      setError: (error: string | null) => set({ error }),
+      setLoading: (loading: boolean) => set({ isLoading: loading }),
+      
+      addLocation: async (name: string) => {
+        set({ isLoading: true, error: null });
+        try {
+          const newLocation = await createLocation(name);
+          set((state) => ({
+            locations: [...state.locations, newLocation],
+            isLoading: false,
+          }));
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Failed to create location';
+          set({ 
+            error: errorMessage, 
+            isLoading: false 
+          });
+          throw error; // Re-throw so the UI can handle it
+        }
+      },
+      
+      removeLocation: async (locationId: number) => {
+        set({ isLoading: true, error: null });
+        try {
+          await deleteLocation(locationId);
+          set((state) => {
+            const filtered = state.locations.filter((loc) => loc.id !== locationId);
+            const stillValid = state.currentLocation && state.currentLocation.id !== locationId;
+            return {
+              locations: filtered,
+              currentLocation: stillValid ? state.currentLocation : filtered[0] || null,
+              isLoading: false,
+            };
+          });
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Failed to delete location';
+          set({ 
+            error: errorMessage, 
+            isLoading: false 
+          });
+          throw error; // Re-throw so the UI can handle it
+        }
+      }
     }),
     {
       name: "location-storage",

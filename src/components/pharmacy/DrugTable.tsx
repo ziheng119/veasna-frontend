@@ -5,8 +5,8 @@ import { useMemo } from "react"
 
 interface DrugTableProps {
     drugs: Drug[]
-    onStockLevelChange: (drugId: string, newLevel: "low" | "medium" | "high") => void
-    onDeleteDrug: (drugId: string) => void
+    onStockLevelChange: (drugId: number, newLevel: "low" | "medium" | "high" | "no stock") => void
+    onDeleteDrug: (drugId: number) => void
 }
 
 
@@ -14,9 +14,9 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
 
     const stockCounts = useMemo(() => {
         return drugs.reduce((acc, drug) => {
-          acc[drug.drug_stockLevel] = (acc[drug.drug_stockLevel] || 0) + 1
+          acc[drug.stock_level] = (acc[drug.stock_level] || 0) + 1
           return acc
-        }, {} as Record<string, number>)
+        }, {} as Record<"low" | "medium" | "high" | "no stock", number>)
       }, [drugs])
 
     return (
@@ -35,9 +35,12 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
                   Total: <span className="font-semibold">{drugs.length}</span>
                 </span>
                 <span className="text-red-500">
-                  Low: <span className="font-semibold">{stockCounts.low || 0}</span>
+                  No Stock: <span className="font-semibold">{stockCounts["no stock"] || 0}</span>
                 </span>
                 <span className="text-yellow-500">
+                  Low: <span className="font-semibold">{stockCounts.low || 0}</span>
+                </span>
+                <span className="text-blue-500">
                   Medium: <span className="font-semibold">{stockCounts.medium || 0}</span>
                 </span>
                 <span className="text-green-500">
@@ -52,9 +55,6 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
               <thead className="bg-gray-100">
                 <tr>
                   <th className="w-1/4 px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
-                    Drug ID
-                  </th>
-                  <th className="w-1/4 px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                     Drug Name
                   </th>
                   <th className="w-1/4 px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
@@ -68,7 +68,7 @@ export function DrugTable({ drugs, onStockLevelChange, onDeleteDrug}: DrugTableP
               <tbody className="bg-white divide-y divide-gray-200">
                 {drugs.map((drug) => (
                   <DrugTableRow 
-                    key={drug.drug_id}
+                    key={drug.id}
                     drug={drug}
                     onStockLevelChange={onStockLevelChange}
                     onDeleteDrug={onDeleteDrug}

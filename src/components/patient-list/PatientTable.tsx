@@ -1,11 +1,11 @@
 import React from 'react';
 // import { EditIcon, PlusIcon, TrashIcon } from '../../assets/icons';
-import { Patient } from '@/lib/types/patient';
+import { PatientInfo } from '@/lib/types/patient';
 import { PatientTableRow } from './PatientTableRow';
 import { PersonIcon } from '@/assets/icons';
 
 interface PatientTableProps {
-    patients: Patient[];
+    patients: PatientInfo[];
     onViewPatient?: (patientId: number) => void
     onEditPatient?: (patientId: number) => void
     onDeletePatient?: (patientId: number) => void;

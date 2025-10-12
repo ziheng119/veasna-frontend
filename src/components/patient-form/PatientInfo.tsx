@@ -1,15 +1,15 @@
 import React from 'react';
 
 interface PatientData {
-    queueNumber: string;
-    englishName: string;
-    khmerName: string;
-    dateOfBirth: string;
-    age: string;
-    sex: string;
-    phoneNumber: string;
-    address: string;
-    faceId: string;
+    queue_no?: string;
+    english_name?: string;
+    khmer_name?: string;
+    date_of_birth?: string;
+    age?: string;
+    sex?: string;
+    phone_number?: string;
+    address?: string;
+    face_id?: string;
 }
 
 interface Props {
@@ -33,12 +33,12 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
             if (value === '' || regex.test(value)) {
                 onUpdatePatient({ [field]: value });
             }
-        } else if (field === 'dateOfBirth') {
+        } else if (field === 'date_of_birth') {
             const regex = /^(\d{0,2})(\/?)(\d{0,2})(\/?)(\d{0,4})$/; // Allow DD/MM/YYYY format with slashes
             if (value === '' || regex.test(value)) {
                 onUpdatePatient({ [field]: value });
             }
-        } else if (field === 'phoneNumber') {
+        } else if (field === 'phone_number') {
             // Allow: digits, spaces, plus sign (only at start), hyphens, parentheses
             const regex = /^[\+]?[\d\s\-\(\)]*$/;
             if (value === '' || regex.test(value)) {
@@ -51,9 +51,9 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
 
     // Helper function to calculate age
     const calculateAge = () => {
-        if (!patient.dateOfBirth) return;
+        if (!patient.date_of_birth) return;
 
-        const parts = patient.dateOfBirth.split('/');
+        const parts = patient.date_of_birth.split('/');
         if (parts.length === 3) {
             const day = parseInt(parts[0]);
             const month = parseInt(parts[1]);
@@ -79,7 +79,7 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
     }
 
     const handleDateChange = (value: string) => {
-        handleChange('dateOfBirth', value);
+        handleChange('date_of_birth', value);
     };
     
 
@@ -94,8 +94,8 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                     <input
                         {...inputProps}
                         type="text"
-                        value={patient.queueNumber}
-                        onChange={(e) => handleChange('queueNumber', e.target.value)}
+                        value={patient.queue_no}
+                        onChange={(e) => handleChange('queue_no', e.target.value)}
                         className="w-64 px-3 py-2 border border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                     />
                 </div>
@@ -108,8 +108,8 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                     <input
                         {...inputProps}
                         type='text'
-                        value={patient.englishName}
-                        onChange={(e) => handleChange('englishName', e.target.value)}
+                        value={patient.english_name}
+                        onChange={(e) => handleChange('english_name', e.target.value)}
                         className="w-64 px-3 py-2 border border-gray-300 border-width-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                     />
                 </div>
@@ -121,8 +121,8 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                     <input
                         {...inputProps}
                         type='text'
-                        value={patient.khmerName}
-                        onChange={(e) => handleChange('khmerName', e.target.value)}
+                        value={patient.khmer_name}
+                        onChange={(e) => handleChange('khmer_name', e.target.value)}
                         className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                     />
                 </div>
@@ -135,8 +135,8 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         <input
                             {...inputProps}
                             type='date'
-                            value={patient.dateOfBirth ?
-                                patient.dateOfBirth.split('/').reverse().join('-') : ''
+                            value={patient.date_of_birth ?
+                                patient.date_of_birth.split('/').reverse().join('-') : ''
                             }
                             onChange={(e) => {
                                 if (e.target.value) {
@@ -215,8 +215,8 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                         type='text'
                         inputMode='numeric'
                         pattern='[0-9]*'
-                        value={patient.phoneNumber}
-                        onChange={(e) => handleChange('phoneNumber', e.target.value)}
+                        value={patient.phone_number}
+                        onChange={(e) => handleChange('phone_number', e.target.value)}
                         className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                     />
                 </div>
@@ -241,8 +241,8 @@ export default function PatientInfo({ patient, onUpdatePatient, isViewMode}: Pro
                     <input
                         {...inputProps}
                         type='text'
-                        value={patient.faceId}
-                        onChange={(e) => handleChange('faceId', e.target.value)}
+                        value={patient.face_id}
+                        onChange={(e) => handleChange('face_id', e.target.value)}
                         className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                     />
                 </div>

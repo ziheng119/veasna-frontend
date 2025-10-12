@@ -3,8 +3,13 @@
 import { useState, useRef, RefObject } from "react";
 import { PopUpIcon } from "@/assets/icons/PopUpIcon";
 import HistoryPopUp from "./HistoryPopUp";
+import { QueuedPatient } from "@/lib/types/patient";
 
-export default function HistoryContainer() {
+interface Props {
+  patient: QueuedPatient;
+}
+
+export default function HistoryContainer({ patient }: Props) {
   const [showPopUp, setShowPopUp] = useState(false);
 
   // Position state
@@ -58,6 +63,7 @@ export default function HistoryContainer() {
           popupRef={popupRef as RefObject<HTMLDivElement>}
           pos={pos}
           onMouseDown={onMouseDown}
+          patient={patient}
         />
       }
     </>
