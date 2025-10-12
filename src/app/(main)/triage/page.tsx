@@ -6,6 +6,7 @@ import PatientDetails from "@/components/shared/read-only/patient-container/Pati
 import { QueuedPatient } from "@/lib/types/patient";
 import { useState } from "react";
 import NoPatientSelected from "@/components/shared/NoPatientSelected";
+import { TriageTabs } from "@/components/triage/TriageTabs";
 
 export default function Traige() {
 
@@ -30,7 +31,7 @@ if (!selectedPatient) {
       </div>
       
       <div className="w-[65%]">
-        <TraigeTabs />
+        <TriageTabs visit_id={selectedPatient.visit_id}/>
       </div>
     </div>
   )

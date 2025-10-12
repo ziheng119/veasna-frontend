@@ -1,7 +1,7 @@
 export interface VisualAcuity {
-    leftWithPinhole: string;
-    leftWithoutPinhole: string;
-    rightWithPinhole: string;
-    rightWithoutPinhole: string;
+    left_with_pinhole: string;
+    left_without_pinhole: string;
+    right_with_pinhole: string;
+    right_without_pinhole: string;
     notes?: string;
 }

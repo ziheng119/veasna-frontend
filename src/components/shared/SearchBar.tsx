@@ -68,7 +68,7 @@ export default function SearchBar({ onSelectPatient }: SearchBarProps) {
 
   return (
     <div className="relative w-full text-gray-700">
-      <div className="flex flex-wrap items-center bg-white-default rounded-full w-full p-2 border-[1px] gap-1">
+      <div className="flex flex-wrap items-center bg-white rounded-full w-full p-2 border-[1px] gap-1">
         <SearchIcon className="ml-1" />
 
         <input

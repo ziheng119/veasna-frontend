@@ -28,15 +28,15 @@ export const useDataStore = create<LocationDataStore>((set, get) => ({
 
       const today = new Date().toISOString().slice(0, 10)
       
-      const [patients, today_patints, pharmacy] = await Promise.all([
+      const [patients, today_patients, pharmacy] = await Promise.all([
         getPatientsByLocation(locationId, token),
         getQueue(locationId, today.toString(), token),
         getDrugsByLocation(locationId),
       ]);
-      set({ all_patients: patients, todays_patients: today_patints, drugs: pharmacy });
+      set({ all_patients: patients, todays_patients: today_patients, drugs: pharmacy });
 
       console.log("All Patients:", patients)
-      console.log("Today's Patients:", today_patints)
+      console.log("Today's Patients:", today_patients)
       console.log("All Drugs:", pharmacy)
     } catch (err) {
       console.error("Failed to fetch location data:", err);
