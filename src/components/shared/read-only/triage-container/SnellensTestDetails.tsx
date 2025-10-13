@@ -56,12 +56,12 @@ export default function SnellensTestDetails({ patient }: Props) {
           <p className="text-center font-semibold">Right (OD)</p>
 
           <p className="text-start">With Pinhole</p>
-          <p className="text-center">{visualAcuity.leftWithPinhole ?? "N/A"}</p>
-          <p className="text-center">{visualAcuity.rightWithPinhole ?? "N/A"}</p>
+          <p className="text-center">{visualAcuity.left_with_pinhole ?? "N/A"}</p>
+          <p className="text-center">{visualAcuity.right_with_pinhole ?? "N/A"}</p>
 
           <p className="text-start">Without Pinhole</p>
-          <p className="text-center">{visualAcuity.leftWithoutPinhole ?? "N/A"}</p>
-          <p className="text-center">{visualAcuity.rightWithoutPinhole ?? "N/A"}</p>
+          <p className="text-center">{visualAcuity.left_without_pinhole ?? "N/A"}</p>
+          <p className="text-center">{visualAcuity.right_without_pinhole ?? "N/A"}</p>
 
           {/* Additional Notes span all columns */}
           <div className="col-span-3 w-full">

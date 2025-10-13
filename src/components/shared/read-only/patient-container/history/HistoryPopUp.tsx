@@ -75,7 +75,7 @@ export default function HistoryPopUp({ setShowPopUp, popupRef, pos, onMouseDown,
             <HorizontalLabelInputPair
               label="Drug and Treatment History"
               readOnly
-              value={patientHistory.drugAndTreatment || "N/A"}
+              value={patientHistory.drug_and_treatment || "N/A"}
             />
             <HorizontalLabelInputPair
               label="Family History"
