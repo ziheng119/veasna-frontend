@@ -19,6 +19,7 @@ import { PatientFormData } from "@/lib/types/patient";
 import { useUserStore } from "@/stores/useUserStore";
 import { createVisit } from "@/lib/api/visit/createVisit";
 import formatDate from "@/helper/format_date";
+import { useDataStore } from "@/stores/useLocationDataStore";
 
 interface PatientFormProps {
     existingPatients: PatientInfo[];
@@ -36,6 +37,8 @@ const getBMICategory = (bmi: number) : string => {
 
 export function PatientForm({ existingPatients, onSubmit, locationId }: PatientFormProps) {
     const token = useUserStore((state) => state.user?.token);
+    const fetchData = useDataStore((state) => state.fetchData);
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [activeTab, setActiveTab] = useState("patient-info");
 
@@ -143,6 +146,9 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
             { patientInfo: completePatientInfo, vitals ,hef },
             token
           );
+
+          // refetch the data to update store
+          await fetchData();
 
           // on success, call the onsubmit prop passed from the parent page
           onSubmit(newQueuedPatient);
