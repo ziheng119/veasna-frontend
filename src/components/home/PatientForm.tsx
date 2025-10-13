@@ -18,6 +18,7 @@ import { QueuedPatient } from "@/lib/types/patient";
 import { PatientFormData } from "@/lib/types/patient";
 import { useUserStore } from "@/stores/useUserStore";
 import { createVisit } from "@/lib/api/visit/createVisit";
+import formatDate from "@/helper/format_date";
 import { useDataStore } from "@/stores/useLocationDataStore";
 
 interface PatientFormProps {
@@ -49,7 +50,6 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
         sex: "",
         phone_number: "",
         address: "",
-        age: undefined,
         queue_no: "",
     });
 
@@ -117,7 +117,7 @@ export function PatientForm({ existingPatients, onSubmit, locationId }: PatientF
           face_id: found.face_id.toString(),
           english_name: found.english_name || "",
           khmer_name: found.khmer_name || "",
-          date_of_birth: found.date_of_birth || "",
+          date_of_birth: formatDate(found.date_of_birth) || "",
           sex: found.sex,
           address: found.address || "",
           phone_number: found.phone_number || "",

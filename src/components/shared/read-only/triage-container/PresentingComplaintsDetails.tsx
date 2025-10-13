@@ -60,21 +60,21 @@ export default function PresentingComplaintsDetails({ patient }: Props) {
       <VerticalLabelInputPair
         label="Red Flags"
         bolded={false}
-        value={complaint.redFlags || "N/A"}
+        value={complaint.red_flags || "N/A"}
         readOnly
       />
 
       <VerticalLabelInputPair
         label="Systems Review"
         bolded={false}
-        value={complaint.systemsReview || "N/A"}
+        value={complaint.systems_review || "N/A"}
         readOnly
       />
 
       <VerticalLabelInputPair
         label="Drug Allergies"
         bolded={false}
-        value={complaint.drugAllergies || "N/A"}
+        value={complaint.drug_allergies || "N/A"}
         readOnly
       />
     </div>
