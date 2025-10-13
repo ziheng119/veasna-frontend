@@ -2,31 +2,33 @@ import { backend_url } from "@/constants/env_variable";
 import { Location } from "@/lib/types/location";
 
 let cachedLocations: Location[] | null = null;
-let lastFetchTime = 0;
-
-// Cache duration in ms (e.g., 1 hour)
-const CACHE_TTL = 60 * 60 * 1000;
+let lastETag: string | null = null; // store last ETag
 
 export async function getLocations(): Promise<Location[]> {
-  const now = Date.now();
-
-  // ✅ Use cached data if it's still valid
-  if (cachedLocations && now - lastFetchTime < CACHE_TTL) {
-    return cachedLocations;
-  }
-
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
 
+    // Add If-None-Match header if we have an ETag
+    const headers: HeadersInit = {};
+    if (lastETag) {
+      headers["If-None-Match"] = lastETag;
+    }
+
     const res = await fetch(`${backend_url}/api/locations`, {
       method: "GET",
-      // ✅ Use 'force-cache' or `next.revalidate` in Next.js for built-in caching
-      next: { revalidate: 3600 }, // cache for 1 hour on server
+      headers,
+      next: { revalidate: 3600 }, // optional Next.js server cache
       signal: controller.signal,
     });
 
     clearTimeout(timeoutId);
+
+    if (res.status === 304 && cachedLocations) {
+      // Data hasn't changed; return cached
+      console.log("✅ Locations not modified, using cached data");
+      return cachedLocations;
+    }
 
     if (!res.ok) {
       throw new Error(`Failed to fetch locations: ${res.status} ${res.statusText}`);
@@ -38,15 +40,15 @@ export async function getLocations(): Promise<Location[]> {
     const data: Location[] = Array.isArray(json.locations) ? json.locations : [];
     console.log("✅ GET Locations (Success):", data.length);
 
-    // ✅ Cache the result in memory
+    // Cache the result and save new ETag
     cachedLocations = data;
-    lastFetchTime = now;
+    lastETag = res.headers.get("ETag");
 
     return data;
   } catch (err: any) {
     console.error("❌ GET Locations (Error):", err?.message || err);
 
-    // ✅ Graceful fallback
+    // Fallback to cached data if available
     if (cachedLocations) {
       console.warn("⚠️ Returning cached locations due to fetch failure.");
       return cachedLocations;
