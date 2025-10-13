@@ -3,7 +3,10 @@ import { Location } from "@/lib/types/location";
 
 export async function getLocations(): Promise<Location[]> {
   try {
-    const res = await fetch(`${backend_url}/api/locations`);
+    const res = await fetch(`${backend_url}/api/locations`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(5000),
+    });
 
     if (!res.ok) {
       throw new Error(`Network response was not ok: ${res.status} ${res.statusText}`);

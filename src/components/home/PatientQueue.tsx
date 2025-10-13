@@ -3,9 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { QueuedPatient } from "@/lib/types/patient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { SearchIcon } from "@/assets/icons";
+import { useDataStore } from "@/stores/useLocationDataStore";
 
 interface PatientQueueProps {
     patients: QueuedPatient[];
@@ -38,6 +39,11 @@ function sortQueueNumber(a: QueuedPatient, b: QueuedPatient) {
 
 export function PatientQueue({patients}: PatientQueueProps) {
     const [searchQuery, setSearchQuery] = useState("");
+    const fetchData = useDataStore((state) => state.fetchData);
+
+    useEffect(() => {
+      fetchData()
+    }, [fetchData]);
 
     const filteredPatients = patients.filter((patient) => {
       if (!searchQuery) return true;
