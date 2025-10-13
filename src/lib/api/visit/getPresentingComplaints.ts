@@ -14,9 +14,9 @@ export async function getPresentingComplaint(patientId: number, visitId: number)
 
     const data: PresentingComplaint = {
       history: json.history || "N/A",
-      redFlags: json.red_flags || "N/A",
-      systemsReview: json.systems_review || "N/A",
-      drugAllergies: json.drug_allergies || "N/A",
+      red_flags: json.red_flags || "N/A",
+      systems_review: json.systems_review || "N/A",
+      drug_allergies: json.drug_allergies || "N/A",
     };
 
     return data;
