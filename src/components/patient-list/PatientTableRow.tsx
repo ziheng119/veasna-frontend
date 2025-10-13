@@ -1,4 +1,5 @@
 import { EditIcon, EyeIcon, TrashIcon } from "@/assets/icons";
+import formatDate from "@/helper/format_date";
 import { PatientInfo } from "@/lib/types/patient";
 
 interface PatientTableRowProps {
@@ -27,7 +28,7 @@ export function PatientTableRow({ patient, onViewPatient, onEditPatient, onDelet
         <tr className="h-16 align-middle hover:bg-blue-50 tansition-colors duration-150">
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.english_name}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.khmer_name}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{patient.date_of_birth}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{formatDate(patient.date_of_birth)}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{calculateAge(patient.date_of_birth)}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.sex}</td>
                 <td className="px-4 py-3 text-sm text-gray-900">{patient.phone_number}</td>

@@ -5,6 +5,8 @@ import { SearchIcon } from "@/assets/icons/SearchIcon"
 import { CrossIcon } from "@/assets/icons/CrossIcon"
 import { useDataStore } from "@/stores/useLocationDataStore"
 import { QueuedPatient } from "@/lib/types/patient"
+import { Location } from "@/lib/types/location"
+import { useLocationStore } from "@/stores/useLocationStore"
 
 interface SearchBarProps {
   onSelectPatient?: (patient: QueuedPatient) => void
@@ -12,6 +14,7 @@ interface SearchBarProps {
 
 export default function SearchBar({ onSelectPatient }: SearchBarProps) {
   const patients: QueuedPatient[] = useDataStore(state => state.todays_patients)
+  const location: Location | null = useLocationStore(state => state.currentLocation)
   const fetchData = useDataStore(state => state.fetchData)
 
   const [query, setQuery] = useState<string>("")
@@ -57,14 +60,11 @@ export default function SearchBar({ onSelectPatient }: SearchBarProps) {
   }
 
   useEffect(() => {
-    fetchData() // initial fetch
-
-    const interval = setInterval(() => {
-      fetchData()
-    }, 5 * 60 * 1000) // every 5 minutes
-
-    return () => clearInterval(interval) // cleanup on unmount
-  }, [fetchData])
+    if (!location) {
+      return
+    }
+    fetchData()
+  }, [location])
 
   return (
     <div className="relative w-full text-gray-700">
