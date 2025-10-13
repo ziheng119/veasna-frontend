@@ -1,10 +1,27 @@
 import { backend_url } from "@/constants/env_variable";
 import { PatientInfo } from "@/lib/types/patient";
-import formatDate from "@/helper/format_date"
+import formatDate from "@/helper/format_date";
+
+// Cache for patients by id
+const cachedPatients: Record<number, PatientInfo> = {};
+const cachedETags: Record<number, string> = {};
 
 export async function getPatient(id: number): Promise<PatientInfo | null> {
   try {
-    const res = await fetch(`${backend_url}/api/patients/${id}`);
+    const headers: HeadersInit = {};
+
+    // Add If-None-Match header if we have an ETag for this patient
+    if (cachedETags[id]) {
+      headers['If-None-Match'] = cachedETags[id];
+    }
+
+    const res = await fetch(`${backend_url}/api/patients/${id}`, { headers });
+
+    if (res.status === 304 && cachedPatients[id]) {
+      // Data not modified, return cached
+      console.log(`✅ Patient ${id} not modified, using cache`);
+      return cachedPatients[id];
+    }
 
     if (!res.ok) {
       if (res.status === 404) return null;
@@ -19,10 +36,21 @@ export async function getPatient(id: number): Promise<PatientInfo | null> {
       lastUpdated: json.lastUpdated ? new Date(json.lastUpdated).toISOString() : "",
     };
 
+    // Update cache and ETag
+    cachedPatients[id] = data;
+    cachedETags[id] = res.headers.get('ETag') || '';
+
     return data;
 
   } catch (err) {
     console.error("GET Patient (Error):", err);
+
+    // Fallback to cached data if available
+    if (cachedPatients[id]) {
+      console.warn(`⚠️ Returning cached patient ${id} due to fetch failure.`);
+      return cachedPatients[id];
+    }
+
     return null;
   }
 }
