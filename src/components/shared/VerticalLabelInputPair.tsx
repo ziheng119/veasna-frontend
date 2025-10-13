@@ -3,9 +3,10 @@ interface Props {
   bolded?: boolean
   value?: string
   readOnly?: boolean
+  onChangeFunction?: (newValue: string) => void
 }
 
-export default function VerticalLabelInputPair({ label, bolded=true, value="", readOnly=false }: Props) {
+export default function VerticalLabelInputPair({ label, bolded=true, value="", readOnly=false, onChangeFunction=undefined }: Props) {
   return (
     <div className="flex flex-col gap-2 w-full">
       { label && 
@@ -19,6 +20,9 @@ export default function VerticalLabelInputPair({ label, bolded=true, value="", r
           {...(readOnly
             ? { value, readOnly: true }
             : { defaultValue: value })}
+          onChange={e => {
+            if (onChangeFunction) onChangeFunction(e.target.value);
+          }}
         />
       </div>
     </div>
