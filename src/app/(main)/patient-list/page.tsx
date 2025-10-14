@@ -16,7 +16,7 @@ export default function PatientListPage() {
   const router = useRouter();
 
   const location: Location | null = useLocationStore((state) => state.currentLocation)
-  const date : Date = new Date(); // local time
+  const date : Date = new Date();
   const dateOnly: string = date.toISOString().slice(0, 10);
 
   const [patients, setPatients] = useState<PatientInfo[]>([]);
@@ -45,25 +45,16 @@ export default function PatientListPage() {
     setSearchTerm(term);
   }
   
-  // to edit with backend  
   const handleAddPatient = () => {
     console.log('Add new patient Clicked');
     router.push('/patient-form?mode=new');
   };
 
-  // to edit with backend
   const handleViewPatient = (patientId: number) => {
     console.log('Viewing Patient, ', patientId);
-    router.push(`/patient-form?mode=view&id=${patientId}`);
+    router.push(`/patient-details?id=${patientId}`);
   }
 
-  // to edit with backend
-  const handleEditPatient = (patientId: number) => {
-    console.log('Edit patient Clicked:', patientId);
-    router.push(`/patient-form?mode=edit&id=${patientId}`);
-  };
-
-  // to edit with backend
   const handleDeletePatient = (patientId: number) => {
     if (window.confirm('Are you sure you want to delete this patient?')){
       // temporarily show that it was deleted here
@@ -103,7 +94,6 @@ export default function PatientListPage() {
       <PatientTable
         patients={filteredPatients}
         onViewPatient={handleViewPatient}
-        onEditPatient={handleEditPatient}
         onDeletePatient={handleDeletePatient}
       />  
     </div>

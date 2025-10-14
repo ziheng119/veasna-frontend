@@ -1,58 +1,17 @@
 "use client";
-import { useEffect, useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
 import { useLocationStore } from '@/stores/useLocationStore';
+import { useDataStore } from '@/stores/useLocationDataStore';
 
 import { PatientQueue } from '@/components/home/PatientQueue';
 import { PatientForm } from '@/components/home/PatientForm';
 
-import { QueuedPatient, PatientInfo } from '@/lib/types/patient';  
-
-import { getQueue } from '@/lib/api/queue/getQueue';
-import { getPatientsByLocation } from '@/lib/api/patients/getPatientsByLocation';
-
 export default function HomePage() {
-
   const user = useUserStore((state) => state.user);
-  const token = user?.token;
   const username = user?.username;
   const location = useLocationStore((state) => state.currentLocation);
-  
-  const date = new Date(); // local time
-  const dateOnly = date.toISOString().slice(0, 10);
+  const { all_patients } = useDataStore();
 
-  const [locationPatients, setLocationPatients] = useState<PatientInfo[]>([])
-  const [queuedPatients, setQueuedPatients] = useState<QueuedPatient[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handlePatientSubmit = (patient: QueuedPatient) => {
-    // add patient returned from successful api call to queue
-    setQueuedPatients(prev => [...prev, patient]);
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (location && token) {
-        setIsLoading(true);
-        try {
-          // fetch both existing patients and today's queue in parallel
-          const [patientsData, queueData] = await Promise.all([
-            getPatientsByLocation(location.id, token),
-            getQueue(location.id, dateOnly, token)
-          ]);
-          setLocationPatients(patientsData);
-          setQueuedPatients(queueData);
-        } catch (error) {
-          console.error("Failed to fetch page data:", error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-  }, [location, token, dateOnly]) // Rerun when location, token, or date changes
-  
   return (
     <div className="min-h-screen w-screen flex flex-col bg-background overflow-hidden">
       {/* Header with gradient */}
@@ -67,22 +26,16 @@ export default function HomePage() {
       </header>
 
       <main className="flex-1 p-6 overflow-hidden bg-background w-full">
-
         <div className="flex w-full gap-6">
           <div className="w-1/3 min-w-[300px]">
-            {isLoading ? (
-              <p className="text-muted-foreground text-center py-8">Loading Queue....</p>
-            ): (
-              <PatientQueue patients={queuedPatients} />
-            )}
-
+            <PatientQueue />
           </div>
           <div className="flex-1 min-w-[600px] flex">
             <PatientForm
-              existingPatients={locationPatients}
-              onSubmit={handlePatientSubmit}
+              existingPatients={all_patients}
+              onSubmit={() => {}} // No longer needed since store handles updates
               locationId={location?.id}
-              />
+            />
           </div>
         </div>
       </main>

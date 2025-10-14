@@ -2,18 +2,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { QueuedPatient } from "@/lib/types/patient";
 import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { SearchIcon } from "@/assets/icons";
 import { useDataStore } from "@/stores/useLocationDataStore";
-
-interface PatientQueueProps {
-    patients: QueuedPatient[];
-}
+import { QueuedPatient } from "@/lib/types/patient";
 
 function sortQueueNumber(a: QueuedPatient, b: QueuedPatient) {
-    // Extract the number and parts portiom
+    // Extract the number and parts portion
     const extractParts = (queueNum: string) => {
         const match = queueNum.match(/^(\d+)([A-Za-z]?)$/);
         if (match) {
@@ -34,18 +30,17 @@ function sortQueueNumber(a: QueuedPatient, b: QueuedPatient) {
     }
 
     return partsA.letter.localeCompare(partsB.letter);
-   
 }
 
-export function PatientQueue({patients}: PatientQueueProps) {
+export function PatientQueue() {
     const [searchQuery, setSearchQuery] = useState("");
-    const fetchData = useDataStore((state) => state.fetchData);
+    const { todays_patients, fetchData } = useDataStore();
 
     useEffect(() => {
       fetchData()
     }, [fetchData]);
 
-    const filteredPatients = patients.filter((patient) => {
+    const filteredPatients = todays_patients.filter((patient) => {
       if (!searchQuery) return true;
 
       const query = searchQuery.toLowerCase();
@@ -123,4 +118,3 @@ export function PatientQueue({patients}: PatientQueueProps) {
         </Card>
       );
 }
-

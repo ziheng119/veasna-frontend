@@ -5,11 +5,10 @@ import { PatientInfo } from "@/lib/types/patient";
 interface PatientTableRowProps {
     patient: PatientInfo
     onViewPatient?: (patientId: number) => void;
-    onEditPatient?: (patientId: number) => void
     onDeletePatient?: (patientId: number) => void;
 }
 
-export function PatientTableRow({ patient, onViewPatient, onEditPatient, onDeletePatient}: PatientTableRowProps) {
+export function PatientTableRow({ patient, onViewPatient, onDeletePatient}: PatientTableRowProps) {
     
 
     const calculateAge = (birthDate: string): number => {
@@ -49,15 +48,6 @@ export function PatientTableRow({ patient, onViewPatient, onEditPatient, onDelet
                         title="View patient"
                         >
                             <EyeIcon className="w-4- h-4"/>
-                        </button>
-
-                        {/* Edit patient */}
-                        <button
-                        onClick={() => patient.id && onEditPatient?.(patient.id)}
-                        className="text-blue-600 hover:text-blue-800"
-                        title="Edit Patient"
-                        >
-                            <EditIcon className="w-4 h-4"/>
                         </button>
 
                         {/* Delete Patient*/}
