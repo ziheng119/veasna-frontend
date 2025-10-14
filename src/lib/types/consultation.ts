@@ -1,15 +1,14 @@
 export interface Referral {
     referralDate: string; // Should be in "YYYY-MM-DD" format
-    referralType: string;
+    referralType: string[];
     illness: string;
     duration: string;
     reason: string;
-    doctorName: string;
 }
 
 export interface Consultation {
-    notes?: string;
+    notes: string;
     prescription: string;
     requireReferral: boolean;
-    referral?: Referral; 
+    referral: Referral | null
 }
