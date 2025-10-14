@@ -1,9 +1,17 @@
 "use client"
 
+interface Props {
+  patient: QueuedPatient
+  patientInfo: PatientInfo;
+  retrievedReferral: Referral | null
+}
+
+import { PatientInfo, QueuedPatient } from "@/lib/types/patient";
 import ReferralPopUp from "./ReferralPopUp";
 import { RefObject, useRef, useState } from "react";
+import { Referral } from "@/lib/types/consultation";
 
-export default function ReferralButton() {
+export default function ReferralButton({ patient, patientInfo, retrievedReferral }: Props) {
   const [showPopUp, setShowPopUp] = useState(false);
 
   // Position state
@@ -48,7 +56,10 @@ export default function ReferralButton() {
       </button>
 
       {showPopUp && 
-        <ReferralPopUp 
+        <ReferralPopUp
+          patient={patient} 
+          patientInfo={patientInfo}
+          retrievedReferral={retrievedReferral}
           setShowPopUp={setShowPopUp}
           popupRef={popupRef as RefObject<HTMLDivElement>}
           pos={pos}

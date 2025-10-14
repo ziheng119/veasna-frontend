@@ -1,14 +1,19 @@
 import React, { Dispatch, SetStateAction, RefObject, MouseEvent } from "react";
-import Referral from "@/components/doctors-consultation/Referral";
+import ReferralForm from "@/components/doctors-consultation/Referral";
+import { PatientInfo, QueuedPatient } from "@/lib/types/patient";
+import { Referral } from "@/lib/types/consultation";
 
 interface Props {
+  patient: QueuedPatient;
+  patientInfo: PatientInfo;
+  retrievedReferral: Referral | null
   setShowPopUp: Dispatch<SetStateAction<boolean>>;
   popupRef: RefObject<HTMLDivElement> | null;
   pos: { x: number; y: number };
   onMouseDown: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
-export default function ReferralPopUp({ setShowPopUp, popupRef, pos, onMouseDown }: Props) {
+export default function ReferralPopUp({ patient, patientInfo, retrievedReferral, setShowPopUp, popupRef, pos, onMouseDown }: Props) {
   return (
     <div
       className="fixed inset-0 bg-auto bg-opacity-50 flex items-center justify-center z-50"
@@ -27,7 +32,10 @@ export default function ReferralPopUp({ setShowPopUp, popupRef, pos, onMouseDown
         onMouseDown={onMouseDown}
         onClick={(e) => e.stopPropagation()}
       >   
-        <Referral
+        <ReferralForm
+          patient={patient}
+          patientInfo={patientInfo}
+          retrievedReferral={retrievedReferral}
           onClose={() => setShowPopUp(false)}
         />
       </div>
