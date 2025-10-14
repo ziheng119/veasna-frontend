@@ -51,7 +51,7 @@ interface PatientData {
 const DataField = ({ label, value }: { label: string; value: any }) => (
   <div>
     <p className="text-sm font-medium text-gray-500">{label}</p>
-    <p className="text-gray-900 mt-1">{value || 'N/A'}</p>
+    <p className="mt-1">{value || 'N/A'}</p>
   </div>
 );
 
