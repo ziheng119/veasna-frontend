@@ -67,7 +67,7 @@ export default function DottedImage({ imageUrl, positions: initialPositions, onC
       </div>
       <div
         onClick={handleClick}
-        className="relative inline cursor-crosshair w-full"
+        className="relative inline-block cursor-crosshair w-full"
       >
         <img
           src={imageUrl}
