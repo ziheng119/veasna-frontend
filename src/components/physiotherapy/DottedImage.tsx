@@ -1,43 +1,56 @@
+import { PainPoint } from "@/lib/types/physiotherapy";
 import React, { useState, useEffect } from "react";
-
-type ClickPosition = {
-  x: number; // percentage
-  y: number; // percentage
-};
 
 type Props = {
   imageUrl: string;
-  initialPositions?: ClickPosition[] | undefined; // if you load saved data from DB
+  onClickFunction: (positions: PainPoint[]) => void; // pass full array
+  positions?: PainPoint[] | undefined;
 };
 
-export default function DottedImage({ imageUrl, initialPositions }: Props) {
-  const [clickPositions, setClickPositions] = useState<ClickPosition[]>([]);
+export default function DottedImage({ imageUrl, positions: initialPositions, onClickFunction }: Props) {
+  const [clickPositions, setClickPositions] = useState<PainPoint[]>([]);
 
   useEffect(() => {
-    setClickPositions(initialPositions || []);
-  }, [initialPositions]);
+  if (!initialPositions) return;
 
-  // Add dot on image click
+  // Only update if the new positions are different
+  const areEqual =
+    initialPositions.length === clickPositions.length &&
+    initialPositions.every((p, i) => 
+      p.xCoord === clickPositions[i]?.xCoord &&
+      p.yCoord === clickPositions[i]?.yCoord
+    );
+
+  if (!areEqual) {
+    setClickPositions(initialPositions);
+  }
+}, [initialPositions]);
+
+
+  // Call onClickFunction whenever clickPositions changes
+  useEffect(() => {
+    onClickFunction(clickPositions);
+  }, [clickPositions, onClickFunction]);
+
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Prevent adding dot if clicking on a dot itself (to avoid conflict with remove)
-    if ((e.target as HTMLElement).dataset.dot) {
-      return;
-    }
+    if ((e.target as HTMLElement).dataset.dot) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
-
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    setClickPositions((prev) => [...prev, { x, y }]);
+    const newPos: PainPoint = {
+      xCoord: x,
+      yCoord: y,
+    }
+
+    setClickPositions((prev) => [...prev, newPos]);
   };
 
-  // Remove a single dot by index
   const handleRemoveDot = (indexToRemove: number) => {
     setClickPositions((prev) => prev.filter((_, i) => i !== indexToRemove));
   };
 
-  // Clear all dots
   const handleClearAll = () => {
     setClickPositions([]);
   };
@@ -54,7 +67,7 @@ export default function DottedImage({ imageUrl, initialPositions }: Props) {
       </div>
       <div
         onClick={handleClick}
-        className="relative inline cursor-crosshair w-full"
+        className="relative inline-block cursor-crosshair w-full"
       >
         <img
           src={imageUrl}
@@ -65,17 +78,16 @@ export default function DottedImage({ imageUrl, initialPositions }: Props) {
         {clickPositions.map((pos, index) => (
           <div
             key={index}
-            data-dot="true" // flag to detect clicks on dots
+            data-dot="true"
             onClick={(e) => {
-              e.stopPropagation(); // prevent triggering image click
+              e.stopPropagation();
               handleRemoveDot(index);
             }}
             className="absolute w-2.5 h-2.5 bg-red-500 rounded-full -translate-x-1/2 -translate-y-1/2 cursor-pointer border-2 border-white box-border"
             style={{
-              left: `${pos.x}%`,
-              top: `${pos.y}%`,
+              left: `${pos.xCoord}%`,
+              top: `${pos.yCoord}%`,
             }}
-
             title="Click to remove this dot"
           />
         ))}

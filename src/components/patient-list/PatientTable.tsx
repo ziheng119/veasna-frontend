@@ -7,18 +7,17 @@ import { PersonIcon } from '@/assets/icons';
 interface PatientTableProps {
     patients: PatientInfo[];
     onViewPatient?: (patientId: number) => void
-    onEditPatient?: (patientId: number) => void
     onDeletePatient?: (patientId: number) => void;
 }
 
-export function PatientTable({ patients, onViewPatient, onEditPatient, onDeletePatient}: PatientTableProps) {
+export function PatientTable({ patients, onViewPatient, onDeletePatient}: PatientTableProps) {
   
     return (
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
 
         <div className="overflow-x-auto">
           <table className="w-full table-fixed">
-            <thead className="bg-green-default">
+            <thead className="bg-gray-300">
               <tr>
                 <th className="px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">English Name</th>
                 <th className="px-4 py-3 uppercase text-left text-xs font-medium text-gray-900 tracking-wider">Khmer Name</th>
@@ -40,7 +39,6 @@ export function PatientTable({ patients, onViewPatient, onEditPatient, onDeleteP
                   key={patient.id}
                   patient={patient}
                   onViewPatient={onViewPatient}
-                  onEditPatient={onEditPatient}
                   onDeletePatient={onDeletePatient}
                 />
               ))}

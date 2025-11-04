@@ -1,11 +1,83 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import SaveButton from "../shared/SaveButton"
 import VerticalLabelInputPair from "../shared/VerticalLabelInputPair"
-import Input from "../shared/react-components/Input"
+import toast from "react-hot-toast"
+import { Seva } from "@/lib/types/seva"
+import { QueuedPatient } from "@/lib/types/patient"
+import { getSeva } from "@/lib/api/visit/seva/getSeva"
+import { postSeva } from "@/lib/api/visit/seva/postSeva"
+import formatDate from "@/helper/format_date"
 
-export default function SevaNotesContainer() {
+interface Props {
+    patient: QueuedPatient;
+}
 
+export default function SevaNotesContainer({ patient }: Props) {
+    const [leftWithPinholeNew, setLeftWithPinholeNew] = useState<string>("");
+    const [rightWithPinholeNew, setRightWithPinholeNew] = useState<string>("");
+    const [leftWithoutPinholeNew, setLeftWithoutPinholeNew] = useState<string>("");
+    const [rightWithoutPinholeNew, setRightWithoutPinholeNew] = useState<string>("");
+    const [diagnosis, setDiagnosis] = useState<string>("");
+    const [dateOfReferral, setDateOfReferral] = useState<string>("");
+    const [additionalNotes, setAdditionalNotes] = useState<string>("");
+
+    const loadData = async () => {
+    try {
+        const data: Seva | null = await getSeva(patient.visit_id);
+
+        if (!data) {
+            toast("No data loaded")
+            return;
+        }
+
+        setLeftWithPinholeNew(data.leftWithPinholeNew);
+        setLeftWithoutPinholeNew(data.leftWithoutPinholeNew);
+        setRightWithPinholeNew(data.rightWithPinholeNew);
+        setRightWithoutPinholeNew(data.rightWithoutPinholeNew);
+        setDiagnosis(data.diagnosis);
+        setDateOfReferral(formatDate(data.dateOfReferral));
+        setAdditionalNotes(data.notes ?? "");
+
+        toast.success("Load success")
+
+    } catch (error) {
+        toast.error("Failed to load SEVA data");
+        console.error("Error loading SEVA:", error);
+    }
+    };
+
+    const handleSave = async () => {
+        const data: Seva = {
+            leftWithPinholeNew: leftWithPinholeNew,
+            leftWithoutPinholeNew: leftWithoutPinholeNew,
+            rightWithPinholeNew: rightWithPinholeNew,
+            rightWithoutPinholeNew: rightWithoutPinholeNew,
+            diagnosis: diagnosis,
+            dateOfReferral: dateOfReferral,
+            notes: additionalNotes
+        }
+        
+        try {
+            const res = await postSeva(data, patient.visit_id)
+            setLeftWithPinholeNew("");
+            setLeftWithoutPinholeNew("");
+            setRightWithPinholeNew("");
+            setRightWithoutPinholeNew("");
+            setDiagnosis("");
+            setDateOfReferral("");
+            setAdditionalNotes("");
+            toast.success("Save Success")
+        } catch (error) {
+            toast.error("An error as occured")
+        }
+    }
+
+    useEffect(() => {
+        loadData();
+    }, [])
+ 
     return (
         <div className="flex flex-col gap-4 bg-beige-default px-4 py-2 rounded-md border-[1px] lg:w-[30%]">
 
@@ -19,16 +91,37 @@ export default function SevaNotesContainer() {
 
                     {/* With Pinhole Row */}
                     <p className="text-start">With Pinhole</p>
-                    <Input />
-                    <Input />
+                    <input 
+                        className="bg-white-default border-[1px] block rounded-sm p-0.5"
+                        onChange={e => setLeftWithPinholeNew(e.target.value)}
+                        value={leftWithPinholeNew}
+                    ></input>
+                    <input 
+                        className="bg-white-default border-[1px] block rounded-sm p-0.5"
+                        onChange={e => setRightWithPinholeNew(e.target.value)}
+                        value={rightWithPinholeNew}
+                    ></input>
+                    
 
                     {/* Without Pinhole Row */}
                     <p className="text-start" >Without Pinhole</p>
-                    <Input />
-                    <Input />
+                    <input 
+                        className="bg-white-default border-[1px] block rounded-sm p-0.5"
+                        onChange={e => setLeftWithoutPinholeNew(e.target.value)}
+                        value={leftWithoutPinholeNew}
+                    ></input>
+                    <input 
+                        className="bg-white-default border-[1px] block rounded-sm p-0.5"
+                        onChange={e => setRightWithoutPinholeNew(e.target.value)}
+                        value={rightWithoutPinholeNew}
+                    ></input>
                 </div>
 
-                <VerticalLabelInputPair label="Diagnosis"/>
+                <VerticalLabelInputPair 
+                    label="Diagnosis"
+                    onChangeFunction={setDiagnosis}
+                    value={diagnosis}
+                />
 
             </div>
 
@@ -38,16 +131,24 @@ export default function SevaNotesContainer() {
             type="date"
             placeholder="DD/MM/YYYY"
             className="bg-white border-[1px] rounded-sm p-2 w-32 text-black"
+            onChange={(e) => setDateOfReferral(e.target.value)}
+            value={dateOfReferral}
             />
         </div>
 
             <div className="flex w-full h-[40%]">
-                <VerticalLabelInputPair label="Additional Notes"/>
+                <VerticalLabelInputPair 
+                    label="Additional Notes"
+                    onChangeFunction={setAdditionalNotes}
+                    value={additionalNotes}
+                />
             </div>
 
 
             <div className="flex items-center justify-end">
-                <SaveButton />
+                <SaveButton 
+                    onClick={handleSave}
+                />
             </div>
         </div>
     

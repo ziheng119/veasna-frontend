@@ -26,7 +26,7 @@ export default function Seva() {
             <div className="flex flex-col gap-2 mt-3 lg:w-full lg:flex-row lg:gap-4 lg:justify-evenly">
             <PatientContainer selectedPatient = {selectedPatient}/>
             <TriageContainer selectedPatient = {selectedPatient}/>
-            <SevaNotesContainer />
+            <SevaNotesContainer patient={selectedPatient}/>
             </div>
         </div>
     )

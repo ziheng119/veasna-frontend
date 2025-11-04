@@ -3,8 +3,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LocationDropdown from "./LocationDropdown";
 import { useLocationStore } from "@/stores/useLocationStore";
-import { useEffect } from "react";
+import { useDataStore } from "@/stores/useLocationDataStore";
+import { useEffect, useState } from "react";
 import { Location } from "@/lib/types/location";
+import { Button } from "../ui/button";
+import { RefreshCw } from "lucide-react";
 
 interface Props {
   locations: Location[]
@@ -13,10 +16,21 @@ interface Props {
 export default function TopNav({ locations }: Props) {
 
   const setLocations = useLocationStore((state) => state.setLocations);
+  const fetchData = useDataStore((state) => state.fetchData);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     setLocations(locations);
   }, [locations, setLocations]);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await fetchData();
+    } finally {
+      setIsRefreshing(false);
+    }
+  }
 
   const pathname = usePathname();
   
@@ -78,8 +92,20 @@ export default function TopNav({ locations }: Props) {
           </Link>
         </div>
 
-        {/* Location Dropdown */}
-        <div className="flex items-center">
+        {/* Refresh Button */}
+        <div className="flex items-center gap-3">
+          <Button
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/10 transition-colors"
+            title="Refresh data"
+          >
+            <RefreshCw
+            className={`h-5 w-5 ${isRefreshing ? 'animate-spin' : ''}`}
+            />
+          </Button>
           <LocationDropdown />
         </div>
       </div>

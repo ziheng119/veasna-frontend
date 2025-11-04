@@ -1,3 +1,5 @@
+import { VisitSummary } from "./visit";
+
 export type PatientInfo = {
     id: number;
     face_id: number;
@@ -44,3 +46,21 @@ export type PatientFormData = {
     has_hef?: string;
     notes?: string;
 }
+
+export interface PatientWithVisits {
+    patient: {
+      id: number;
+      face_id: number;
+      location_id: number;
+      english_name: string;
+      khmer_name: string;
+      date_of_birth: string;
+      sex: string;
+      address?: string;
+      phone_number?: string;
+      last_updated_at: string;
+      created_at: string;
+      location_name: string;
+    };
+    visits: VisitSummary[];
+  }
