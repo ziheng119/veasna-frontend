@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LocationDropdown from "./LocationDropdown";
 import { useLocationStore } from "@/stores/useLocationStore";
-import { useDataStore } from "@/stores/useLocationDataStore";
+import { useLocationDataStore } from "@/stores/useLocationDataStore";
 import { useEffect, useState } from "react";
 import { Location } from "@/lib/types/location";
 import { Button } from "../ui/button";
@@ -16,7 +16,7 @@ interface Props {
 export default function TopNav({ locations }: Props) {
 
   const setLocations = useLocationStore((state) => state.setLocations);
-  const fetchData = useDataStore((state) => state.fetchData);
+  const fetchData = useLocationDataStore((state) => state.fetchData);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {

@@ -20,6 +20,7 @@ export async function getPatientsByLocation(
     }
 
     const res = await fetch(`${backend_url}/api/patients?location_id=${locationId}`, {
+      cache: "no-cache",
       headers,
     });
 

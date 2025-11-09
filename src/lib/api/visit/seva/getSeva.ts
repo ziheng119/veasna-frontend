@@ -18,7 +18,9 @@ export async function getSeva(visitId: number): Promise<Seva | null> {
       headers["If-None-Match"] = cachedETags[visitId];
     }
 
-    const res = await fetch(`${backend_url}/api/visits/seva/${visitId}`, { headers });
+    const res = await fetch(`${backend_url}/api/visits/seva/${visitId}`, {
+      headers 
+    });
 
     // Handle 304 Not Modified (use cached data)
     if (res.status === 304) {

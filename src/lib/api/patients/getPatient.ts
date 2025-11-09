@@ -15,7 +15,10 @@ export async function getPatient(id: number): Promise<PatientInfo | null> {
       headers['If-None-Match'] = cachedETags[id];
     }
 
-    const res = await fetch(`${backend_url}/api/patients/${id}`, { headers });
+    const res = await fetch(`${backend_url}/api/patients/${id}`, { 
+      cache: "no-cache",
+      headers
+    });
 
     if (res.status === 304 && cachedPatients[id]) {
       // Data not modified, return cached

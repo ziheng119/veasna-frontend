@@ -13,27 +13,32 @@ import { updateDrugStock } from "@/lib/api/pharmacy/pharmacy"
 import { deleteDrug } from "@/lib/api/pharmacy/pharmacy"
 import { useLocationStore } from "@/stores/useLocationStore"
 import toast from "react-hot-toast"
+import { SET_LOCATION_MESSAGE } from "@/messages/info"
+import Loading from "@/components/shared/Loading"
 
 export default function Pharmacy() {
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
     const [drugs, setDrugs] = useState<Drug[]>([])
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [showAddTab, setShowAddTab] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const location = useLocationStore((state) => state.currentLocation)
 
-    // Fetch drugs from the database when location changes
+    const location = useLocationStore((state) => state.currentLocation)
+    
+    // load drugs
     useEffect(() => {
-      if (location) {
-        setIsLoading(true);
-        toast.promise(
-          getDrugsByLocation(location.id).then(setDrugs),
-          {
-            loading: 'Fetching drug inventory...',
-            success: 'Inventory loaded!',
-            error: 'Failed to fetch inventory.',
-          }
-        ).finally(() => setIsLoading(false));
+      async function loadDrugs() {
+        if (!location) {
+          toast(SET_LOCATION_MESSAGE)
+          return
+        }
+        const db_drugs = await getDrugsByLocation(location.id);
+        setDrugs(db_drugs)
+        setIsLoading(false)
       }
+
+      loadDrugs()
+      
     }, [location]);
 
     // if there is a change in the searchTerm or drug, filteredDrugs is recalculated
@@ -95,8 +100,7 @@ export default function Pharmacy() {
         toast.error("Failed to add new drug.");
       }
     }
-
-
+    
     return (
       <div className="min-h-screen p-6">
         <div className="max-w-7xl mx-auto">
@@ -136,8 +140,6 @@ export default function Pharmacy() {
               />
               </div>
             )}
-            
-
         </div>
         </div>
       </div>

@@ -9,21 +9,44 @@ import { PatientInfo } from "@/lib/types/patient";
 import { useLocationStore } from "@/stores/useLocationStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useDataStore } from "@/stores/useLocationDataStore";
+import { useLocationDataStore } from "@/stores/useLocationDataStore";
+import { SET_LOCATION_MESSAGE } from "@/messages/info";
+import toast from "react-hot-toast";
+import { getPatientsByLocation } from "@/lib/api/patients/getPatientsByLocation";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function PatientListPage() {
 
   const router = useRouter();
 
   const location: Location | null = useLocationStore((state) => state.currentLocation)
-  const date : Date = new Date();
-  const dateOnly: string = date.toISOString().slice(0, 10);
+  const token = useUserStore((state) => state.user?.id)
 
+  const [allPatients, setAllPatients] = useState<PatientInfo[]>([]);
   const [patients, setPatients] = useState<PatientInfo[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const location_patients = useDataStore((state) => state.all_patients)
-  const fetchData = useDataStore((state) => state.fetchData)
+  useEffect(() => {
+    async function getAllPatients() {
+      if (!token) {
+        return
+      }
+      if (!location) {
+        toast(SET_LOCATION_MESSAGE)
+        return
+      }
+      const db_patients = await getPatientsByLocation(location.id, token.toString());
+      setAllPatients(db_patients)
+    }
+
+    getAllPatients();
+  }, [location])
+
+  useEffect(() => {
+    setPatients(allPatients)
+    setAllPatients(allPatients)
+    // call API according to locationId and dateOnly
+  }, [allPatients])
 
   const filteredPatients: PatientInfo[] = useMemo(() => {
     if (!searchTerm.trim()) {
@@ -62,16 +85,6 @@ export default function PatientListPage() {
       console.log('Delete patient Clicked:', patientId);      
     }
   };
-
-  useEffect(() => {
-    if (!location) return; // Only fetch if location is set
-    fetchData();
-  }, [location]);
-
-  useEffect(() => {
-    setPatients(location_patients)
-    // call API according to locationId and dateOnly
-  }, [location_patients])
 
   return (
     <div>

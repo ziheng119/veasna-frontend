@@ -22,7 +22,10 @@ export async function getDrugsByLocation(locationId: number): Promise<Drug[]> {
         headers['If-None-Match'] = cachedETags[locationId];
     }
 
-    const res = await fetch(`${backend_url}/api/pharmacy?location_id=${locationId}`, { headers });
+    const res = await fetch(`${backend_url}/api/pharmacy?location_id=${locationId}`, {
+        cache: "no-cache",
+        headers 
+    });
 
     if (res.status === 304 && cachedDrugs[locationId]) {
         console.log(`✅ Drugs for location ${locationId} not modified, using cache`);

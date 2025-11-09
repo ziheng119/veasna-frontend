@@ -18,6 +18,7 @@ export async function getQueue(locationId: number, date: string, token: string) 
     }
 
     const res = await fetch(`${backend_url}/api/queue?location_id=${locationId}&date=${date}`, {
+      cache: "no-cache",
       headers,
     });
 

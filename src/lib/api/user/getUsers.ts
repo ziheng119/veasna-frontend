@@ -3,7 +3,9 @@ import { User } from "../../types/user";
 
 export async function getUsers(): Promise<User[]> {
   try {
-    const res = await fetch(`${backend_url}/api/users`);
+    const res = await fetch(`${backend_url}/api/users`, {
+      cache: "no-cache",
+    });
 
     if (!res.ok) {
       throw new Error(`Network response was not ok: ${res.status} ${res.statusText}`);

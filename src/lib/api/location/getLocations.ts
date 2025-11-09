@@ -17,6 +17,7 @@ export async function getLocations(): Promise<Location[]> {
 
     const res = await fetch(`${backend_url}/api/locations`, {
       method: "GET",
+      cache: "no-cache",
       headers,
       next: { revalidate: 3600 }, // optional Next.js server cache
       signal: controller.signal,
