@@ -1,5 +1,4 @@
 import { Location } from "@/lib/types/location";
-import { SAMPLE_LOCATIONS } from "@/sample_data/sample_locations";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { createLocation } from "@/lib/api/location/createLocation";
@@ -38,7 +37,7 @@ interface LocationState {
 export const useLocationStore = create<LocationState>()(
   persist(
     (set, get) => ({
-      locations: SAMPLE_LOCATIONS,
+      locations: [],
       currentLocation: null,
       hasHydrated: false,
       isLoading: false,

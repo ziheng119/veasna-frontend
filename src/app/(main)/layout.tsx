@@ -12,12 +12,10 @@ export default async function MainLayout({
   children: React.ReactNode;
 }>) {
 
-  const locations: Location[] = await getLocations();
-
   return (
     <>
       <AuthWrapper>
-        <TopNav locations={locations}/>
+        <TopNav/>
           <main className="flex-1 p-6 bg-background min-h-screen w-full flex justify-start">
             {children}
           </main>

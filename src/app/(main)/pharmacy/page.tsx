@@ -14,7 +14,6 @@ import { deleteDrug } from "@/lib/api/pharmacy/pharmacy"
 import { useLocationStore } from "@/stores/useLocationStore"
 import toast from "react-hot-toast"
 import { SET_LOCATION_MESSAGE } from "@/messages/info"
-import Loading from "@/components/shared/Loading"
 
 export default function Pharmacy() {
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -24,21 +23,23 @@ export default function Pharmacy() {
     const [showAddTab, setShowAddTab] = useState<boolean>(false)
 
     const location = useLocationStore((state) => state.currentLocation)
-    
-    // load drugs
-    useEffect(() => {
-      async function loadDrugs() {
-        if (!location) {
-          toast(SET_LOCATION_MESSAGE)
-          return
-        }
+
+    if (!location) {
+      toast(SET_LOCATION_MESSAGE)
+    }
+
+    async function refreshDrugs() {
+      if (location) {
         const db_drugs = await getDrugsByLocation(location.id);
         setDrugs(db_drugs)
         setIsLoading(false)
       }
-
-      loadDrugs()
-      
+    }
+    
+    // load drugs
+    useEffect(() => {
+      refreshDrugs()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     // if there is a change in the searchTerm or drug, filteredDrugs is recalculated

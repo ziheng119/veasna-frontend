@@ -26,28 +26,29 @@ export default function PatientListPage() {
   const [patients, setPatients] = useState<PatientInfo[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  useEffect(() => {
-    async function getAllPatients() {
-      if (!token) {
-        return
-      }
-      if (!location) {
-        toast(SET_LOCATION_MESSAGE)
-        return
-      }
-      const db_patients = await getPatientsByLocation(location.id, token.toString());
-      setAllPatients(db_patients)
+  if (!location) {
+    toast(SET_LOCATION_MESSAGE)
+  }
+
+  // API helper functions
+  async function refreshAllPatients() {
+    if (token && location) {
+      console.log(location)
+      const db_patients = await getPatientsByLocation(location.id,  token.toString());
+      setAllPatients(db_patients);
+      setPatients(db_patients);
     }
+  }
 
-    getAllPatients();
-  }, [location])
-
+  // API useEffects
   useEffect(() => {
-    setPatients(allPatients)
-    setAllPatients(allPatients)
-    // call API according to locationId and dateOnly
-  }, [allPatients])
-
+    if (token && location) {
+      refreshAllPatients();
+      setPatients(allPatients);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location])
+  
   const filteredPatients: PatientInfo[] = useMemo(() => {
     if (!searchTerm.trim()) {
       return patients;

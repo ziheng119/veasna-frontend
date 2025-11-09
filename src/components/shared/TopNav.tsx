@@ -8,20 +8,23 @@ import { useEffect, useState } from "react";
 import { Location } from "@/lib/types/location";
 import { Button } from "../ui/button";
 import { RefreshCw } from "lucide-react";
+import { getLocations } from "@/lib/api/location";
 
-interface Props {
-  locations: Location[]
-}
-
-export default function TopNav({ locations }: Props) {
+export default function TopNav() {
 
   const setLocations = useLocationStore((state) => state.setLocations);
   const fetchData = useLocationDataStore((state) => state.fetchData);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  async function refreshLocations() {
+    const locations = await getLocations();
+    setLocations(locations)
+  }
+
   useEffect(() => {
-    setLocations(locations);
-  }, [locations, setLocations]);
+    refreshLocations();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);

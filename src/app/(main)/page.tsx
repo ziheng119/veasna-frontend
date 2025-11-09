@@ -21,40 +21,37 @@ export default function HomePage() {
   const [patients, setPatients] = useState<PatientInfo[]>([]);
   const [queuePatients, setQueuePatients] = useState<QueuedPatient[]>([]);
 
+  if (!location) {
+    toast(SET_LOCATION_MESSAGE)
+  }
+
   // API helper functions
   async function refreshAllPatients() {
-    if (!token) {
-      return
+    if (token && location) {
+      const db_patients = await getPatientsByLocation(location.id,  token);
+      setPatients(db_patients);
     }
-    if (!location) {
-      toast(SET_LOCATION_MESSAGE)
-      return
-    }
-    const db_patients = await getPatientsByLocation(location.id,  token);
-    setPatients(db_patients)
   }
 
   async function refreshQueuePatients() {
-    if (!token) {
-      return
+    if (token && location) {
+      const date = new Date().toISOString().slice(0, 10);
+      const db_patients = await getQueue(location.id, date.toString(), token);
+      setQueuePatients(db_patients);
     }
-    
-    if (!location) {
-      toast(SET_LOCATION_MESSAGE)
-      return
-    }
-    const date = new Date().toISOString().slice(0, 10);
-    const db_patients = await getQueue(location.id, date.toString(), token);
-    setQueuePatients(db_patients)
   }
 
   // API useEffects
   useEffect(() => {
-    refreshAllPatients();
+    if (token && location) {
+      refreshAllPatients();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
   useEffect(() => {
     refreshQueuePatients()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   return (
