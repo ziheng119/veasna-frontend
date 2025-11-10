@@ -18,6 +18,7 @@ export async function getPatient(patientId: number, token: string) {
     }
 
     const res = await fetch(`${backend_url}/api/patient/${patientId}`, {
+      cache: "no-cache",
       headers,
     });
 

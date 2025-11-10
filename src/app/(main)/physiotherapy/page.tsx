@@ -6,18 +6,24 @@ import PatientContainer from "@/components/shared/read-only/patient-container/Pa
 import TriageContainer from "@/components/shared/read-only/triage-container/TriageContainer";
 import SearchBar from "@/components/shared/SearchBar";
 import { QueuedPatient } from "@/lib/types/patient";
+import { SET_LOCATION_MESSAGE } from "@/messages/info";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Physiotherapy() {
   const [selectedPatient, setSelectedPatient] = useState<QueuedPatient | null>(null);
 
+  if (!location) {
+    toast(SET_LOCATION_MESSAGE);
+  }
+
   if (!selectedPatient) {
     return (
-      <div>
+      <div className="flex flex-col w-full h-screen gap-y-5">
         <SearchBar onSelectPatient={setSelectedPatient} />
         <NoPatientSelected/>
       </div>
-    )
+    );
   }
 
   return (

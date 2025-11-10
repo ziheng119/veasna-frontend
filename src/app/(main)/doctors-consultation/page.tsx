@@ -7,17 +7,23 @@ import SearchBar from "@/components/shared/SearchBar";
 import { QueuedPatient } from "@/lib/types/patient";
 import { useState } from "react";
 import NoPatientSelected from "@/components/shared/NoPatientSelected";
+import { SET_LOCATION_MESSAGE } from "@/messages/info";
+import toast from "react-hot-toast";
 
 export default function DoctorsConsultation() {
   const [selectedPatient, setSelectedPatient] = useState<QueuedPatient | null>(null);
 
+  if (!location) {
+      toast(SET_LOCATION_MESSAGE);
+  }
+
   if (!selectedPatient) {
-    return (
-      <div>
-        <SearchBar onSelectPatient={setSelectedPatient} />
-        <NoPatientSelected/>
+      return (
+      <div className="flex flex-col w-full h-screen gap-y-5">
+          <SearchBar onSelectPatient={setSelectedPatient} />
+          <NoPatientSelected/>
       </div>
-    )
+      );
   }
 
   return (

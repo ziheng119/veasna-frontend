@@ -3,20 +3,25 @@
 import { useEffect, useState } from "react"
 import { SearchIcon } from "@/assets/icons/SearchIcon"
 import { CrossIcon } from "@/assets/icons/CrossIcon"
-import { useDataStore } from "@/stores/useLocationDataStore"
+import { useLocationDataStore } from "@/stores/useLocationDataStore"
 import { QueuedPatient } from "@/lib/types/patient"
 import { Location } from "@/lib/types/location"
 import { useLocationStore } from "@/stores/useLocationStore"
+import { SET_LOCATION_MESSAGE } from "@/messages/info"
+import toast from "react-hot-toast"
+import { getPatientsByLocation } from "@/lib/api/patients/getPatientsByLocation"
+import { getQueue } from "@/lib/api/queue/getQueue"
+import { useUserStore } from "@/stores/useUserStore"
 
 interface SearchBarProps {
   onSelectPatient?: (patient: QueuedPatient) => void
 }
 
 export default function SearchBar({ onSelectPatient }: SearchBarProps) {
-  const patients: QueuedPatient[] = useDataStore(state => state.todays_patients)
+  const token = useUserStore((state) => state.user?.token)
   const location: Location | null = useLocationStore(state => state.currentLocation)
-  const fetchData = useDataStore(state => state.fetchData)
 
+  const [patients, setPatients] = useState<QueuedPatient[]>([])
   const [query, setQuery] = useState<string>("")
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1)
@@ -60,10 +65,20 @@ export default function SearchBar({ onSelectPatient }: SearchBarProps) {
   }
 
   useEffect(() => {
-    if (!location) {
-      return
+    async function getAllPatients() {
+      if (!token) {
+        return
+      }
+      if (!location) {
+        toast(SET_LOCATION_MESSAGE)
+        return
+      }
+      const date = new Date().toISOString().slice(0, 10);
+      const db_patients = await getQueue(location.id, date.toString(), token);
+      setPatients(db_patients)
     }
-    fetchData()
+
+    getAllPatients();
   }, [location])
 
   return (

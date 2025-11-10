@@ -2,8 +2,8 @@
 
 "use client"
 
+import { getUsers } from "@/lib/api/user/getUsers"
 import { loginUser } from "@/lib/api/user/loginUser"
-// import { addUser } from "@/lib/api/user/addUser"
 import { User } from "@/lib/types/user"
 import { useUserStore } from "@/stores/useUserStore"
 import { useRouter } from "next/navigation"
@@ -11,21 +11,23 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import CreatableSelect from 'react-select/creatable'
 
-interface Props {
-  initialUsers: User[]
-}
-
-export default function Login({ initialUsers }: Props) {
+export default function Login() {
 
   const setUser = useUserStore((state) => state.setUser)
   const router = useRouter();
 
-  // const [users, setUsers] = useState<User[]>([])
-  // const [options, setOptions] = useState<User[]>([])
-  // const [selectedUser, setSelectedUser] = useState<{username: ""}>({ username: "" })
-
   const [selectedUsername, setSelectedUsername] = useState<string>("");
+  const [initialUsers, setInitialUsers] = useState<User[]>([])
   const [options ,setOptions] = useState<{label: string, value: string}[]>([]);
+
+  async function refreshUsers() {
+    const users = await getUsers();
+    setInitialUsers(users)
+  }
+
+  useEffect(() => {
+    refreshUsers();
+  }, [])
 
   useEffect(() => {
     setOptions(initialUsers.map(user => ({label: user.username, value: user.username})));

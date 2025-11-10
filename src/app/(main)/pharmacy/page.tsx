@@ -13,27 +13,33 @@ import { updateDrugStock } from "@/lib/api/pharmacy/pharmacy"
 import { deleteDrug } from "@/lib/api/pharmacy/pharmacy"
 import { useLocationStore } from "@/stores/useLocationStore"
 import toast from "react-hot-toast"
+import { SET_LOCATION_MESSAGE } from "@/messages/info"
 
 export default function Pharmacy() {
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
     const [drugs, setDrugs] = useState<Drug[]>([])
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [showAddTab, setShowAddTab] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+
     const location = useLocationStore((state) => state.currentLocation)
 
-    // Fetch drugs from the database when location changes
-    useEffect(() => {
+    if (!location) {
+      toast(SET_LOCATION_MESSAGE)
+    }
+
+    async function refreshDrugs() {
       if (location) {
-        setIsLoading(true);
-        toast.promise(
-          getDrugsByLocation(location.id).then(setDrugs),
-          {
-            loading: 'Fetching drug inventory...',
-            success: 'Inventory loaded!',
-            error: 'Failed to fetch inventory.',
-          }
-        ).finally(() => setIsLoading(false));
+        const db_drugs = await getDrugsByLocation(location.id);
+        setDrugs(db_drugs)
+        setIsLoading(false)
       }
+    }
+    
+    // load drugs
+    useEffect(() => {
+      refreshDrugs()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     // if there is a change in the searchTerm or drug, filteredDrugs is recalculated
@@ -95,8 +101,7 @@ export default function Pharmacy() {
         toast.error("Failed to add new drug.");
       }
     }
-
-
+    
     return (
       <div className="min-h-screen p-6">
         <div className="max-w-7xl mx-auto">
@@ -136,8 +141,6 @@ export default function Pharmacy() {
               />
               </div>
             )}
-            
-
         </div>
         </div>
       </div>
