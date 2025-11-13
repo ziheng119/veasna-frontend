@@ -5,17 +5,21 @@ import TriageContainer from "@/components/shared/read-only/triage-container/Tria
 import DoctorsNotesContainer from "@/components/doctors-consultation/DoctorsNotesContainer";
 import SearchBar from "@/components/shared/SearchBar";
 import { QueuedPatient } from "@/lib/types/patient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NoPatientSelected from "@/components/shared/NoPatientSelected";
 import { SET_LOCATION_MESSAGE } from "@/messages/info";
 import toast from "react-hot-toast";
+import { useLocationStore } from "@/stores/useLocationStore";
 
 export default function DoctorsConsultation() {
+  const location = useLocationStore((state) => state.currentLocation);
   const [selectedPatient, setSelectedPatient] = useState<QueuedPatient | null>(null);
 
-  if (!location) {
+  useEffect(() => {
+    if (!location) {
       toast(SET_LOCATION_MESSAGE);
-  }
+    }
+  }, [location]);
 
   if (!selectedPatient) {
       return (

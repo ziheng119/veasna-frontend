@@ -26,9 +26,11 @@ export default function PatientListPage() {
   const [patients, setPatients] = useState<PatientInfo[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  if (!location) {
-    toast(SET_LOCATION_MESSAGE)
-  }
+  useEffect(() => {
+    if (!location) {
+      toast(SET_LOCATION_MESSAGE);
+    }
+  }, [location]);
 
   // API helper functions
   async function refreshAllPatients() {

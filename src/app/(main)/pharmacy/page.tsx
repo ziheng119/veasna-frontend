@@ -24,9 +24,11 @@ export default function Pharmacy() {
 
     const location = useLocationStore((state) => state.currentLocation)
 
-    if (!location) {
-      toast(SET_LOCATION_MESSAGE)
-    }
+    useEffect(() => {
+      if (!location) {
+        toast(SET_LOCATION_MESSAGE);
+      }
+    }, [location]);
 
     async function refreshDrugs() {
       if (location) {
