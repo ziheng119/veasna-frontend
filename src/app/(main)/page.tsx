@@ -21,10 +21,12 @@ export default function HomePage() {
   const [patients, setPatients] = useState<PatientInfo[]>([]);
   const [queuePatients, setQueuePatients] = useState<QueuedPatient[]>([]);
 
-  if (!location) {
-    toast(SET_LOCATION_MESSAGE)
-  }
-
+  useEffect(() => {
+    if (!location) {
+      toast(SET_LOCATION_MESSAGE);
+    }
+  }, [location]);
+  
   // API helper functions
   async function refreshAllPatients() {
     if (token && location) {

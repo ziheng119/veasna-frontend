@@ -3,7 +3,7 @@
 import SearchBar from "@/components/shared/SearchBar";
 import PatientDetails from "@/components/shared/read-only/patient-container/PatientDetails";
 import { QueuedPatient } from "@/lib/types/patient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NoPatientSelected from "@/components/shared/NoPatientSelected";
 import { TriageTabs } from "@/components/triage/TriageTabs";
 import { useLocationStore } from "@/stores/useLocationStore";
@@ -15,9 +15,12 @@ export default function Traige() {
 
   const [selectedPatient, setSelectedPatient] = useState<QueuedPatient | null>(null);
 
+  useEffect(() => {
     if (!location) {
-        toast(SET_LOCATION_MESSAGE);
+      toast(SET_LOCATION_MESSAGE);
     }
+  }, [location]);
+
 
     if (!selectedPatient) {
         return (

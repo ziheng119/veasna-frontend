@@ -7,15 +7,20 @@ import TriageContainer from "@/components/shared/read-only/triage-container/Tria
 import SearchBar from "@/components/shared/SearchBar";
 import { QueuedPatient } from "@/lib/types/patient";
 import { SET_LOCATION_MESSAGE } from "@/messages/info";
-import { useState } from "react";
+import { useLocationStore } from "@/stores/useLocationStore";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Seva() {
-  const [selectedPatient, setSelectedPatient] = useState<QueuedPatient | null>(null);
+    const location = useLocationStore((state) => state.currentLocation)
+    
+    const [selectedPatient, setSelectedPatient] = useState<QueuedPatient | null>(null);
 
-    if (!location) {
+    useEffect(() => {
+        if (!location) {
         toast(SET_LOCATION_MESSAGE);
-    }
+        }
+    }, [location]);
 
     if (!selectedPatient) {
         return (
