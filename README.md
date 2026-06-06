@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Veasna Frontend
 
-## Getting Started
+Next.js desktop/web UI for the Veasna clinical workflow.
 
-First, run the development server:
+## Stack
+
+- Next.js 15 (App Router) + React 19 + TypeScript
+- Tailwind CSS v4 + shadcn/ui (Radix)
+- Zustand (persisted user/session and location state)
+- Native `fetch` API layer in `src/lib/api`
+- Optional Electron wrapper (`electron/main.js`)
+
+## Project Structure
+
+- `src/app/(auth)/login`: login route
+- `src/app/(main)/*`: authenticated app pages
+- `src/app/wrappers/AuthWrapper.tsx`: client-side route guard
+- `src/lib/api/*`: backend API calls
+- `src/stores/*`: Zustand stores
+- `electron/main.js`: opens the frontend in an Electron window
+
+## Prerequisites
+
+- Node.js 18+ recommended
+- A running `veasna-backend` server
+
+## Environment
+
+Create `.env.local` in `veasna-frontend`:
+
+```env
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3000
+```
+
+`NEXT_PUBLIC_BACKEND_URL` is required by API modules (`src/constants/env_variable.ts`).
+
+## Install and Run
+
+```bash
+cd veasna-frontend
+npm install
+```
+
+Development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app runs on `http://localhost:3001`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Production build:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+Lint:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Electron (Current Status)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run Electron wrapper:
 
-## Deploy on Vercel
+```bash
+npm run electron
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Important:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Electron currently loads `http://localhost:3001`.
+- You must start `npm run dev` (or `npm run start`) first.
+- This repo does not yet include Electron packaging/signing config (`electron-builder` or Electron Forge).
+- Offline desktop deployment is not complete yet; this is a wrapper around a running Next.js server.
+
+## Offline Desktop Roadmap
+
+Goal: run Veasna on desktops without internet access.
+
+### Phase 1: Stable Desktop Wrapper (current baseline -> installable app)
+
+- Add Electron packaging (`electron-builder` or Electron Forge) to produce installers (`.dmg`, `.exe`).
+- Update Electron startup so it can run in production mode reliably (no manual dev server dependency).
+- Add one-command desktop run scripts (for development and packaged app smoke tests).
+
+### Phase 2: Local Backend Runtime on the Same Machine
+
+- Bundle and launch `veasna-backend` as a child/background process from Electron app startup.
+- Standardize local API URL for desktop mode (for example `http://127.0.0.1:<port>`).
+- Add health-check and startup-wait logic before opening main UI routes.
+
+### Phase 3: Local Data Store for Offline Use
+
+- Option A: keep PostgreSQL and provide a local installer/service setup.
+- Option B: migrate backend storage to embedded SQLite for simpler installation.
+- Add first-run database initialization and schema bootstrap during app setup.
+
+### Phase 4: Operations and Reliability
+
+- Add logs and crash diagnostics for frontend, Electron main process, and backend process.
+- Add backup/restore workflow for patient data.
+- Add upgrade/migration checks so app updates do not break existing local data.
+
+### Phase 5: Multi-Device Strategy (if needed)
+
+- Decide whether each machine is fully standalone or syncs with a central server later.
+- If sync is needed, design conflict handling and data ownership rules before implementation.
+
+## Main Pages
+
+- `/`: registration + queue
+- `/patient-list`, `/patient-details`
+- `/triage`
+- `/seva`
+- `/physiotherapy`
+- `/doctors-consultation`
+- `/pharmacy`
